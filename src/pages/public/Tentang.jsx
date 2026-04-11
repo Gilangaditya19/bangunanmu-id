@@ -13,7 +13,7 @@ const Tentang = () => {
                     <div className="space-y-8 z-10 relative">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-dark-900 border border-dark-800 shadow-lg max-w-max">
                             <span className="w-2 h-2 rounded-full bg-[#658797] animate-pulse"></span>
-                            <ShinyText text="ESTABLISHED 2024" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
+                            <ShinyText text="OVER 4 YEARS OF EXPERIENCE" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
                         </div>
 
                         <h1 className="text-5xl sm:text-7xl font-bold text-dark-900 tracking-tight leading-[1.1]">

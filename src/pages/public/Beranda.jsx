@@ -394,7 +394,7 @@ const Beranda = () => {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
                                         <div className="absolute bottom-6 left-6 inline-block px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                                            <span className="text-white text-[10px] font-bold tracking-widest uppercase">PHASE 01 : INISIASI</span>
+                                            <ShinyText text="PHASE 01 : INISIASI" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
                                         </div>
                                     </div>
                                     
@@ -435,7 +435,7 @@ const Beranda = () => {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
                                         <div className="absolute bottom-6 left-6 inline-block px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                                            <span className="text-white text-[10px] font-bold tracking-widest uppercase">PHASE 02 : PERENCANAAN</span>
+                                            <ShinyText text="PHASE 02 : PERENCANAAN" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
                                         </div>
                                     </div>
                                     <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
@@ -474,7 +474,7 @@ const Beranda = () => {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
                                         <div className="absolute bottom-6 left-6 inline-block px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                                            <span className="text-white text-[10px] font-bold tracking-widest uppercase">PHASE 03 : EKSEKUSI</span>
+                                            <ShinyText text="PHASE 03 : EKSEKUSI" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
                                         </div>
                                     </div>
                                     <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
@@ -513,7 +513,7 @@ const Beranda = () => {
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
                                         <div className="absolute bottom-6 left-6 inline-block px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                                            <span className="text-white text-[10px] font-bold tracking-widest uppercase">PHASE 04 : FINAL</span>
+                                            <ShinyText text="PHASE 04 : FINAL" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
                                         </div>
                                     </div>
                                     <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
