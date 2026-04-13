@@ -1,12 +1,5 @@
-// import api from './api'
+//Nanti call API rill disini kalo udah jadi backend microservicesnya
 
-/**
- * Testimonial Service
- * Handles all testimonial-related API calls
- * TODO: Replace mock data with actual API calls when backend is ready
- */
-
-// Mock data
 const mockTestimonials = [
     {
         id: 1,
@@ -46,11 +39,8 @@ const mockTestimonials = [
     },
 ]
 
-/**
- * Get approved testimonials (Public)
- */
 export const getApprovedTestimonials = async () => {
-    // TODO: return api.get('/testimonials?approved=true')
+
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve({ data: mockTestimonials.filter((t) => t.isApproved) })
@@ -58,21 +48,15 @@ export const getApprovedTestimonials = async () => {
     })
 }
 
-/**
- * Get all testimonials (Admin)
- */
 export const getAllTestimonials = async () => {
-    // TODO: return api.get('/testimonials')
+
     return new Promise((resolve) => {
         setTimeout(() => resolve({ data: mockTestimonials }), 500)
     })
 }
 
-/**
- * Update testimonial approval status (Admin)
- */
 export const updateTestimonialStatus = async (id, isApproved) => {
-    // TODO: return api.patch(`/testimonials/${id}`, { isApproved })
+
     return new Promise((resolve, reject) => {
         const index = mockTestimonials.findIndex((t) => t.id === id)
         if (index !== -1) {
@@ -84,11 +68,8 @@ export const updateTestimonialStatus = async (id, isApproved) => {
     })
 }
 
-/**
- * Delete testimonial (Admin)
- */
 export const deleteTestimonial = async (id) => {
-    // TODO: return api.delete(`/testimonials/${id}`)
+
     return new Promise((resolve, reject) => {
         const index = mockTestimonials.findIndex((t) => t.id === id)
         if (index !== -1) {

@@ -1,12 +1,5 @@
-// import api from './api'
+//Nanti call API rill disini kalo udah jadi backend microservicesnya
 
-/**
- * Project Service
- * Handles all project-related API calls
- * TODO: Replace mock data with actual API calls when backend is ready
- */
-
-// Mock data for development
 const mockProjects = [
     {
         id: 'BGN-2023-A',
@@ -52,11 +45,8 @@ const mockProjects = [
     },
 ]
 
-/**
- * Get project by ID (for Cek Progress)
- */
 export const getProjectById = async (id) => {
-    // TODO: return api.get(`/projects/${id}`)
+
     return new Promise((resolve, reject) => {
         const project = mockProjects.find((p) => p.id === id)
         setTimeout(() => {
@@ -65,35 +55,26 @@ export const getProjectById = async (id) => {
             } else {
                 reject({ response: { status: 404, data: { message: 'Proyek tidak ditemukan' } } })
             }
-        }, 800) // Simulate network delay
+        }, 800)
     })
 }
 
-/**
- * Get all projects
- */
 export const getAllProjects = async () => {
-    // TODO: return api.get('/projects')
+
     return new Promise((resolve) => {
         setTimeout(() => resolve({ data: mockProjects }), 500)
     })
 }
 
-/**
- * Get completed projects (for portfolio)
- */
 export const getCompletedProjects = async () => {
-    // TODO: return api.get('/projects?status=completed')
+
     return new Promise((resolve) => {
         setTimeout(() => resolve({ data: mockProjects.filter((p) => p.status === 'completed') }), 500)
     })
 }
 
-/**
- * Create new project (Admin)
- */
 export const createProject = async (data) => {
-    // TODO: return api.post('/projects', data)
+
     return new Promise((resolve) => {
         const newProject = { ...data, id: `PRJ-${Date.now()}`, createdAt: new Date().toISOString() }
         mockProjects.push(newProject)
@@ -101,11 +82,8 @@ export const createProject = async (data) => {
     })
 }
 
-/**
- * Update project (Admin)
- */
 export const updateProject = async (id, data) => {
-    // TODO: return api.put(`/projects/${id}`, data)
+
     return new Promise((resolve, reject) => {
         const index = mockProjects.findIndex((p) => p.id === id)
         if (index !== -1) {
@@ -117,11 +95,8 @@ export const updateProject = async (id, data) => {
     })
 }
 
-/**
- * Delete project (Admin)
- */
 export const deleteProject = async (id) => {
-    // TODO: return api.delete(`/projects/${id}`)
+
     return new Promise((resolve, reject) => {
         const index = mockProjects.findIndex((p) => p.id === id)
         if (index !== -1) {

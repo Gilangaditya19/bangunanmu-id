@@ -1,10 +1,7 @@
+//Nanti call API rill disini kalo udah jadi backend microservicesnya
+
 import axios from 'axios'
 
-/**
- * Axios Instance
- * Base configuration for API calls
- * TODO: Update baseURL when backend API is provided
- */
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001/api',
     timeout: 10000,
@@ -13,7 +10,6 @@ const api = axios.create({
     },
 })
 
-// Request Interceptor — Attach JWT token
 api.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('token')
@@ -25,7 +21,6 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 )
 
-// Response Interceptor — Handle 401 Unauthorized
 api.interceptors.response.use(
     (response) => response,
     (error) => {

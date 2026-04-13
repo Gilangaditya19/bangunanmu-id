@@ -1,12 +1,5 @@
-// import api from './api'
+//Nanti call API rill disini kalo udah jadi backend microservicesnya
 
-/**
- * Auth Service
- * Handles authentication-related API calls
- * TODO: Replace mock data with actual API calls when backend is ready
- */
-
-// Mock admin credentials
 const MOCK_ADMIN = {
     email: 'admin@bangunanmu.id',
     password: 'admin123',
@@ -14,11 +7,8 @@ const MOCK_ADMIN = {
     role: 'admin',
 }
 
-/**
- * Login
- */
 export const login = async (credentials) => {
-    // TODO: return api.post('/auth/login', credentials)
+
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             if (
@@ -39,17 +29,11 @@ export const login = async (credentials) => {
     })
 }
 
-/**
- * Logout
- */
 export const logout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
 }
 
-/**
- * Get current auth state
- */
 export const getCurrentUser = () => {
     const user = localStorage.getItem('user')
     const token = localStorage.getItem('token')
@@ -59,9 +43,6 @@ export const getCurrentUser = () => {
     return null
 }
 
-/**
- * Check if user is authenticated
- */
 export const isAuthenticated = () => {
     return !!localStorage.getItem('token')
 }
