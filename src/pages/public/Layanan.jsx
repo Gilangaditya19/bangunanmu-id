@@ -29,20 +29,14 @@ const Layanan = () => {
             heroSub: "Jakarta Selatan, 2023",
             services: [
                 {
-                    title: 'Pembangunan Rumah Baru',
-                    desc: 'Membangun hunian dari nol dengan perencanaan arsitektur matang, pemilihan material premium, dan eksekusi presisi.',
+                    title: 'Konstruksi Residensial/Perumahan',
+                    desc: 'Tujuan kami adalah menciptakan hunian yang tidak hanya indah secara estetika, tetapi juga kokoh dan fungsional, guna menjamin kenyamanan serta kepuasan bagi penghuninya dalam jangka panjang. Melalui layanan Konstruksi Residensial kami, Anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.',
                     icon: <FaHome className="text-xl text-[#658797]" />,
                     link: '/kontak'
                 },
                 {
-                    title: 'Renovasi Total',
-                    desc: 'Transformasi menyeluruh untuk hunian lama Anda. Peremajaan gaya, perbaikan fungsi, dan peningkatan nilai properti.',
-                    icon: <FaWrench className="text-xl text-[#658797]" />,
-                    link: '/kontak'
-                },
-                {
-                    title: 'Pekerjaan Struktur',
-                    desc: 'Spesialisasi pondasi, sloof, kolom, dan balok beton bertulang untuk menjamin kekokohan dan keamanan bangunan jangka panjang.',
+                    title: 'Konstruksi Komersial',
+                    desc: 'Layanan Konstruksi Komersial kami berfokus pada penyediaan solusi bangunan yang berkualitas tinggi, efisien, dan berkelanjutan bagi berbagai bisnis dan ruang komersial. Kami memahami bahwa lingkungan komersial yang dirancang dengan baik sangat penting bagi efisiensi operasional, citra merek (brand image), serta kepuasan pelanggan.',
                     icon: <FaBuilding className="text-xl text-[#658797]" />,
                     link: '/kontak'
                 }
@@ -118,27 +112,21 @@ const Layanan = () => {
         'design-build': {
             badge: "DESAIN & INTERIOR EKSKLUSIF",
             title: "Design and Build",
-            desc: "Transformasikan interior dan fungsionalitas ruang Anda dengan sentuhan desain modern, material pilihan, dan eksekusi furnitur kustom yang presisi.",
+            desc: "Layanan Design and Build kami menyediakan solusi  terintegrasi bagi klien yang ingin mentransformasikan visi hunian mereka menjadi kenyataan tanpa kerumitan.",
             heroImage: designBuildHero,
             heroTitle: "Luxury Residence Kitchen",
             heroSub: "BSD City, 2024",
             services: [
                 {
                     title: 'Interior Design',
-                    desc: 'Perencanaan estetika ruang yang menggabungkan fungsionalitas dan gaya pribadi Anda untuk menciptakan atmosfer hunian yang unik.',
+                    desc: 'Layanan ini berfokus pada pengoptimalan fungsi dan estetika ruang di dalam bangunan untuk meningkatkan kualitas hidup serta kenyamanan penghuninya.',
                     icon: <FaPaintBrush className="text-xl text-[#658797]" />,
                     link: '/kontak'
                 },
                 {
-                    title: 'Kitchen Set Kustom',
-                    desc: 'Desain dapur modular dan kustom yang fungsional dengan material tahan lama dan finishing kabinet yang elegan.',
+                    title: 'Outdoor Area Design',
+                    desc: 'Layanan ini berfokus pada transformasi area terbuka di sekitar bangunan agar menjadi ruang yang fungsional dan memiliki nilai tambah bagi properti.',
                     icon: <FaHome className="text-xl text-[#658797]" />,
-                    link: '/kontak'
-                },
-                {
-                    title: 'Furnitur Kustom',
-                    desc: 'Pembuatan furnitur sesuai ukuran ruangan (wardrobe, meja, kabinet TV) untuk memaksimalkan setiap sudut hunian Anda.',
-                    icon: <FaCouch className="text-xl text-[#658797]" />,
                     link: '/kontak'
                 }
             ],
@@ -240,7 +228,7 @@ const Layanan = () => {
 
     return (
         <div className="bg-[#FAFAFA] min-h-screen">
-            
+
             <section className="pt-16 pb-12">
                 <div className="section-container text-center">
                     <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full bg-dark-900 border border-dark-800 shadow-lg">
@@ -256,7 +244,7 @@ const Layanan = () => {
             <div className="section-container pb-24">
 
                 <div className="space-y-24">
-                    
+
                     <div className="relative h-[450px] md:h-[550px] w-full rounded-[40px] overflow-hidden shadow-2xl group">
                         <img
                             src={currentContent.heroImage}
@@ -270,7 +258,7 @@ const Layanan = () => {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className={`grid grid-cols-1 ${currentContent.services.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-8`}>
                         {currentContent.services.map((card, i) => (
                             <div key={i} className="bg-white p-10 rounded-[40px] border border-dark-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                                 <div className="w-14 h-14 bg-dark-50 rounded-2xl flex items-center justify-center mb-8">
@@ -293,11 +281,11 @@ const Layanan = () => {
                     <section className="pt-24 pb-12 bg-white -mx-4 px-4 sm:-mx-8 sm:px-8 md:-mx-16 md:px-16 lg:-mx-24 lg:px-24">
                         <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
                             <div className="inline-flex items-center justify-center px-4 py-1.5 bg-dark-50 border border-dark-100 shadow-sm rounded-full mb-6 relative">
-                                <ShinyText 
-                                    text="Roadmap Pelayanan" 
+                                <ShinyText
+                                    text="Roadmap Pelayanan"
                                     theme="dark"
-                                    speed={3} 
-                                    className="text-[10px] sm:text-xs font-extrabold tracking-widest uppercase" 
+                                    speed={3}
+                                    className="text-[10px] sm:text-xs font-extrabold tracking-widest uppercase"
                                 />
                             </div>
                             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-2">
@@ -305,7 +293,7 @@ const Layanan = () => {
                                 <span className="text-[#658797]">{activeTab === 'konstruksi' ? 'Konstruksi & Sipil' : 'Interior & Furnitur'}</span>
                             </h2>
                         </div>
-                        
+
                         <div className="w-full lg:max-w-6xl mx-auto">
                             <Stepper
                                 initialStep={1}
@@ -333,9 +321,9 @@ const Layanan = () => {
                                     <Step key={index}>
                                         <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
                                             <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
-                                                <img 
-                                                    src={item.image} 
-                                                    alt={item.title} 
+                                                <img
+                                                    src={item.image}
+                                                    alt={item.title}
                                                     className="absolute inset-0 w-full h-full object-cover"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
@@ -348,7 +336,7 @@ const Layanan = () => {
                                                 <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
                                                     {item.description}
                                                 </p>
-                                                
+
                                                 <div className="flex flex-wrap gap-4 mb-10">
                                                     {item.buttonText === 'Lihat Katalog' ? (
                                                         <a href="#galeri-proyek" className="inline-flex px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
@@ -382,11 +370,11 @@ const Layanan = () => {
                     <section id="galeri-proyek" className="pt-12 scroll-mt-24">
                         <h2 className="text-3xl font-bold text-dark-900 mb-12">Galeri Proyek</h2>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-auto lg:h-[800px]">
-                            
+
                             <div className="rounded-[40px] overflow-hidden shadow-lg h-[400px] lg:h-full">
                                 <img src={galleryArch1} alt="Project 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                             </div>
-                            
+
                             <div className="flex flex-col gap-8 h-full">
                                 <div className="grid grid-cols-2 gap-8 flex-1">
                                     <div className="rounded-[40px] overflow-hidden shadow-lg">

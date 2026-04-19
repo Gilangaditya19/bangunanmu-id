@@ -6,10 +6,10 @@ import ShinyText from '../../components/ui/ShinyText';
 const Tentang = () => {
     return (
         <div className="flex flex-col min-h-screen bg-white">
-            
+
             <section className="relative px-4 sm:px-6 lg:px-8 mt-4 sm:mt-12 mb-16 sm:mb-24 overflow-hidden">
                 <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-                    
+
                     <div className="space-y-8 z-10 relative">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-dark-900 border border-dark-800 shadow-lg max-w-max">
                             <span className="w-2 h-2 rounded-full bg-[#658797] animate-pulse"></span>
@@ -22,7 +22,7 @@ const Tentang = () => {
                         </h1>
 
                         <p className="text-lg text-dark-500 max-w-lg leading-relaxed">
-                            Membangun masa depan dengan gaya dan inovasi. Kami adalah kolektif arsitek, insinyur, dan desainer Gen-Z yang mendefinisikan ulang ruang hunian.
+                            Kami adalah Bangunanmu.id, sebuah tim berdedikasi yang menyediakan solusi unggulan di bidang konstruksi dan desain interior. Dengan pengalaman lebih dari empat tahun, kami memahami betapa pentingnya menciptakan hunian yang nyaman, fungsional, serta dirancang secara unik sesuai dengan visi Anda. Melalui layanan kami, Anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.
                         </p>
 
                         <div className="flex flex-wrap gap-4 pt-4">
@@ -36,7 +36,7 @@ const Tentang = () => {
                     </div>
 
                     <div className="relative h-[550px] sm:h-[650px] lg:h-[600px] w-full mt-12 lg:mt-0">
-                        
+
                         <div className="absolute top-[40%] left-[5%] w-[300px] h-[300px] bg-yellow-100/50 rounded-full mix-blend-multiply filter blur-[80px] z-0 transform -translate-y-1/2"></div>
 
                         <div className="absolute top-0 left-0 w-[58%] h-[60%] lg:w-[55%] lg:h-[70%] rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden shadow-2xl z-10 hover:-translate-y-1 transition-transform duration-500 bg-white">
@@ -60,7 +60,7 @@ const Tentang = () => {
 
             <section className="py-24 bg-[#FAFAFA]">
                 <div className="section-container">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16 items-end">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16 items-start">
                         <div className="lg:col-span-7">
                             <div className="flex items-center gap-4 mb-6">
                                 <span className="text-xs font-bold tracking-widest text-[#658797] uppercase">VISI & MISI</span>
@@ -72,20 +72,20 @@ const Tentang = () => {
                         </div>
                         <div className="lg:col-span-5">
                             <p className="text-dark-500 text-lg leading-relaxed">
-                                Kami hadir untuk memodernisasi industri konstruksi dengan sentuhan estetika Gen-Z, menggabungkan teknologi canggih dengan desain yang tak lekang oleh waktu.
+                                Kami hadir sebagai penyedia solusi konstruksi dan interior berbasis teknologi, serta dikenal atas komitmen kami terhadap kualitas, transparansi, dan kepuasan klien. Kami bertekad untuk menetapkan standar baru dalam konstruksi dengan mengintegrasikan teknologi mutakhir seperti Building Information Modeling (BIM) dan Augmented Reality (AR), guna menciptakan ruang luar biasa yang membangun kepercayaan serta melampaui harapan klien.
                             </p>
                         </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        
+
                         <div className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
                                 <FaLightbulb className="text-xl text-[#658797]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Inovasi Tanpa Batas</h3>
                             <p className="text-dark-500 text-sm leading-relaxed">
-                                Menggunakan teknologi terkini seperti VR dan 3D Printing dalam setiap tahap perencanaan hingga eksekusi.
+                                Pemanfaatan teknologi terkini, termasuk Building Information Modeling (BIM) dan Augmented Reality (AR), guna menjamin proses yang terintegrasi serta transparan dari awal hingga akhir.
                             </p>
                         </div>
 
@@ -93,9 +93,9 @@ const Tentang = () => {
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
                                 <FaPalette className="text-xl text-[#658797]" />
                             </div>
-                            <h3 className="text-xl font-bold text-dark-900 mb-4">Estetika Modern</h3>
+                            <h3 className="text-xl font-bold text-dark-900 mb-4">Transparansi</h3>
                             <p className="text-dark-500 text-sm leading-relaxed">
-                                Desain yang berani, fungsional, dan instagramable. Kami mengerti apa yang membuat ruang terasa 'hidup'.
+                                Membangun kepercayaan melalui komunikasi yang jelas, praktik kerja yang etis, serta komitmen terhadap kualitas.
                             </p>
                         </div>
 
@@ -103,9 +103,9 @@ const Tentang = () => {
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
                                 <FaShieldAlt className="text-xl text-[#658797]" />
                             </div>
-                            <h3 className="text-xl font-bold text-dark-900 mb-4">Kualitas Terjamin</h3>
+                            <h3 className="text-xl font-bold text-dark-900 mb-4">Kolaborasi</h3>
                             <p className="text-dark-500 text-sm leading-relaxed">
-                                Transparansi total dalam material dan pengerjaan. Apa yang Anda lihat adalah apa yang Anda dapatkan.
+                                Bekerja sama secara erat dengan klien untuk mewujudkan visi mereka, serta memadukan ide-ide klien dengan keahlian yang kami miliki.
                             </p>
                         </div>
                     </div>
@@ -115,7 +115,7 @@ const Tentang = () => {
             <section className="py-12 bg-white">
                 <div className="section-container">
                     <div className="bg-[#658797] rounded-[3rem] p-12 sm:p-16 text-white shadow-2xl shadow-[#658797]/30 relative overflow-hidden">
-                        
+
                         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
 
                         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10 items-center">
@@ -124,22 +124,18 @@ const Tentang = () => {
                                 <p className="text-white/80 font-medium">Angka tidak pernah berbohong.</p>
                             </div>
                             <div className="lg:col-span-8">
-                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 sm:gap-4">
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-4">
                                     <div className="text-center sm:text-left">
-                                        <p className="text-5xl font-bold mb-2">150<span className="text-white/60">+</span></p>
+                                        <p className="text-5xl font-bold mb-2">10<span className="text-white/60">+</span></p>
                                         <p className="text-white/70 text-[10px] font-bold tracking-widest uppercase">Proyek Selesai</p>
                                     </div>
                                     <div className="text-center sm:text-left">
-                                        <p className="text-5xl font-bold mb-2">98<span className="text-white/60">%</span></p>
+                                        <p className="text-5xl font-bold mb-2">99<span className="text-white/60">%</span></p>
                                         <p className="text-white/70 text-[10px] font-bold tracking-widest uppercase">Klien Puas</p>
                                     </div>
                                     <div className="text-center sm:text-left">
-                                        <p className="text-5xl font-bold mb-2">10<span className="text-white/60">+</span></p>
+                                        <p className="text-5xl font-bold mb-2">4<span className="text-white/60">+</span></p>
                                         <p className="text-white/70 text-[10px] font-bold tracking-widest uppercase">Tahun</p>
-                                    </div>
-                                    <div className="text-center sm:text-left">
-                                        <p className="text-5xl font-bold mb-2">45</p>
-                                        <p className="text-white/70 text-[10px] font-bold tracking-widest uppercase">Tim Ahli</p>
                                     </div>
                                 </div>
                             </div>

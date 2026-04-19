@@ -66,12 +66,12 @@ const Beranda = () => {
 
     return (
         <div className="flex flex-col min-h-screen">
-            
+
             <section className="relative px-4 sm:px-6 lg:px-8 mt-4 sm:mt-6 mb-16 sm:mb-24">
                 <div className="max-w-[1400px] mx-auto relative rounded-[2rem] sm:rounded-[3rem] overflow-hidden bg-dark-900 min-h-[600px] sm:min-h-[700px] flex items-center shadow-2xl">
-                    
+
                     <div className="absolute inset-0 z-0">
-                        
+
                         <img
                             src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop"
                             alt="Construction Team"
@@ -96,8 +96,8 @@ const Beranda = () => {
                             />
                         </h1>
 
-                        <p className="text-lg sm:text-xl text-white/80 max-w-2xl mb-10 leading-relaxed font-light">
-                            Wujudkan Rumah Impian yang Nyaman dan Fungsional.
+                        <p className="text-xl sm:text-xl text-white/80 max-w-2xl mb-10 leading-relaxed font-light">
+                            Bond, Blend, Build.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -114,7 +114,7 @@ const Beranda = () => {
 
             <section className="section-padding section-container">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                    
+
                     <div className="space-y-8">
                         <div className="flex items-center gap-4 mb-4">
                             <div className="w-12 h-[2px] bg-dark-200"></div>
@@ -140,22 +140,22 @@ const Beranda = () => {
                                 <p className="text-sm text-dark-500 font-medium">Proyek Selesai</p>
                             </div>
                             <div>
-                                <p className="text-4xl font-bold text-dark-900 mb-2">100<span className="text-[#658797]">%</span></p>
+                                <p className="text-4xl font-bold text-dark-900 mb-2">99<span className="text-[#658797]">%</span></p>
                                 <p className="text-sm text-dark-500 font-medium">Kepuasan Klien</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="w-full flex flex-col gap-4">
-                        
+
                         <div className="flex gap-4 h-[280px] sm:h-[320px]">
-                            
+
                             <div className="flex-[1.4] rounded-[1.5rem] overflow-hidden shadow-lg">
                                 <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" alt="Interior Details" className="w-full h-full object-cover" />
                             </div>
 
                             <div className="flex-[0.8] flex flex-col gap-4">
-                                
+
                                 <div className="flex-1 rounded-[1.5rem] overflow-hidden shadow-lg">
                                     <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop" alt="Team Discussion" className="w-full h-full object-cover" />
                                 </div>
@@ -188,7 +188,7 @@ const Beranda = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        
+
                         <div className="bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
                             <div className="relative h-64 rounded-[1.5rem] overflow-hidden mb-8">
                                 <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop" alt="Konstruksi" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
@@ -198,10 +198,10 @@ const Beranda = () => {
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
                                 <h3 className="text-2xl font-bold text-dark-900 mb-4">Layanan Konstruksi</h3>
-                                <p className="text-dark-500 mb-8 line-clamp-2">Pembangunan rumah tinggal, ruko, hingga proyek komersial dengan basis struktur kuat dan presisi akurat.</p>
+                                <p className="text-dark-500 mb-8 line-clamp-2">Tujuan kami adalah menciptakan hunian yang tidak hanya indah secara estetika, tetapi juga kokoh dan fungsional.</p>
 
                                 <ul className="space-y-3 mb-10">
-                                    {['Desain 3D Realistis', 'Sipil & Arsitektur', 'Pemeliharaan Struktur'].map((item, i) => (
+                                    {['Konstruksi Residensial/Perumahan', 'Konstruksi Komersial'].map((item, i) => (
                                         <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
                                             <FaCheckCircle className="text-[#658797] text-sm" />
                                             {item}
@@ -227,7 +227,7 @@ const Beranda = () => {
                                 <p className="text-dark-500 mb-8 line-clamp-2">Kustomisasi interior dan layout desain yang presisi untuk nuansa senada di setiap sudut ruangan.</p>
 
                                 <ul className="space-y-3 mb-10">
-                                    {['Kitchen Set Custom', 'Interior Design', 'Pekerjaan Design and Build'].map((item, i) => (
+                                    {['Interior Design', 'Outdoor Area Design'].map((item, i) => (
                                         <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
                                             <FaCheckCircle className="text-[#658797] text-sm" />
                                             {item}
@@ -247,40 +247,40 @@ const Beranda = () => {
             <section className="section-padding bg-white">
                 <div className="section-container">
                     <div className="bg-[#527181] rounded-[3rem] p-8 sm:p-16 relative overflow-hidden shadow-2xl">
-                    
-                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white opacity-[0.03] rounded-full mix-blend-overlay filter blur-3xl transform translate-x-1/3 -translate-y-1/3"></div>
-                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-dark-900 opacity-10 rounded-full mix-blend-overlay filter blur-2xl transform -translate-x-1/3 translate-y-1/3"></div>
 
-                    <div className="relative z-10 max-w-2xl mx-auto text-center">
-                        <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
-                            <ShinyText 
-                                text="Transparansi 100%" 
-                                speed={3} 
-                                className="text-white/90 text-xs font-bold uppercase tracking-widest" 
-                            />
-                        </div>
-                        <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6">Pantau Proyekmu</h2>
-                        <p className="text-white/80 text-lg mb-10">
-                            Masukkan ID/Kode proyek untuk melihat progress konstruksi real-time.
-                        </p>
+                        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white opacity-[0.03] rounded-full mix-blend-overlay filter blur-3xl transform translate-x-1/3 -translate-y-1/3"></div>
+                        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-dark-900 opacity-10 rounded-full mix-blend-overlay filter blur-2xl transform -translate-x-1/3 translate-y-1/3"></div>
 
-                        <div className="flex flex-col sm:flex-row gap-4 mb-12">
-                            <div className="relative flex-1">
-                                <FaSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-dark-400" />
-                                <input
-                                    type="text"
-                                    placeholder="Contoh: BGN-2023-001"
-                                    className="w-full pl-14 pr-6 py-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all font-medium"
-                                    value={progressQuery}
-                                    onChange={(e) => setProgressQuery(e.target.value)}
+                        <div className="relative z-10 max-w-2xl mx-auto text-center">
+                            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
+                                <ShinyText
+                                    text="Transparansi 100%"
+                                    speed={3}
+                                    className="text-white/90 text-xs font-bold uppercase tracking-widest"
                                 />
                             </div>
-                            <Link to="/cek-progress" className="flex items-center justify-center px-8 py-4 bg-white text-[#527181] font-bold rounded-2xl hover:bg-gray-100 transition-colors shadow-lg">
-                                Cek Progress
-                            </Link>
+                            <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6">Pantau Proyekmu</h2>
+                            <p className="text-white/80 text-lg mb-10">
+                                Masukkan ID/Kode proyek untuk melihat progress konstruksi real-time.
+                            </p>
+
+                            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                                <div className="relative flex-1">
+                                    <FaSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-dark-400" />
+                                    <input
+                                        type="text"
+                                        placeholder="Contoh: BGN-2023-001"
+                                        className="w-full pl-14 pr-6 py-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all font-medium"
+                                        value={progressQuery}
+                                        onChange={(e) => setProgressQuery(e.target.value)}
+                                    />
+                                </div>
+                                <Link to="/cek-progress" className="flex items-center justify-center px-8 py-4 bg-white text-[#527181] font-bold rounded-2xl hover:bg-gray-100 transition-colors shadow-lg">
+                                    Cek Progress
+                                </Link>
+                            </div>
                         </div>
                     </div>
-                </div>
                 </div>
             </section>
 
@@ -333,14 +333,14 @@ const Beranda = () => {
 
             <section className="py-24 bg-white">
                 <div className="section-container">
-                    
+
                     <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
                         <div className="inline-flex items-center justify-center px-4 py-1.5 bg-white backdrop-blur-sm border border-dark-100 shadow-sm rounded-full mb-6 relative">
-                            <ShinyText 
-                                text="Roadmap Kolaborasi" 
+                            <ShinyText
+                                text="Roadmap Kolaborasi"
                                 theme="dark"
-                                speed={3} 
-                                className="text-[10px] sm:text-xs font-extrabold tracking-widest uppercase" 
+                                speed={3}
+                                className="text-[10px] sm:text-xs font-extrabold tracking-widest uppercase"
                             />
                         </div>
                         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-2">
@@ -374,7 +374,7 @@ const Beranda = () => {
                                         <div className="text-sm md:text-base">
                                             {stepIcons[step]}
                                         </div>
-                                        
+
                                         <div className={`absolute top-full mt-4 md:mt-5 w-[55px] sm:w-[80px] md:w-max text-center ${isActive || isCompleted ? 'text-dark-900 font-bold' : 'text-dark-300 font-medium md:font-bold'} text-[6.5px] sm:text-[8px] md:text-[10px] uppercase tracking-wider md:tracking-widest leading-[1.2] break-words`}>
                                             {stepLabels[step]}
                                         </div>
@@ -382,14 +382,14 @@ const Beranda = () => {
                                 );
                             }}
                         >
-                            
+
                             <Step>
                                 <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
-                                    
+
                                     <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
-                                        <img 
-                                            src="https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop" 
-                                            alt="Konsultasi" 
+                                        <img
+                                            src="https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop"
+                                            alt="Konsultasi"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
@@ -397,18 +397,18 @@ const Beranda = () => {
                                             <ShinyText text="PHASE 01 : INISIASI" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
                                         </div>
                                     </div>
-                                    
+
                                     <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
                                         <h3 className="text-3xl font-bold text-dark-900 mb-4 tracking-tight">Konsultasi & Survey</h3>
                                         <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
                                             Diskusi mendalam mengenai visi hunian Anda, kebutuhan ruang, hingga tinjauan lokasi langsung untuk memastikan fondasi yang tepat. Kami percaya setiap struktur dimulai dari pemahaman yang kuat akan karakter penghuninya.
                                         </p>
-                                        
+
                                         <div className="flex flex-wrap gap-4 mb-10">
                                             <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
                                                 Mulai Konsultasi
                                             </Link>
-                                            
+
                                         </div>
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
@@ -428,9 +428,9 @@ const Beranda = () => {
                             <Step>
                                 <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
                                     <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
-                                        <img 
-                                            src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop" 
-                                            alt="Perencanaan" 
+                                        <img
+                                            src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop"
+                                            alt="Perencanaan"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
@@ -443,7 +443,7 @@ const Beranda = () => {
                                         <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
                                             Masuk ke tahap visualisasi dengan pemodelan 3D realistis. Kami menyusun Rencana Anggaran Biaya (RAB) yang sepenuhnya transparan serta timeline pengerjaan yang terstruktur rapi.
                                         </p>
-                                        
+
                                         <div className="flex flex-wrap gap-4 mb-10">
                                             <a href="#layanan-kami" className="inline-flex items-center justify-center px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
                                                 Lihat Portofolio
@@ -467,9 +467,9 @@ const Beranda = () => {
                             <Step>
                                 <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
                                     <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
-                                        <img 
-                                            src="https://images.unsplash.com/photo-1541888081622-152e00780f2d?q=80&w=1200&auto=format&fit=crop" 
-                                            alt="Pembangunan" 
+                                        <img
+                                            src="https://images.unsplash.com/photo-1541888081622-152e00780f2d?q=80&w=1200&auto=format&fit=crop"
+                                            alt="Pembangunan"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
@@ -482,7 +482,7 @@ const Beranda = () => {
                                         <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
                                             Eksekusi pembangunan di lapangan dilakukan secara profesional oleh tukang dan teknisi bersertifikasi. Anda akan mendapatkan laporan progress berkala secara real-time dari sistem kami.
                                         </p>
-                                        
+
                                         <div className="flex flex-wrap gap-4 mb-10">
                                             <Link to="/cek-progress" className="inline-flex px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
                                                 Pantau Proyek
@@ -506,9 +506,9 @@ const Beranda = () => {
                             <Step>
                                 <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
                                     <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
-                                        <img 
-                                            src="https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=1200&auto=format&fit=crop" 
-                                            alt="Serah Terima" 
+                                        <img
+                                            src="https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=1200&auto=format&fit=crop"
+                                            alt="Serah Terima"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
@@ -521,7 +521,7 @@ const Beranda = () => {
                                         <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
                                             Inspeksi akhir bersama untuk memastikan setiap detailnya sempurna. Penyerahan kunci dilakukan bersama dengan penyerahan dokumen garansi retensi bangunan sebagai jaminan kualitas final.
                                         </p>
-                                        
+
                                         <div className="flex flex-wrap gap-4 mb-10">
                                             <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
                                                 Hubungi Kami
