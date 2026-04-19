@@ -25,9 +25,9 @@ const ContactSection = () => {
                                     <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#658797] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
                                         <FaWhatsapp />
                                     </div>
-                                    <div>
+                                    <div className="min-w-0 flex-1">
                                         <p className="text-xs sm:text-sm text-dark-400 font-medium mb-0.5 sm:mb-1">Telepon / WhatsApp</p>
-                                        <p className="text-base sm:text-xl text-dark-900 font-bold tracking-wide">0877 - 6582 - 3731</p>
+                                        <p className="text-base sm:text-xl text-dark-900 font-bold tracking-wide truncate">0877 - 6582 - 3731</p>
                                     </div>
                                 </a>
 
@@ -35,9 +35,9 @@ const ContactSection = () => {
                                     <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#658797] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
                                         <FaEnvelope />
                                     </div>
-                                    <div>
+                                    <div className="min-w-0 flex-1">
                                         <p className="text-xs sm:text-sm text-dark-400 font-medium mb-0.5 sm:mb-1">Email</p>
-                                        <p className="text-base sm:text-xl text-dark-900 font-bold tracking-wide">bangunanmu.id@gmail.com</p>
+                                        <p className="text-base sm:text-xl text-dark-900 font-bold tracking-wide truncate">bangunanmu.id@gmail.com</p>
                                     </div>
                                 </a>
 
@@ -45,9 +45,9 @@ const ContactSection = () => {
                                     <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#658797] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
                                         <FaInstagram />
                                     </div>
-                                    <div>
+                                    <div className="min-w-0 flex-1">
                                         <p className="text-xs sm:text-sm text-dark-400 font-medium mb-0.5 sm:mb-1">Instagram</p>
-                                        <p className="text-base sm:text-xl text-dark-900 font-bold tracking-wide">@bangunanmu.id</p>
+                                        <p className="text-base sm:text-xl text-dark-900 font-bold tracking-wide truncate">@bangunanmu.id</p>
                                     </div>
                                 </a>
                             </div>

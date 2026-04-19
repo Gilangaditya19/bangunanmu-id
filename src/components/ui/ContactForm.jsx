@@ -37,7 +37,7 @@ const ContactForm = () => {
                     onChange={handleChange}
                     required
                     placeholder="Masukkan nama Anda"
-                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#658797]/30 transition-all text-dark-900 placeholder-dark-400 font-medium text-sm"
+                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#658797]/30 transition-all text-dark-900 placeholder-dark-400 font-medium text-sm truncate"
                 />
             </div>
 
@@ -50,7 +50,7 @@ const ContactForm = () => {
                     onChange={handleChange}
                     required
                     placeholder="halo@contoh.com"
-                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#658797]/30 transition-all text-dark-900 placeholder-dark-400 font-medium text-sm"
+                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#658797]/30 transition-all text-dark-900 placeholder-dark-400 font-medium text-sm truncate"
                 />
             </div>
 
@@ -61,7 +61,7 @@ const ContactForm = () => {
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
-                        className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#658797]/30 transition-all text-dark-900 font-medium text-sm appearance-none"
+                        className="w-full pl-4 sm:pl-5 pr-10 sm:pr-12 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#658797]/30 transition-all text-dark-900 font-medium text-sm appearance-none truncate"
                     >
                         <option value="Konsultasi bangunan/renovasi">Konsultasi bangunan/renovasi</option>
                         <option value="Layanan design and build">Layanan design and build</option>
