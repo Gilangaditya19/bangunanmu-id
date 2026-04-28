@@ -10,8 +10,6 @@ import Tentang from './pages/public/Tentang'
 import Layanan from './pages/public/Layanan'
 import CekProgress from './pages/public/CekProgress'
 import Kontak from './pages/public/Kontak'
-import Register from './pages/public/Register'
-import ForgotPassword from './pages/public/ForgotPassword'
 
 // Admin Pages
 import Login from './pages/admin/Login'
@@ -37,8 +35,6 @@ function App() {
 
         {/* Authentication Routes */}
         <Route path="/admin/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* Admin Routes */}
         <Route path="/admin" element={<AdminLayout />}>

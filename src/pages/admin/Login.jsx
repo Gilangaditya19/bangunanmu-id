@@ -112,11 +112,6 @@ const Login = () => {
                                         {showPassword ? <FaEyeSlash className="text-lg" /> : <FaEye className="text-lg" />}
                                     </button>
                                 </div>
-                                <div className="text-right mt-3">
-                                    <Link to="/forgot-password" className="text-xs font-bold text-[#658797] hover:text-[#527181] hover:underline transition-colors">
-                                        Lupa Password?
-                                    </Link>
-                                </div>
                             </div>
 
                             <div className="pt-4">
@@ -130,11 +125,7 @@ const Login = () => {
                             </div>
                         </form>
 
-                        <div className="mt-8 text-center">
-                            <p className="text-sm text-dark-500 font-medium">
-                                Belum punya akun? <Link to="/register" className="text-[#658797] font-bold hover:underline transition-all">Daftar sekarang</Link>
-                            </p>
-                        </div>
+                        {/* Registration link removed */}
                     </div>
 
                 </div>
