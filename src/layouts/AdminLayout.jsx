@@ -3,10 +3,6 @@ import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { FaBars, FaTimes, FaCommentDots, FaSignOutAlt, FaSearch, FaBell, FaCompass, FaExternalLinkAlt } from 'react-icons/fa'
 import { useAuth } from '../context/AuthContext'
 
-/**
- * AdminLayout
- * Layout admin dengan tema cerah sesuai screenshot
- */
 const AdminLayout = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const { user, logoutUser } = useAuth()
@@ -26,17 +22,12 @@ const AdminLayout = () => {
 
     return (
         <div className="min-h-screen bg-[#F0F4F8] flex font-sans text-dark-900 relative overflow-hidden">
-            
-            {/* Watermark Compass di ujung kanan bawah (opsional) */}
             <div className="fixed -bottom-16 right-16 pointer-events-none z-0 opacity-10">
                 <FaCompass className="text-[250px] text-dark-400" />
             </div>
-
-            {/* ===== SIDEBAR ===== */}
             <aside
                 className={`fixed inset-y-0 left-0 z-40 w-[260px] bg-white border-r border-[#E2E8EC] shadow-[4px_0_24px_rgba(0,0,0,0.02)] transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col`}
             >
-                {/* Logo */}
                 <div className="px-8 pt-8 pb-10 flex items-center gap-3">
                     <img src="/logo.jpg" alt="Bangunanmu.id Logo" className="h-10 w-auto object-contain mix-blend-multiply flex-shrink-0" />
                     <div className="flex flex-col">
@@ -47,13 +38,11 @@ const AdminLayout = () => {
                             Konstruksi & Design and Build
                         </span>
                     </div>
-                    {/* Mobile close button */}
                     <button onClick={() => setSidebarOpen(false)} className="lg:hidden ml-auto text-dark-400">
                         <FaTimes className="text-xl" />
                     </button>
                 </div>
 
-                {/* Navigation */}
                 <nav className="px-4 space-y-2 flex-1">
                     {sidebarLinks.map((link, i) => {
                         const isActive = location.pathname.startsWith(link.to)
@@ -62,11 +51,10 @@ const AdminLayout = () => {
                                 key={i}
                                 to={link.to}
                                 onClick={() => setSidebarOpen(false)}
-                                className={`flex items-center gap-4 px-6 py-3.5 rounded-lg font-bold text-[15px] transition-all relative ${
-                                    isActive 
-                                        ? 'text-[#658797] bg-white shadow-sm' 
-                                        : 'text-dark-500 hover:text-dark-900 hover:bg-dark-100/50'
-                                }`}
+                                className={`flex items-center gap-4 px-6 py-3.5 rounded-lg font-bold text-[15px] transition-all relative ${isActive
+                                    ? 'text-[#658797] bg-white shadow-sm'
+                                    : 'text-dark-500 hover:text-dark-900 hover:bg-dark-100/50'
+                                    }`}
                             >
                                 {isActive && (
                                     <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-[#658797] rounded-r-md"></div>
@@ -80,7 +68,6 @@ const AdminLayout = () => {
                     })}
                 </nav>
 
-                {/* User Card at bottom */}
                 <div className="p-6">
                     <div className="bg-[#D9E1E5] rounded-2xl p-3 flex flex-row items-center gap-3 shadow-inner">
                         <div className="w-10 h-10 rounded-full bg-dark-900 overflow-hidden flex-shrink-0 border-2 border-white shadow-sm">
@@ -97,7 +84,6 @@ const AdminLayout = () => {
                 </div>
             </aside>
 
-            {/* Mobile Backdrop */}
             {sidebarOpen && (
                 <div
                     onClick={() => setSidebarOpen(false)}
@@ -105,36 +91,31 @@ const AdminLayout = () => {
                 />
             )}
 
-            {/* ===== MAIN AREA ===== */}
             <div className="flex-1 lg:ml-[260px] flex flex-col min-h-screen relative z-10 w-full overflow-x-hidden">
-                {/* Header Navbar */}
                 <header className="px-4 sm:px-8 pt-8 pb-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div className="flex items-center gap-4 w-full md:w-auto">
                         <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 bg-white rounded-lg shadow-sm text-dark-500">
                             <FaBars />
                         </button>
-                        
-                        {/* Search Bar */}
+
                         <div className="relative w-full max-w-lg">
                             <div className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-300">
                                 <FaSearch />
                             </div>
-                            <input 
-                                type="text" 
-                                placeholder="Cari proyek atau testimoni..." 
+                            <input
+                                type="text"
+                                placeholder="Cari proyek atau testimoni..."
                                 className="w-full pl-11 pr-4 py-3 bg-white rounded-full border-none shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#658797]/30 text-dark-900 placeholder:text-dark-300"
                             />
                         </div>
                     </div>
 
                     <div className="flex items-center gap-6 ml-auto md:ml-0">
-                        {/* Notifications */}
                         <button className="relative text-dark-500 hover:text-dark-900 transition-colors">
                             <FaBell className="text-xl" />
                             <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 border-2 border-[#E5E9EC] rounded-full"></span>
                         </button>
-                        
-                        {/* Top Profile */}
+
                         <div className="flex items-center gap-3">
                             <span className="text-sm font-medium text-dark-900 hidden sm:block">
                                 Halo, <span className="font-bold">{user?.name || 'Admin'}</span>
@@ -146,7 +127,6 @@ const AdminLayout = () => {
                     </div>
                 </header>
 
-                {/* Page Content */}
                 <main className="p-4 sm:p-8 flex-1 w-full max-w-7xl mx-auto">
                     <Outlet />
                 </main>

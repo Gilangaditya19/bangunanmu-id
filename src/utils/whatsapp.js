@@ -1,9 +1,4 @@
-/**
- * WhatsApp URL Generator
- * Generates pre-filled WhatsApp links for direct client-side redirect
- */
-
-const WHATSAPP_NUMBER = '6281368227031' // Format internasional tanpa +
+const WHATSAPP_NUMBER = '6281368227031'
 
 /**
  * Generate WhatsApp URL with pre-filled message

@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== Global Styles ===== */
+
 * {
   margin: 0;
   padding: 0;
@@ -15,7 +15,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* ===== Custom Scrollbar ===== */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -33,12 +32,12 @@ body {
   background: #64748b;
 }
 
-/* ===== Smooth Scroll ===== */
+
 html {
   scroll-behavior: smooth;
 }
 
-/* ===== Custom Utilities ===== */
+
 @layer components {
   .section-container {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;

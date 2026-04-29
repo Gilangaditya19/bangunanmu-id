@@ -2,11 +2,7 @@ import { useState } from 'react'
 import { Outlet, NavLink, Link, useLocation } from 'react-router-dom'
 import { FaBars, FaTimes, FaChevronDown } from 'react-icons/fa'
 
-/**
- * PublicLayout
- * Layout wrapper untuk halaman publik (Navbar + Footer)
- * Navbar: Beranda, Tentang, Layanan (dropdown), Cek Progress, Kontak
- */
+
 const PublicLayout = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [layananDropdown, setLayananDropdown] = useState(false)
@@ -33,11 +29,9 @@ const PublicLayout = () => {
 
     return (
         <div className="min-h-screen flex flex-col font-sans">
-            {/* ===== NAVBAR ===== */}
             <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-dark-100 shadow-sm transition-all duration-300">
                 <div className="section-container">
                     <div className="flex items-center justify-between h-20">
-                        {/* Logo */}
                         <Link to="/" className="flex items-center gap-2 group">
                             <img src="/logo.jpg" alt="Bangunanmu.id Logo" className="h-10 w-auto object-contain mix-blend-multiply flex-shrink-0" />
                             <span className="text-xl font-bold text-dark-900 tracking-tight">
@@ -45,7 +39,6 @@ const PublicLayout = () => {
                             </span>
                         </Link>
 
-                        {/* Desktop Nav - Centered */}
                         <div className="hidden lg:flex items-center justify-center flex-1 ml-4 lg:ml-10">
                             <div className="flex items-center gap-1 bg-white border border-dark-100 px-2 py-1.5 rounded-full shadow-sm">
                                 {navLinks.map((link, i) =>
@@ -85,14 +78,12 @@ const PublicLayout = () => {
                             </div>
                         </div>
 
-                        {/* CTA Button (Desktop) */}
                         <div className="hidden lg:flex items-center justify-end">
                             <Link to="/kontak" className="inline-flex items-center justify-center px-6 py-2.5 bg-[#658797] hover:bg-[#527181] text-white text-sm font-semibold rounded-full shadow-md transition-colors">
                                 Mulai Proyek
                             </Link>
                         </div>
 
-                        {/* Mobile Menu Toggle */}
                         <button
                             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                             className="lg:hidden p-2 text-dark-500 hover:text-dark-900 hover:bg-dark-50 rounded-xl transition-colors"
@@ -103,7 +94,6 @@ const PublicLayout = () => {
                     </div>
                 </div>
 
-                {/* Mobile Menu */}
                 {mobileMenuOpen && (
                     <div className="lg:hidden absolute top-20 left-0 w-full bg-white border-b border-dark-100 shadow-xl animate-slideDown overflow-hidden">
                         <div className="section-container py-6 space-y-3">
@@ -158,16 +148,13 @@ const PublicLayout = () => {
                 )}
             </nav>
 
-            {/* ===== MAIN CONTENT ===== */}
             <main className="flex-1 bg-[#FAFAFA]">
                 <Outlet />
             </main>
 
-            {/* ===== FOOTER ===== */}
             <footer className="bg-[#658797] text-white pt-20 pb-10 border-t border-white/10">
                 <div className="section-container">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
-                        {/* Company Info */}
                         <div className="lg:col-span-6 pr-0 lg:pr-12">
                             <Link to="/" className="flex items-center gap-3 mb-6">
                                 <div className="h-12 w-auto bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden flex-shrink-0 border-2 border-white/20 p-1">
@@ -221,7 +208,6 @@ const PublicLayout = () => {
                         </div>
                     </div>
 
-                    {/* Bottom Bar */}
                     <div className="pt-8 flex flex-col items-center justify-center gap-4">
                         <p className="text-white/60 text-xs">
                             &copy; {new Date().getFullYear()} Bangunanmu.id. All rights reserved.

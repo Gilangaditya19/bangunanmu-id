@@ -151,15 +151,15 @@ const CekProgress = () => {
                     </div>
 
                     {mockProjectData.status === 'SELESAI' && !reviewSuccess && (
-                        <div className="bg-gradient-to-r from-yellow-50 to-[#FAFAFA] rounded-[2rem] p-8 md:p-10 shadow-sm border border-yellow-200 mb-10 flex flex-col md:flex-row items-center justify-between gap-6 transform transition-all hover:shadow-md">
+                        <div className="bg-[#658797] rounded-[2rem] p-8 md:p-10 shadow-lg border border-[#527181] mb-10 flex flex-col md:flex-row items-center justify-between gap-6 transform transition-all hover:-translate-y-1">
                             <div>
-                                <div className="flex items-center gap-2 text-yellow-500 mb-2 text-xl">
+                                <div className="flex items-center gap-2 text-yellow-400 mb-2 text-xl drop-shadow-sm">
                                     <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
                                 </div>
-                                <h3 className="text-xl md:text-2xl font-bold text-dark-900 mb-2">Proyek Telah Selesai!</h3>
-                                <p className="text-dark-500 font-medium">Bagaimana pengalaman Anda membangun bersama tim Bangunanmu.id?</p>
+                                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Proyek Telah Selesai!</h3>
+                                <p className="text-white/80 font-medium">Bagaimana pengalaman Anda membangun bersama tim Bangunanmu.id?</p>
                             </div>
-                            <button onClick={() => setShowReviewModal(true)} className="px-8 py-4 bg-dark-900 hover:bg-black text-white font-bold rounded-xl transition-all shadow-lg flex-shrink-0">
+                            <button onClick={() => setShowReviewModal(true)} className="px-8 py-4 bg-white hover:bg-gray-100 text-[#658797] font-bold rounded-xl transition-all shadow-lg flex-shrink-0">
                                 Berikan Ulasan Proyek
                             </button>
                         </div>
