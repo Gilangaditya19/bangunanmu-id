@@ -72,7 +72,8 @@ const CekProgress = () => {
 
     const handleSearch = async (e) => {
         e.preventDefault();
-        if (!searchId.trim()) return;
+        const trimmedId = searchId.trim();
+        if (!trimmedId) return;
 
         setLoading(true);
         setError('');
@@ -80,7 +81,7 @@ const CekProgress = () => {
         setReviewSuccess(false);
 
         try {
-            const response = await api.get(`/projects/track/${searchId}`);
+            const response = await api.get(`/projects/track/${trimmedId}`);
             const data = response.data.data;
 
 
