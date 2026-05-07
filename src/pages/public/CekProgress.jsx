@@ -183,9 +183,12 @@ const CekProgress = () => {
                         </div>
                         <input
                             type="text"
+                            name="project_tracking_id"
                             placeholder="PRJ-2025-001"
                             value={searchId}
                             onChange={(e) => setSearchId(e.target.value)}
+                            autoComplete="off"
+                            spellCheck="false"
                             className="w-full py-4 pl-14 pr-32 rounded-full border-2 border-white/20 bg-white shadow-xl focus:outline-none focus:border-white focus:ring-4 focus:ring-white/20 transition-all font-medium text-lg placeholder-dark-300 relative z-10"
                         />
                         <button

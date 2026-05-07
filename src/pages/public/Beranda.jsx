@@ -269,7 +269,10 @@ const Beranda = () => {
                                     <FaSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-dark-400" />
                                     <input
                                         type="text"
+                                        name="tracking_id_home"
                                         placeholder="Contoh: BGN-2023-001"
+                                        autoComplete="off"
+                                        spellCheck="false"
                                         className="w-full pl-14 pr-6 py-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all font-medium"
                                         value={progressQuery}
                                         onChange={(e) => setProgressQuery(e.target.value)}
