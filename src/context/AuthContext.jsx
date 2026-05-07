@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
             return null
         }
     })
-    const isAuthenticated = !!user
+    const isAuthenticated = !!user && !!localStorage.getItem('token')
     const [loading] = useState(false)
 
     const loginUser = (userData, token) => {
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
     )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
+
 export const useAuth = () => {
     const context = useContext(AuthContext)
     if (!context) {

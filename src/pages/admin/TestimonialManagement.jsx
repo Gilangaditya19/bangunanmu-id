@@ -6,11 +6,23 @@ const TestimonialManagement = () => {
     const [testimonials, setTestimonials] = useState([])
     const [loading, setLoading] = useState(true)
 
+
+    const [filterCategory, setFilterCategory] = useState('Semua Kategori')
+    const [filterStatus, setFilterStatus] = useState('Semua Status')
+    const [appliedFilters, setAppliedFilters] = useState({ category: 'Semua Kategori', status: 'Semua Status' })
+
     const fetchTestimonials = async () => {
         setLoading(true)
         try {
             const response = await getAllTestimonials()
-            setTestimonials(response.data)
+
+            if (response.success && response.data && Array.isArray(response.data.data)) {
+                setTestimonials(response.data.data)
+            } else if (Array.isArray(response.data)) {
+                setTestimonials(response.data)
+            } else {
+                setTestimonials([])
+            }
         } catch (error) {
             console.error('Error fetching testimonials:', error)
         } finally {
@@ -53,7 +65,34 @@ const TestimonialManagement = () => {
         { id: 3, name: 'Budi Santoso', project: 'Office Interior', rating: 5, review: 'Transformasi kantor kami luar biasa. Rekan kerja sangat nyaman bekerja sekarang.', status: 'Disembunyikan' }
     ]
 
-    const displayData = testimonials.length > 0 ? testimonials : defaultDummyTestimonials;
+    const handleApplyFilters = () => {
+        setAppliedFilters({ category: filterCategory, status: filterStatus })
+    }
+
+    const rawDisplayData = testimonials.length > 0 ? testimonials : defaultDummyTestimonials;
+    
+    const displayData = rawDisplayData.filter(testi => {
+        let matchCategory = true;
+        if (appliedFilters.category !== 'Semua Kategori') {
+            const proj = (testi.project || '').toLowerCase();
+            if (appliedFilters.category === 'Konstruksi') {
+                if (proj.includes('desain') || proj.includes('design') || proj.includes('interior') || proj.includes('dapur') || proj.includes('kitchen')) matchCategory = false;
+            } else if (appliedFilters.category === 'Design and Build') {
+                if (!proj.includes('desain') && !proj.includes('design') && !proj.includes('interior') && !proj.includes('dapur') && !proj.includes('kitchen')) matchCategory = false;
+            }
+        }
+
+        let statusStr = testimonials.length > 0 ? (testi.isApproved ? 'Diterbitkan' : 'Disembunyikan') : testi.status;
+        
+        let matchStatus = true;
+        if (appliedFilters.status !== 'Semua Status') {
+            if (appliedFilters.status === 'Diterbitkan' && statusStr !== 'Diterbitkan') matchStatus = false;
+            if (appliedFilters.status === 'Menunggu' && statusStr !== 'Menunggu') matchStatus = false;
+            if (appliedFilters.status === 'Disembunyikan' && statusStr !== 'Disembunyikan') matchStatus = false;
+        }
+
+        return matchCategory && matchStatus;
+    });
 
     return (
         <div className="pb-12 max-w-7xl mx-auto w-full font-sans">
@@ -67,7 +106,7 @@ const TestimonialManagement = () => {
                 <div className="bg-white rounded-full sm:rounded-[40px] pl-2 pr-6 py-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex items-center gap-6 min-w-max border-l-[12px] border-[#658797] border">
                     <div className="pl-6 py-4">
                         <p className="text-[9px] sm:text-[10px] font-extrabold text-dark-300 tracking-widest uppercase mb-1">Total Testimoni</p>
-                        <p className="text-3xl sm:text-4xl font-extrabold text-dark-900 leading-none">{testimonials.length > 0 ? testimonials.length : 156}</p>
+                        <p className="text-3xl sm:text-4xl font-extrabold text-dark-900 leading-none">{(testimonials || []).length}</p>
                     </div>
                     <div className="w-12 h-12 rounded-full bg-[#F0F4F8] flex items-center justify-center text-[#658797]">
                         <FaStar className="text-xl" />
@@ -78,10 +117,14 @@ const TestimonialManagement = () => {
             <div className="bg-white rounded-[2rem] p-6 shadow-md border border-dark-100/30 hover:shadow-lg transition-shadow flex flex-col sm:flex-row items-end gap-4 lg:gap-6 w-full mb-8">
                 <div className="flex-1 w-full relative">
                     <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Kategori</label>
-                    <select className="w-full px-5 py-3 rounded-xl border border-dark-100/80 bg-[#F9F9FB] text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer">
-                        <option>Semua Kategori</option>
-                        <option>Konstruksi</option>
-                        <option>Design and Build</option>
+                    <select 
+                        value={filterCategory}
+                        onChange={(e) => setFilterCategory(e.target.value)}
+                        className="w-full px-5 py-3 rounded-xl border border-dark-100/80 bg-[#F9F9FB] text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer"
+                    >
+                        <option value="Semua Kategori">Semua Kategori</option>
+                        <option value="Konstruksi">Konstruksi</option>
+                        <option value="Design and Build">Design and Build</option>
                     </select>
                     <div className="absolute right-4 bottom-3.5 text-dark-400 pointer-events-none">
                         <FaChevronDown className="text-xs" />
@@ -89,18 +132,25 @@ const TestimonialManagement = () => {
                 </div>
                 <div className="flex-1 w-full relative">
                     <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Status</label>
-                    <select className="w-full px-5 py-3 rounded-xl border border-dark-100/80 bg-[#F9F9FB] text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer">
-                        <option>Semua Status</option>
-                        <option>Diterbitkan</option>
-                        <option>Menunggu</option>
-                        <option>Disembunyikan</option>
+                    <select 
+                        value={filterStatus}
+                        onChange={(e) => setFilterStatus(e.target.value)}
+                        className="w-full px-5 py-3 rounded-xl border border-dark-100/80 bg-[#F9F9FB] text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer"
+                    >
+                        <option value="Semua Status">Semua Status</option>
+                        <option value="Diterbitkan">Diterbitkan</option>
+                        <option value="Menunggu">Menunggu</option>
+                        <option value="Disembunyikan">Disembunyikan</option>
                     </select>
                     <div className="absolute right-4 bottom-3.5 text-dark-400 pointer-events-none">
                         <FaChevronDown className="text-xs" />
                     </div>
                 </div>
                 <div className="w-full sm:w-auto flex-shrink-0">
-                    <button className="w-full sm:w-auto px-8 py-3 bg-[#658797] hover:bg-[#527181] text-white font-bold text-sm rounded-xl shadow-md transition-all">
+                    <button 
+                        onClick={handleApplyFilters}
+                        className="w-full sm:w-auto px-8 py-3 bg-[#658797] hover:bg-[#527181] text-white font-bold text-sm rounded-xl shadow-md transition-all"
+                    >
                         Terapkan Filter
                     </button>
                 </div>
@@ -121,6 +171,10 @@ const TestimonialManagement = () => {
                             {loading ? (
                                 <tr>
                                     <td colSpan={4} className="px-8 py-12 text-center text-dark-400 font-medium">Memuat data manajemen testimoni...</td>
+                                </tr>
+                            ) : displayData.length === 0 ? (
+                                <tr>
+                                    <td colSpan={4} className="px-8 py-12 text-center text-dark-400 font-medium">Belum ada testimoni yang cocok dengan filter.</td>
                                 </tr>
                             ) : (
                                 displayData.map((testi, idx) => {
@@ -195,7 +249,7 @@ const TestimonialManagement = () => {
 
                 <div className="px-8 py-5 border-t border-dark-100/60 flex items-center justify-between bg-white text-sm mt-auto">
                     <span className="text-[11px] font-medium text-dark-400 tracking-wide">
-                        Menampilkan <strong className="text-dark-900 font-extrabold">1-10</strong> dari <strong className="text-dark-900 font-extrabold">{testimonials.length > 0 ? testimonials.length : 156}</strong> testimoni
+                        Menampilkan <strong className="text-dark-900 font-extrabold">{(testimonials || []).length > 0 ? `1-${(testimonials || []).length}` : '0'}</strong> dari <strong className="text-dark-900 font-extrabold">{(testimonials || []).length}</strong> testimoni
                     </span>
                     <div className="flex items-center gap-1.5">
                         <button className="w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center text-dark-400 hover:bg-dark-50 hover:text-dark-900 transition-colors">

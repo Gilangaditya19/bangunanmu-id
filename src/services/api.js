@@ -1,13 +1,9 @@
-//Nanti call API rill disini kalo udah jadi backend microservicesnya
 
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3001/api',
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080/api',
     timeout: 10000,
-    headers: {
-        'Content-Type': 'application/json',
-    },
 })
 
 api.interceptors.request.use(
@@ -25,8 +21,10 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-            localStorage.removeItem('token')
-            window.location.href = '/admin/login'
+            if (error.config && !error.config.url.includes('/auth/login')) {
+                localStorage.removeItem('token')
+                window.location.href = '/admin/login'
+            }
         }
         return Promise.reject(error)
     }

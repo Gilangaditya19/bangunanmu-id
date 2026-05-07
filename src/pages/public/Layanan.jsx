@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getApprovedTestimonials } from '../../services/testimonialService'
 import { Link, useSearchParams } from 'react-router-dom'
 import { FaHome, FaWrench, FaBuilding, FaChevronRight, FaQuoteRight, FaCouch, FaPaintBrush, FaSearch, FaTools, FaHardHat, FaHandshake, FaDraftingCompass, FaCubes, FaClipboardCheck, FaCheckCircle, FaStar } from 'react-icons/fa'
 import WhatsAppButton from '../../components/WhatsAppButton'
@@ -202,29 +203,53 @@ const Layanan = () => {
 
     const currentContent = contents[activeTab] || contents['konstruksi']
 
-    const testimonials = [
+    const [testimonials, setTestimonials] = useState([])
+    const [loadingTesti, setLoadingTesti] = useState(true)
+
+    const dummyTestimonials = [
         {
             name: 'Budi Santoso',
-            role: 'Rumah Tinggal, Depok',
+            project: 'Rumah Tinggal, Depok',
             image: avatar1,
             rating: 5,
-            text: '"Sangat puas dengan hasil kerjanya. Transparansi soal biaya dan timnya sangat komunikatif. Rumah impian saya jadi kenyataan tanpa drama."'
+            testimonialText: '"Sangat puas dengan hasil kerjanya. Transparansi soal biaya dan timnya sangat komunikatif. Rumah impian saya jadi kenyataan tanpa drama."'
         },
         {
             name: 'Siti Aminah',
-            role: 'Desain & Build Dapur, Bekasi',
+            project: 'Desain & Build Dapur, Bekasi',
             image: avatar2,
             rating: 5,
-            text: '"Awalnya ragu renovasi total, tapi tim Bangunanmu meyakinkan dengan desain 3D yang detail. Hasil akhirnya persis seperti di gambar!"'
+            testimonialText: '"Awalnya ragu renovasi total, tapi tim Bangunanmu meyakinkan dengan desain 3D yang detail. Hasil akhirnya persis seperti di gambar!"'
         },
         {
             name: 'Raka Adhitama',
-            role: 'Modern Villa, Jakarta Selatan',
+            project: 'Modern Villa, Jakarta Selatan',
             image: avatar3,
             rating: 5,
-            text: '"Pengerjaan tepat waktu, bahkan lebih awal dari jadwal. Kualitas struktur sangat kokoh. Sangat merepresentasikan ulasan bintang lima!"'
+            testimonialText: '"Pengerjaan tepat waktu, bahkan lebih awal dari jadwal. Kualitas struktur sangat kokoh. Sangat merepresentasikan ulasan bintang lima!"'
         }
     ]
+
+    useEffect(() => {
+        const fetchTestimonials = async () => {
+            try {
+                const res = await getApprovedTestimonials()
+                if (res.success && res.data && Array.isArray(res.data.data) && res.data.data.length > 0) {
+                    setTestimonials(res.data.data)
+                } else if (Array.isArray(res.data) && res.data.length > 0) {
+                    setTestimonials(res.data)
+                } else {
+                    setTestimonials(dummyTestimonials)
+                }
+            } catch (err) {
+                console.error("Gagal mengambil data testimoni:", err)
+                setTestimonials(dummyTestimonials)
+            } finally {
+                setLoadingTesti(false)
+            }
+        }
+        fetchTestimonials()
+    }, [])
 
     return (
         <div className="bg-[#FAFAFA] min-h-screen">
@@ -399,23 +424,25 @@ const Layanan = () => {
                         <p className="text-dark-500 mb-16 text-sm">Pengalaman klien membangun bersama kami</p>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            {testimonials.map((testi, i) => (
+                            {loadingTesti ? (
+                                <p className="text-center col-span-1 md:col-span-3 py-8 text-dark-400">Memuat testimoni...</p>
+                            ) : testimonials.slice(0, 3).map((testi, i) => (
                                 <div key={i} className="bg-white p-10 rounded-[40px] border border-dark-100 shadow-sm relative text-left h-full flex flex-col">
                                     <FaQuoteRight className="absolute top-10 right-10 text-dark-100 text-3xl" />
                                     <div className="flex items-center gap-4 mb-6">
-                                        <img src={testi.image} alt={testi.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-4 border-[#F0F4F8] shadow-sm" />
+                                        <img src={testi.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(testi.name)}&background=658797&color=fff&rounded=true&bold=true`} alt={testi.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-4 border-[#F0F4F8] shadow-sm" />
                                         <div>
                                             <h4 className="font-bold text-dark-900 text-sm mb-1">{testi.name}</h4>
                                             <div className="flex items-center gap-1 mb-1.5">
                                                 {[...Array(5)].map((_, starIndex) => (
-                                                    <FaStar key={starIndex} className={`text-[11px] sm:text-xs ${starIndex < testi.rating ? 'text-yellow-400' : 'text-dark-100'}`} />
+                                                    <FaStar key={starIndex} className={`text-[11px] sm:text-xs ${starIndex < (testi.rating || 5) ? 'text-yellow-400' : 'text-dark-100'}`} />
                                                 ))}
                                             </div>
-                                            <p className="text-dark-400 text-[10px] sm:text-[11px] font-medium leading-tight">{testi.role}</p>
+                                            <p className="text-dark-400 text-[10px] sm:text-[11px] font-medium leading-tight">{testi.project || testi.role || 'Klien Bangunanmu'}</p>
                                         </div>
                                     </div>
                                     <p className="text-dark-600 text-sm italic leading-relaxed flex-1">
-                                        {testi.text}
+                                        "{testi.testimonialText || testi.review || testi.text}"
                                     </p>
                                 </div>
                             ))}

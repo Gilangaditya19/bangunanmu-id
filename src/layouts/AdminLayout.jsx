@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom'
-import { FaBars, FaTimes, FaCommentDots, FaSignOutAlt, FaSearch, FaBell, FaCompass, FaExternalLinkAlt } from 'react-icons/fa'
+import { FaBars, FaTimes, FaCommentDots, FaSignOutAlt, FaSearch, FaBell, FaCompass, FaExternalLinkAlt, FaLock } from 'react-icons/fa'
 import { useAuth } from '../context/AuthContext'
 
 const AdminLayout = () => {
@@ -15,9 +15,10 @@ const AdminLayout = () => {
     }
 
     const sidebarLinks = [
-        { to: '/admin/dashboard', label: 'Dashboard', icon: <div className="grid grid-cols-2 gap-0.5 w-4 h-4"><div className="bg-current rounded-sm"></div><div className="bg-current rounded-sm"></div><div className="bg-current rounded-sm"></div><div className="bg-current rounded-sm"></div></div> }, // Fake dashboard icon
+        { to: '/admin/dashboard', label: 'Dashboard', icon: <div className="grid grid-cols-2 gap-0.5 w-4 h-4"><div className="bg-current rounded-sm"></div><div className="bg-current rounded-sm"></div><div className="bg-current rounded-sm"></div><div className="bg-current rounded-sm"></div></div> },
         { to: '/admin/projects', label: 'Kelola Proyek', icon: <FaCompass /> },
         { to: '/admin/testimonials', label: 'Kelola Testimoni', icon: <FaCommentDots /> },
+        { to: '/admin/settings', label: 'Pengaturan', icon: <div className="text-[16px]"><FaLock /></div> },
     ]
 
     return (

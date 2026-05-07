@@ -1,14 +1,52 @@
-import { useState } from 'react'
-import { FaCompass, FaCheckCircle, FaCommentDots, FaGlobe, FaStar, FaArrowRight, FaExternalLinkAlt } from 'react-icons/fa'
+import { useState, useEffect } from 'react'
+import { FaCompass, FaCheckCircle, FaCommentDots, FaGlobe, FaStar, FaArrowRight, FaExternalLinkAlt, FaSpinner } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { getAllProjects } from '../../services/projectService'
+import { getAllTestimonials } from '../../services/testimonialService'
 
 const Dashboard = () => {
-    const [stats] = useState({
-        totalProjects: 42,
-        activeProjects: 12,
-        completedProjects: 30,
-        totalTestimonials: 156,
+    const [stats, setStats] = useState({
+        totalProjects: 0,
+        activeProjects: 0,
+        completedProjects: 0,
+        totalTestimonials: 0,
     })
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchDashboardData = async () => {
+            try {
+
+                const projectsRes = await getAllProjects()
+                const projects = projectsRes.data || []
+                
+                const active = projects.filter(p => p.status === 'in_progress' || p.status === 'pending')
+                const completed = projects.filter(p => p.status === 'completed')
+
+
+                const testiRes = await getAllTestimonials()
+                let testiCount = 0;
+                if (testiRes.success && testiRes.data && Array.isArray(testiRes.data.data)) {
+                    testiCount = testiRes.data.data.length
+                } else if (Array.isArray(testiRes.data)) {
+                    testiCount = testiRes.data.length
+                }
+
+                setStats({
+                    totalProjects: projects.length,
+                    activeProjects: active.length,
+                    completedProjects: completed.length,
+                    totalTestimonials: testiCount,
+                })
+            } catch (error) {
+                console.error("Gagal mengambil data dashboard:", error)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        fetchDashboardData()
+    }, [])
 
     return (
         <div className="pb-12">
@@ -21,7 +59,9 @@ const Dashboard = () => {
                     </div>
                     <div className="mt-8 xl:mt-auto">
                         <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Total Proyek</p>
-                        <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">{stats.totalProjects}</p>
+                        <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
+                            {loading ? <FaSpinner className="animate-spin text-2xl" /> : stats.totalProjects}
+                        </p>
                     </div>
                 </div>
 
@@ -31,7 +71,9 @@ const Dashboard = () => {
                     </div>
                     <div className="relative z-10">
                         <p className="text-[10px] sm:text-xs font-bold text-white/80 tracking-widest uppercase mb-1">Proyek Aktif</p>
-                        <p className="text-4xl sm:text-5xl font-extrabold leading-none tracking-tight">{stats.activeProjects}</p>
+                        <p className="text-4xl sm:text-5xl font-extrabold leading-none tracking-tight">
+                            {loading ? <FaSpinner className="animate-spin text-2xl" /> : stats.activeProjects}
+                        </p>
                     </div>
                     <div className="mt-8 xl:mt-auto relative z-10">
                         <p className="text-xs font-medium text-white/90">Sedang Berjalan</p>
@@ -44,7 +86,9 @@ const Dashboard = () => {
                     </div>
                     <div className="mt-8 xl:mt-auto">
                         <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Proyek Selesai</p>
-                        <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">{stats.completedProjects}</p>
+                        <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
+                            {loading ? <FaSpinner className="animate-spin text-2xl" /> : stats.completedProjects}
+                        </p>
                     </div>
                 </div>
 
@@ -54,7 +98,9 @@ const Dashboard = () => {
                     </div>
                     <div className="mt-8 xl:mt-auto">
                         <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Total Testimoni</p>
-                        <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">{stats.totalTestimonials}</p>
+                        <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
+                            {loading ? <FaSpinner className="animate-spin text-2xl" /> : stats.totalTestimonials}
+                        </p>
                     </div>
                 </div>
             </div>

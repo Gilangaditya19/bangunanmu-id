@@ -13,8 +13,10 @@ import Login from './pages/admin/Login'
 import Dashboard from './pages/admin/Dashboard'
 import ProjectManagement from './pages/admin/ProjectManagement'
 import TestimonialManagement from './pages/admin/TestimonialManagement'
+import Settings from './pages/admin/Settings'
 
 import { AuthProvider } from './context/AuthContext'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
   return (
@@ -30,10 +32,13 @@ function App() {
 
         <Route path="/admin/login" element={<Login />} />
 
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="projects" element={<ProjectManagement />} />
-          <Route path="testimonials" element={<TestimonialManagement />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="projects" element={<ProjectManagement />} />
+            <Route path="testimonials" element={<TestimonialManagement />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
         </Route>
       </Routes>
     </AuthProvider>

@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react'
-import { getAllProjects, createProject, updateProject, deleteProject } from '../../services/projectService'
+import {
+    getAllProjects, createProject, updateProject, deleteProject,
+    getMilestones, addMilestone, updateMilestone, deleteMilestone,
+    getDocuments, uploadDocument, deleteDocument
+} from '../../services/projectService'
 import { FaPlus, FaPen, FaTrash, FaTimes, FaBuilding, FaChartLine, FaChevronDown, FaChevronLeft, FaChevronRight, FaCheckCircle, FaRegCircle, FaUpload, FaImage } from 'react-icons/fa'
 
 const ProjectManagement = () => {
@@ -8,25 +12,29 @@ const ProjectManagement = () => {
     const [showModal, setShowModal] = useState(false)
     const [showTimelineModal, setShowTimelineModal] = useState(false)
     const [showGalleryModal, setShowGalleryModal] = useState(false)
-    const [mockTimeline] = useState([
-        { id: 1, title: 'Perencanaan & Desain', status: 'completed', date: 'Selesai pada 10 Jan 2024' },
-        { id: 2, title: 'Instalasi MEP', status: 'in-progress', date: 'Estimasi selesai: 15 Mar 2024' }
-    ])
-    const [mockGallery] = useState([
-        { id: 1, title: 'Struktur Selesai', date: '28 Feb 2024', image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=300&auto=format&fit=crop' },
-        { id: 2, title: 'Pengecekan Saluran Air', date: 'Kemarin', image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=300&auto=format&fit=crop' },
-        { id: 3, title: 'Material Eksterior', date: 'Hari ini, 10:30', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=300&auto=format&fit=crop' }
-    ])
+    const [lightboxImage, setLightboxImage] = useState(null)
+    const [activeProject, setActiveProject] = useState(null)
+    const [showAllDocs, setShowAllDocs] = useState(false)
+    const [milestones, setMilestones] = useState([])
+    const [documents, setDocuments] = useState([])
+    const [msLoading, setMsLoading] = useState(false)
+    const [docLoading, setDocLoading] = useState(false)
+    const [newMs, setNewMs] = useState({ title: '', status: 'pending', targetDate: '', description: '' })
+    const [editingMs, setEditingMs] = useState(null)
+    const [newDoc, setNewDoc] = useState({ file: null, description: '' })
     const [editingProject, setEditingProject] = useState(null)
+    
+
+    const [filterCategory, setFilterCategory] = useState('Semua Kategori')
+    const [filterStatus, setFilterStatus] = useState('Semua Status')
+    const [appliedFilters, setAppliedFilters] = useState({ category: 'Semua Kategori', status: 'Semua Status' })
     const [formData, setFormData] = useState({
         title: '',
         client: '',
         address: '',
         category: 'Konstruksi',
-        description: '',
         progress: 0,
-        stage: '',
-        status: 'active',
+        status: 'pending',
     })
 
     const fetchProjects = async () => {
@@ -46,7 +54,7 @@ const ProjectManagement = () => {
     }, [])
 
     const resetForm = () => {
-        setFormData({ title: '', client: '', address: '', category: 'Konstruksi', description: '', progress: 0, stage: '', status: 'active' })
+        setFormData({ title: '', client: '', address: '', category: 'Konstruksi', progress: 0, status: 'pending' })
         setEditingProject(null)
     }
 
@@ -62,9 +70,7 @@ const ProjectManagement = () => {
             client: project.client,
             address: project.address || '',
             category: project.category,
-            description: project.description,
             progress: project.progress,
-            stage: project.stage,
             status: project.status,
         })
         setShowModal(true)
@@ -83,6 +89,7 @@ const ProjectManagement = () => {
             fetchProjects()
         } catch (error) {
             console.error('Error saving project:', error)
+            alert(error.response?.data?.message || 'Terjadi kesalahan saat menyimpan proyek.')
         }
     }
 
@@ -93,19 +100,152 @@ const ProjectManagement = () => {
             fetchProjects()
         } catch (error) {
             console.error('Error deleting project:', error)
+            alert(error.response?.data?.message || 'Gagal menghapus proyek.')
         }
     }
 
+
+
+
+
+    const openTimeline = async (project) => {
+        setActiveProject(project)
+        setShowTimelineModal(true)
+        setMsLoading(true)
+        try {
+            const response = await getMilestones(project.id)
+            setMilestones(response.data)
+        } catch (error) {
+            console.error('Error fetching milestones:', error)
+        } finally {
+            setMsLoading(false)
+        }
+    }
+
+    const handleAddMilestone = async () => {
+        if (!newMs.title) return
+        try {
+            if (editingMs) {
+                await updateMilestone(activeProject.id, editingMs.id, {
+                    title: newMs.title,
+                    name: newMs.title,
+                    status: newMs.status,
+                    description: newMs.description,
+                    targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : null,
+                    progress: newMs.status === 'completed' ? 100 : 0
+                })
+                setEditingMs(null)
+            } else {
+                await addMilestone(activeProject.id, {
+                    title: newMs.title,
+                    name: newMs.title,
+                    status: newMs.status,
+                    description: newMs.description,
+                    targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : null,
+                    progress: newMs.status === 'completed' ? 100 : 0
+                })
+            }
+            setNewMs({ title: '', status: 'pending', targetDate: '', description: '' })
+            const response = await getMilestones(activeProject.id)
+            setMilestones(response.data)
+            fetchProjects()
+        } catch (error) {
+            alert('Gagal menyimpan tahapan.')
+        }
+    }
+
+    const openEditMs = (ms) => {
+        setEditingMs(ms)
+        setNewMs({
+            title: ms.title,
+            status: ms.status,
+            description: ms.description || '',
+            targetDate: ms.targetDate ? new Date(ms.targetDate).toISOString().split('T')[0] : ''
+        })
+    }
+
+    const handleDeleteMilestone = async (msId) => {
+        if (!window.confirm('Hapus tahapan ini?')) return
+        try {
+            await deleteMilestone(activeProject.id, msId)
+            const response = await getMilestones(activeProject.id)
+            setMilestones(response.data)
+            fetchProjects()
+        } catch (error) {
+            alert('Gagal menghapus tahapan.')
+        }
+    }
+
+
+
+
+
+    const openGallery = async (project) => {
+        setActiveProject(project)
+        setShowGalleryModal(true)
+        setShowAllDocs(false)
+        setDocLoading(true)
+        try {
+            const response = await getDocuments(project.id)
+            setDocuments(response.data)
+        } catch (error) {
+            console.error('Error fetching documents:', error)
+        } finally {
+            setDocLoading(false)
+        }
+    }
+
+    const handleUploadDoc = async () => {
+        if (!newDoc.file) return
+        try {
+            await uploadDocument(activeProject.id, newDoc.file, newDoc.description)
+            setNewDoc({ file: null, description: '' })
+            const response = await getDocuments(activeProject.id)
+            setDocuments(response.data)
+        } catch (error) {
+            alert('Gagal mengunggah foto.')
+        }
+    }
+
+    const handleDeleteDoc = async (docId) => {
+        if (!window.confirm('Hapus foto ini?')) return
+        try {
+            await deleteDocument(activeProject.id, docId)
+            const response = await getDocuments(activeProject.id)
+            setDocuments(response.data)
+        } catch (error) {
+            alert('Gagal menghapus foto.')
+        }
+    }
+
+    const handleApplyFilters = () => {
+        setAppliedFilters({ category: filterCategory, status: filterStatus })
+    }
+
+    const filteredProjects = projects.filter(project => {
+        const matchCategory = appliedFilters.category === 'Semua Kategori' || project.category === appliedFilters.category;
+        
+        if (appliedFilters.status !== 'Semua Status') {
+            const statusFilter = appliedFilters.status;
+            if (statusFilter === 'MENUNGGU' && project.status !== 'pending') return false;
+            if (statusFilter === 'BERJALAN' && project.status !== 'in_progress') return false;
+            if (statusFilter === 'SELESAI' && project.status !== 'completed') return false;
+            if (statusFilter === 'DIBATALKAN' && project.status !== 'cancelled') return false;
+        }
+
+        return matchCategory;
+    });
+
     return (
         <div className="pb-12 max-w-7xl mx-auto w-full">
-            
+
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
                     <div className="inline-flex px-3 py-1 bg-[#E2E8EC] rounded-full mb-3">
                         <span className="text-[9px] font-extrabold text-[#658797] tracking-widest uppercase">SISTEM INVENTORI</span>
                     </div>
                     <h1 className="text-4xl font-extrabold text-dark-900 tracking-tight mb-2">Manajemen Proyek</h1>
-                    <p className="text-dark-500 font-medium">Pantau dan kelola semua proyek konstruksi & interior Anda secara real-time.</p>
+                    <p className="text-dark-500 font-medium">Pantau dan kelola semua proyek konstruksi Anda secara real-time.</p>
                 </div>
                 <div className="mt-2 md:mt-0 flex-shrink-0">
                     <button onClick={openCreate} className="px-6 py-3.5 bg-[#658797] hover:bg-[#527181] text-white font-bold rounded-full shadow-md transition-all flex items-center gap-2">
@@ -115,7 +255,7 @@ const ProjectManagement = () => {
             </div>
 
             <div className="flex flex-col lg:flex-row gap-6 mb-8">
-                
+
                 <div className="bg-white rounded-[2rem] p-8 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex items-center justify-between w-full lg:w-[280px] relative overflow-hidden flex-shrink-0">
                     <div className="relative z-10">
                         <p className="text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-1">Total Proyek</p>
@@ -129,10 +269,14 @@ const ProjectManagement = () => {
                 <div className="bg-white rounded-[2rem] p-6 lg:p-8 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex-1 flex flex-col sm:flex-row items-end gap-4 lg:gap-6">
                     <div className="flex-1 w-full relative">
                         <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Kategori</label>
-                        <select className="w-full px-5 py-3 rounded-xl border border-dark-100 bg-transparent text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer">
-                            <option>Semua Kategori</option>
-                            <option>Konstruksi</option>
-                            <option>Design and Build</option>
+                        <select 
+                            value={filterCategory} 
+                            onChange={(e) => setFilterCategory(e.target.value)}
+                            className="w-full px-5 py-3 rounded-xl border border-dark-100 bg-transparent text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer"
+                        >
+                            <option value="Semua Kategori">Semua Kategori</option>
+                            <option value="Konstruksi">Konstruksi</option>
+                            <option value="Design and Build">Design and Build</option>
                         </select>
                         <div className="absolute right-4 bottom-3.5 text-dark-300 pointer-events-none">
                             <FaChevronDown className="text-xs" />
@@ -140,18 +284,26 @@ const ProjectManagement = () => {
                     </div>
                     <div className="flex-1 w-full relative">
                         <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Status</label>
-                        <select className="w-full px-5 py-3 rounded-xl border border-dark-100 bg-transparent text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer">
-                            <option>Semua Status</option>
-                            <option>Aktif</option>
-                            <option>Perencanaan</option>
-                            <option>Selesai</option>
+                        <select 
+                            value={filterStatus}
+                            onChange={(e) => setFilterStatus(e.target.value)}
+                            className="w-full px-5 py-3 rounded-xl border border-dark-100 bg-transparent text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer"
+                        >
+                            <option value="Semua Status">Semua Status</option>
+                            <option value="MENUNGGU">MENUNGGU</option>
+                            <option value="BERJALAN">BERJALAN</option>
+                            <option value="SELESAI">SELESAI</option>
+                            <option value="DIBATALKAN">DIBATALKAN</option>
                         </select>
                         <div className="absolute right-4 bottom-3.5 text-dark-300 pointer-events-none">
                             <FaChevronDown className="text-xs" />
                         </div>
                     </div>
                     <div className="w-full sm:w-auto flex-shrink-0">
-                        <button className="w-full sm:w-auto px-8 py-3 bg-dark-900 hover:bg-black text-white font-bold text-sm rounded-xl shadow-md transition-all">
+                        <button 
+                            onClick={handleApplyFilters}
+                            className="w-full sm:w-auto px-8 py-3 bg-dark-900 hover:bg-black text-white font-bold text-sm rounded-xl shadow-md transition-all"
+                        >
                             Terapkan Filter
                         </button>
                     </div>
@@ -175,26 +327,30 @@ const ProjectManagement = () => {
                                 <tr>
                                     <td colSpan={5} className="px-8 py-12 text-center text-dark-400 font-medium">Memuat data manajemen proyek...</td>
                                 </tr>
-                            ) : projects.length === 0 ? (
+                            ) : filteredProjects.length === 0 ? (
                                 <tr>
-                                    <td colSpan={5} className="px-8 py-12 text-center text-dark-400 font-medium">Belum ada proyek yang ditambahkan.</td>
+                                    <td colSpan={5} className="px-8 py-12 text-center text-dark-400 font-medium">Belum ada proyek yang cocok dengan filter.</td>
                                 </tr>
                             ) : (
-                                projects.map((project) => {
-                                    
+                                filteredProjects.map((project) => {
+
                                     const isKonstruksi = project.category?.toLowerCase().includes('konstruksi');
                                     let statusColorText = 'text-blue-500';
                                     let statusDot = 'bg-blue-500';
-                                    let statusLabel = 'Aktif';
+                                    let statusLabel = 'BERJALAN';
 
-                                    if (project.status === 'completed' || project.status?.toLowerCase() === 'selesai') {
+                                    if (project.status === 'completed') {
                                         statusColorText = 'text-green-500';
                                         statusDot = 'bg-green-500';
-                                        statusLabel = 'Selesai';
-                                    } else if (project.status === 'pending' || project.status?.toLowerCase() === 'perencanaan') {
+                                        statusLabel = 'SELESAI';
+                                    } else if (project.status === 'pending') {
                                         statusColorText = 'text-orange-500';
                                         statusDot = 'bg-orange-500';
-                                        statusLabel = 'Perencanaan';
+                                        statusLabel = 'MENUNGGU';
+                                    } else if (project.status === 'cancelled') {
+                                        statusColorText = 'text-red-500';
+                                        statusDot = 'bg-red-500';
+                                        statusLabel = 'DIBATALKAN';
                                     }
 
                                     return (
@@ -308,37 +464,28 @@ const ProjectManagement = () => {
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Status Proyek</label>
                                     <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                                         className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797]">
-                                        <option value="active">AKTIF</option>
+                                        <option value="pending">MENUNGGU</option>
+                                        <option value="in_progress">BERJALAN</option>
                                         <option value="completed">SELESAI</option>
-                                        <option value="pending">PERENCANAAN</option>
+                                        <option value="cancelled">DIBATALKAN</option>
                                     </select>
                                 </div>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-dark-700 mb-1">Deskripsi & Catatan Spesifik</label>
-                                <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                                    rows={2} className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:border-transparent resize-none" />
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Total Progres ({formData.progress}%)</label>
                                     <input type="range" min="0" max="100" value={formData.progress} onChange={(e) => setFormData({ ...formData, progress: parseInt(e.target.value) })}
-                                        className="w-full" />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-dark-700 mb-1">Tahap Saat Ini</label>
-                                    <input type="text" value={formData.stage} onChange={(e) => setFormData({ ...formData, stage: e.target.value })}
-                                        placeholder="misal: Instalasi MEP" className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:border-transparent" />
+                                        className="w-full h-2 bg-dark-100 rounded-lg appearance-none cursor-pointer accent-[#658797]" />
                                 </div>
                             </div>
 
                             <div className="pt-4 border-t border-dark-100">
                                 <h4 className="text-sm font-bold text-dark-900 mb-3 flex items-center gap-2">Data Lanjutan (Terhubung ke Cek Progress di Halaman User)</h4>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <button type="button" onClick={() => setShowTimelineModal(true)} className="w-full px-4 py-3 rounded-xl border border-dashed border-dark-300 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#658797] hover:text-[#658797] hover:bg-white transition-all text-center">
+                                    <button type="button" onClick={() => openTimeline(editingProject)} className="w-full px-4 py-3 rounded-xl border border-dashed border-dark-300 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#658797] hover:text-[#658797] hover:bg-white transition-all text-center">
                                         + Manajemen Timeline Tahapan
                                     </button>
-                                    <button type="button" onClick={() => setShowGalleryModal(true)} className="w-full px-4 py-3 rounded-xl border border-dashed border-dark-300 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#658797] hover:text-[#658797] hover:bg-white transition-all text-center">
+                                    <button type="button" onClick={() => openGallery(editingProject)} className="w-full px-4 py-3 rounded-xl border border-dashed border-dark-300 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#658797] hover:text-[#658797] hover:bg-white transition-all text-center">
                                         + Unggah Pembaruan Lapangan
                                     </button>
                                 </div>
@@ -357,7 +504,7 @@ const ProjectManagement = () => {
             {showTimelineModal && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
                     <div className="bg-white rounded-[2rem] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
-                        
+
                         <div className="p-6 md:p-8 border-b border-[#527181] flex items-center justify-between bg-[#658797] text-white">
                             <div>
                                 <div className="flex items-center gap-3 mb-1">
@@ -373,72 +520,82 @@ const ProjectManagement = () => {
 
                         <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#FAFAFA]">
                             <div className="space-y-4 mb-8">
-                                {mockTimeline.map((stage) => (
-                                    <div key={stage.id} className="bg-white p-5 rounded-2xl border border-dark-100 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
-                                        <div className="mt-1">
-                                            {stage.status === 'completed' ? (
-                                                <FaCheckCircle className="text-green-500 text-xl" />
-                                            ) : stage.status === 'in-progress' ? (
-                                                <div className="w-5 h-5 rounded-full border-4 border-[#658797] bg-white"></div>
-                                            ) : (
-                                                <FaRegCircle className="text-dark-300 text-xl" />
-                                            )}
-                                        </div>
-                                        <div className="flex-1">
-                                            <div className="flex items-center justify-between mb-1">
-                                                <div className="flex items-center gap-3">
-                                                    <h4 className="font-bold text-dark-900 text-lg">{stage.title}</h4>
-                                                    {stage.status === 'in-progress' && <span className="text-[10px] px-2 py-0.5 bg-[#658797]/10 text-[#658797] font-bold uppercase rounded-sm">Sedang Berjalan</span>}
-                                                </div>
-                                                <div className="flex gap-2 text-dark-300">
-                                                    <button className="hover:text-dark-900 transition-colors"><FaPen className="text-sm" /></button>
-                                                    <button className="hover:text-red-500 transition-colors"><FaTrash className="text-sm" /></button>
-                                                </div>
+                                {msLoading ? (
+                                    <p className="text-center py-8 text-dark-400">Memuat tahapan...</p>
+                                ) : milestones.length === 0 ? (
+                                    <p className="text-center py-8 text-dark-400 italic">Belum ada tahapan. Tambahkan di bawah.</p>
+                                ) : (
+                                    milestones.map((stage) => (
+                                        <div key={stage.id} className="bg-white p-5 rounded-2xl border border-dark-100 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
+                                            <div className="mt-1">
+                                                {stage.status === 'completed' ? (
+                                                    <FaCheckCircle className="text-green-500 text-xl" />
+                                                ) : stage.status === 'in_progress' ? (
+                                                    <div className="w-5 h-5 rounded-full border-4 border-[#658797] bg-white"></div>
+                                                ) : (
+                                                    <FaRegCircle className="text-dark-300 text-xl" />
+                                                )}
                                             </div>
-                                            <p className="text-dark-400 text-xs font-medium mb-3">{stage.date}</p>
-
-                                            {stage.status === 'in-progress' && (
-                                                <div className="bg-dark-50 rounded-xl p-4 border border-dark-100 mt-2">
-                                                    <h5 className="text-[10px] uppercase tracking-widest font-bold text-dark-500 mb-3">Sub-Tugas (Checklist)</h5>
-                                                    <div className="space-y-3">
-                                                        <label className="flex items-center gap-3 text-sm text-dark-900 cursor-pointer group">
-                                                            <input type="checkbox" defaultChecked className="w-4 h-4 text-[#658797] rounded border-dark-300 focus:ring-[#658797]" />
-                                                            <span className="line-through opacity-50 group-hover:opacity-100 transition-opacity">Pemasangan Pipa Kasar Instalasi</span>
-                                                        </label>
-                                                        <label className="flex items-center gap-3 text-sm text-dark-900 cursor-pointer group">
-                                                            <input type="checkbox" className="w-4 h-4 text-[#658797] rounded border-dark-300 focus:ring-[#658797]" />
-                                                            <span>Pemasangan Saluran Kelistrikan HVAC</span>
-                                                        </label>
-                                                        <div className="pt-2">
-                                                            <button className="text-xs font-bold text-[#658797] hover:text-[#527181]">+ Tambah Sub-Tugas Baru</button>
-                                                        </div>
+                                            <div className="flex-1">
+                                                <div className="flex items-center justify-between mb-1">
+                                                    <div className="flex items-center gap-3">
+                                                        <h4 className="font-bold text-dark-900 text-lg">{stage.title}</h4>
+                                                        {stage.status === 'in_progress' && <span className="text-[10px] px-2 py-0.5 bg-[#658797]/10 text-[#658797] font-bold uppercase rounded-sm">Sedang Berjalan</span>}
+                                                    </div>
+                                                    <div className="flex gap-2 text-dark-300">
+                                                        <button onClick={() => openEditMs(stage)} className="hover:text-[#658797] transition-colors"><FaPen className="text-sm" /></button>
+                                                        <button onClick={() => handleDeleteMilestone(stage.id)} className="hover:text-red-500 transition-colors"><FaTrash className="text-sm" /></button>
                                                     </div>
                                                 </div>
-                                            )}
+                                                <p className="text-dark-400 text-xs font-medium mb-1">{stage.description}</p>
+                                                <div className="flex items-center gap-3">
+                                                    <p className="text-[#658797] text-[10px] font-bold uppercase tracking-widest">{stage.status}</p>
+                                                    {stage.targetDate && (
+                                                        <p className="text-dark-300 text-[10px] font-bold uppercase tracking-widest">
+                                                            Target: {new Date(stage.targetDate).toLocaleDateString('id-ID')}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
 
                             <div className="bg-white p-5 md:p-6 rounded-2xl border-2 border-dashed border-dark-200">
                                 <h4 className="font-bold text-dark-900 mb-4 flex items-center gap-2">
-                                    <FaPlus className="text-dark-400" /> Tambah Tahap Baru
+                                    {editingMs ? <FaPen className="text-dark-400" /> : <FaPlus className="text-dark-400" />} {editingMs ? 'Edit Tahapan' : 'Tambah Tahap Baru'}
                                 </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Judul Tahapan</label>
-                                        <input type="text" placeholder="Misal: Finishing Interior" className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium" />
+                                        <input type="text" value={newMs.title} onChange={(e) => setNewMs({ ...newMs, title: e.target.value })} placeholder="Misal: Finishing Interior" className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium" />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-dark-500 mb-1">Status Prioritas</label>
-                                        <select className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium">
-                                            <option>Menunggu / Akan Datang</option>
-                                            <option>Sedang Berjalan</option>
-                                            <option>Selesai</option>
+                                        <label className="block text-xs font-bold text-dark-500 mb-1">Status</label>
+                                        <select value={newMs.status} onChange={(e) => setNewMs({ ...newMs, status: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium">
+                                            <option value="pending">MENUNGGU</option>
+                                            <option value="in_progress">BERJALAN</option>
+                                            <option value="completed">SELESAI</option>
                                         </select>
                                     </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-dark-500 mb-1">Target Selesai</label>
+                                        <input type="date" value={newMs.targetDate} onChange={(e) => setNewMs({ ...newMs, targetDate: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium" />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-bold text-dark-500 mb-1">Keterangan Singkat</label>
+                                        <input type="text" value={newMs.description} onChange={(e) => setNewMs({ ...newMs, description: e.target.value })} placeholder="Opsional..." className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium" />
+                                    </div>
                                 </div>
-                                <button type="button" className="w-full py-3 bg-[#658797] hover:bg-[#527181] text-white text-sm font-bold rounded-xl transition-all shadow-md">Simpan Tahapan Timeline</button>
+                                <div className="flex gap-2">
+                                    <button type="button" onClick={handleAddMilestone} className="flex-1 py-3 bg-[#658797] hover:bg-[#527181] text-white text-sm font-bold rounded-xl transition-all shadow-md">
+                                        {editingMs ? 'Simpan Perubahan' : 'Tambah Tahapan'}
+                                    </button>
+                                    {editingMs && (
+                                        <button type="button" onClick={() => { setEditingMs(null); setNewMs({ title: '', status: 'pending', targetDate: '', description: '' }) }} className="px-4 py-3 bg-dark-100 text-dark-500 text-sm font-bold rounded-xl hover:bg-dark-200 transition-all">Batal</button>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -448,7 +605,7 @@ const ProjectManagement = () => {
             {showGalleryModal && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
                     <div className="bg-white rounded-[2rem] shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
-                        
+
                         <div className="p-6 md:p-8 border-b border-[#527181] flex items-center justify-between bg-[#658797] text-white">
                             <div>
                                 <div className="flex items-center gap-3 mb-1">
@@ -463,7 +620,7 @@ const ProjectManagement = () => {
                         </div>
 
                         <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#FAFAFA]">
-                            
+
                             <div className="bg-white p-6 md:p-8 rounded-2xl border-2 border-dashed border-dark-200 mb-8 flex flex-col items-center justify-center text-center hover:bg-dark-50/30 transition-colors">
                                 <div className="w-16 h-16 bg-[#F0F4F8] rounded-full flex items-center justify-center text-[#658797] mb-4 shadow-sm">
                                     <FaUpload className="text-2xl" />
@@ -471,9 +628,9 @@ const ProjectManagement = () => {
                                 <h4 className="font-bold text-dark-900 text-lg mb-1">Unggah Foto Pembaruan Baru</h4>
                                 <p className="text-dark-400 text-sm mb-5">Mendukung format gambar JPG, PNG (Maks 5MB)</p>
                                 <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
-                                    <input type="text" placeholder="Tuliskan keterangan foto..." className="flex-1 px-4 py-3 rounded-xl border border-dark-200 text-sm outline-none focus:ring-2 focus:ring-[#658797]" />
-                                    <button type="button" className="px-6 py-3 bg-[#658797] hover:bg-[#527181] text-white text-sm font-bold rounded-xl transition-all shadow-md">
-                                        Pilih Foto...
+                                    <input type="file" onChange={(e) => setNewDoc({ ...newDoc, file: e.target.files[0] })} className="flex-1 px-4 py-3 rounded-xl border border-dark-200 text-sm outline-none focus:ring-2 focus:ring-[#658797]" />
+                                    <button type="button" onClick={handleUploadDoc} className="px-6 py-3 bg-[#658797] hover:bg-[#527181] text-white text-sm font-bold rounded-xl transition-all shadow-md">
+                                        Unggah Foto
                                     </button>
                                 </div>
                             </div>
@@ -482,26 +639,82 @@ const ProjectManagement = () => {
                                 <FaImage className="text-dark-400 text-lg" /> Daftar Dokumentasi Tersimpan
                             </h4>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {mockGallery.map((photo) => (
-                                    <div key={photo.id} className="relative aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden group shadow-sm bg-white border border-dark-100 flex flex-col hover:shadow-md transition-shadow">
-                                        <div className="h-[65%] sm:h-3/4 relative overflow-hidden bg-dark-50">
-                                            <img src={photo.image} alt={photo.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                                            
-                                            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <button className="w-8 h-8 rounded-full bg-red-500/90 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transform hover:scale-110 transition-all">
-                                                    <FaTrash className="text-sm" />
-                                                </button>
+                                {docLoading ? (
+                                    <p className="col-span-4 text-center py-8 text-dark-400">Memuat galeri...</p>
+                                ) : documents.length === 0 ? (
+                                    <p className="col-span-4 text-center py-8 text-dark-400 italic">Belum ada foto yang diunggah.</p>
+                                ) : (
+                                    (showAllDocs ? documents : documents.slice(0, 4)).map((photo) => (
+                                        <div key={photo.id} className="relative aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden group shadow-sm bg-white border border-dark-100 flex flex-col hover:shadow-md transition-shadow">
+                                            <div className="h-[65%] sm:h-3/4 relative overflow-hidden bg-dark-50 cursor-pointer" onClick={() => setLightboxImage({ src: photo.fileUrl ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${photo.fileUrl.substring(photo.fileUrl.indexOf('/uploads/'))}` : '', alt: photo.name })}>
+                                                <img 
+                                                    src={photo.fileUrl ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${photo.fileUrl.substring(photo.fileUrl.indexOf('/uploads/'))}` : ''} 
+                                                    alt={photo.name} 
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                                                />
+
+                                                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <button onClick={() => handleDeleteDoc(photo.id)} className="w-8 h-8 rounded-full bg-red-500/90 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transform hover:scale-110 transition-all">
+                                                        <FaTrash className="text-sm" />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className="p-3 lg:p-4 bg-white flex-1 flex flex-col justify-center border-t border-dark-100">
+                                                <p className="text-[10px] sm:text-xs font-bold text-dark-400 uppercase tracking-wider mb-1 line-clamp-1">{new Date(photo.createdAt).toLocaleDateString()}</p>
+                                                <h5 className="font-bold text-dark-900 text-xs sm:text-sm leading-tight line-clamp-2">{photo.name}</h5>
                                             </div>
                                         </div>
-                                        <div className="p-3 lg:p-4 bg-white flex-1 flex flex-col justify-center border-t border-dark-100">
-                                            <p className="text-[10px] sm:text-xs font-bold text-dark-400 uppercase tracking-wider mb-1 line-clamp-1">{photo.date}</p>
-                                            <h5 className="font-bold text-dark-900 text-xs sm:text-sm leading-tight line-clamp-2">{photo.title}</h5>
-                                        </div>
-                                    </div>
-                                ))}
+                                    ))
+                                )}
                             </div>
+
+                            {!showAllDocs && documents.length > 4 && (
+                                <div className="mt-6 text-center">
+                                    <button 
+                                        onClick={() => setShowAllDocs(true)}
+                                        className="px-6 py-2 bg-dark-50 hover:bg-dark-100 text-[#658797] font-bold rounded-full text-sm transition-all border border-dark-200"
+                                    >
+                                        Lihat Semua ({documents.length} Foto)
+                                    </button>
+                                </div>
+                            )}
+
+                            {showAllDocs && documents.length > 4 && (
+                                <div className="mt-6 text-center">
+                                    <button 
+                                        onClick={() => setShowAllDocs(false)}
+                                        className="px-6 py-2 bg-dark-50 hover:bg-dark-100 text-dark-500 font-bold rounded-full text-sm transition-all border border-dark-200"
+                                    >
+                                        Sembunyikan Sebagian
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
+                </div>
+            )}
+
+            {lightboxImage && (
+                <div 
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md animate-fadeIn cursor-zoom-out"
+                    onClick={() => setLightboxImage(null)}
+                    onKeyDown={(e) => e.key === 'Escape' && setLightboxImage(null)}
+                    tabIndex={0}
+                    ref={(el) => el && el.focus()}
+                >
+                    <button 
+                        onClick={() => setLightboxImage(null)} 
+                        className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xl transition-colors z-10"
+                    >
+                        <FaTimes />
+                    </button>
+                    <img 
+                        src={lightboxImage.src} 
+                        alt={lightboxImage.alt} 
+                        className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl" 
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                    <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/40 px-4 py-2 rounded-full">{lightboxImage.alt}</p>
                 </div>
             )}
         </div>

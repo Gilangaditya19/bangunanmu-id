@@ -125,7 +125,7 @@ const Login = () => {
                             </div>
                         </form>
 
-                        {/* Registration link removed */}
+                        {}
                     </div>
 
                 </div>

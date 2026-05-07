@@ -1,109 +1,166 @@
-//Nanti call API rill disini kalo udah jadi backend microservicesnya
-
-const mockProjects = [
-    {
-        id: 'BGN-2023-A',
-        title: 'Modern Villa - Jakarta Selatan',
-        client: 'Bapak Ahmad',
-        address: 'Jalan Kemang Raya No. 12, Jakarta Selatan',
-        category: 'Konstruksi',
-        description: 'Pembangunan villa modern tropis 3 lantai dengan kolam renang.',
-        progress: 65,
-        stage: 'Instalasi MEP',
-        image: '/placeholder-project.jpg',
-        gallery: [],
-        status: 'active',
-        createdAt: '2023-11-15',
-    },
-    {
-        id: 'BGN-2023-B',
-        title: 'Kitchen Set & Interior Ruko',
-        client: 'Ibu Sari',
-        address: 'Ruko Kebayoran Baru Blok A',
-        category: 'Design and Build',
-        description: 'Pembuatan kitchen set custom dan renovasi interior ruko lantai 1.',
-        progress: 100,
-        stage: 'Serah Terima',
-        image: '/placeholder-project.jpg',
-        gallery: [],
-        status: 'completed',
-        createdAt: '2023-10-20',
-    },
-    {
-        id: 'BGN-2024-C',
-        title: 'Cluster Harmony - Rumah Tipe 45',
-        client: 'PT. Maju Jaya',
-        address: 'Perumahan Harmony, Depok',
-        category: 'Konstruksi',
-        description: 'Pembangunan 5 unit rumah tipe 45 untuk perumahan cluster.',
-        progress: 25,
-        stage: 'Tahap Pondasi',
-        image: '/placeholder-project.jpg',
-        gallery: [],
-        status: 'pending',
-        createdAt: '2024-02-01',
-    },
-]
+import api from './api'
 
 export const getProjectById = async (id) => {
-
-    return new Promise((resolve, reject) => {
-        const project = mockProjects.find((p) => p.id === id)
-        setTimeout(() => {
-            if (project) {
-                resolve({ data: project })
-            } else {
-                reject({ response: { status: 404, data: { message: 'Proyek tidak ditemukan' } } })
-            }
-        }, 800)
-    })
+    return api.get(`/projects/${id}`)
 }
 
 export const getAllProjects = async () => {
-
-    return new Promise((resolve) => {
-        setTimeout(() => resolve({ data: mockProjects }), 500)
-    })
+    try {
+        const response = await api.get('/projects')
+        const rawData = response.data.data.data || []
+        
+        const mappedData = rawData.map(p => ({
+            id: p.projectCode,
+            title: p.projectName,
+            client: p.customerName,
+            address: p.customerAddress,
+            category: p.projectType === 'design_and_build' ? 'Design and Build' : 'Konstruksi',
+            description: p.description,
+            progress: p.progress,
+            stage: 'Tahapan Saat Ini',
+            status: p.status,
+            createdAt: p.createdAt
+        }))
+        return { data: mappedData }
+    } catch (error) {
+        throw error
+    }
 }
 
 export const getCompletedProjects = async () => {
-
-    return new Promise((resolve) => {
-        setTimeout(() => resolve({ data: mockProjects.filter((p) => p.status === 'completed') }), 500)
-    })
+    try {
+        const response = await getAllProjects()
+        return { data: response.data.filter(p => p.status === 'completed') }
+    } catch (error) {
+        throw error
+    }
 }
 
 export const createProject = async (data) => {
-
-    return new Promise((resolve) => {
-        const newProject = { ...data, id: `PRJ-${Date.now()}`, createdAt: new Date().toISOString() }
-        mockProjects.push(newProject)
-        setTimeout(() => resolve({ data: newProject }), 500)
-    })
+    try {
+        const payload = {
+            projectName: data.title,
+            projectType: data.category?.toLowerCase().includes('konstruksi') ? 'konstruksi' : 'design_and_build',
+            customerName: data.client,
+            customerEmail: `${data.client.replace(/\s+/g, '').toLowerCase()}@example.com`,
+            customerPhone: '081234567890',
+            customerAddress: data.address || '-',
+            description: data.description || '-',
+            progress: data.progress || 0,
+            startDate: new Date().toISOString(),
+            estimatedEndDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()
+        }
+        const response = await api.post('/projects', payload)
+        return response.data
+    } catch (error) {
+        console.error('Create Project Error:', error.response?.data || error)
+        throw error
+    }
 }
 
 export const updateProject = async (id, data) => {
-
-    return new Promise((resolve, reject) => {
-        const index = mockProjects.findIndex((p) => p.id === id)
-        if (index !== -1) {
-            mockProjects[index] = { ...mockProjects[index], ...data }
-            setTimeout(() => resolve({ data: mockProjects[index] }), 500)
-        } else {
-            reject({ response: { status: 404 } })
+    try {
+        const payload = {
+            projectName: data.title,
+            projectType: data.category?.toLowerCase().includes('konstruksi') ? 'konstruksi' : 'design_and_build',
+            customerName: data.client,
+            customerAddress: data.address || '-',
+            description: data.description || '-',
+            status: data.status,
+            progress: data.progress || 0
         }
-    })
+        const response = await api.put(`/projects/${id}`, payload)
+        return response.data
+    } catch (error) {
+        console.error('Update Project Error:', error.response?.data || error)
+        throw error
+    }
 }
 
 export const deleteProject = async (id) => {
+    try {
+        const response = await api.delete(`/projects/${id}`)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
 
-    return new Promise((resolve, reject) => {
-        const index = mockProjects.findIndex((p) => p.id === id)
-        if (index !== -1) {
-            mockProjects.splice(index, 1)
-            setTimeout(() => resolve({ data: { message: 'Deleted' } }), 500)
-        } else {
-            reject({ response: { status: 404 } })
-        }
-    })
+
+
+
+
+export const getMilestones = async (projectCode) => {
+    try {
+        const response = await api.get(`/projects/${projectCode}/milestones`)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const addMilestone = async (projectCode, data) => {
+    try {
+        const response = await api.post(`/projects/${projectCode}/milestones`, data)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const updateMilestone = async (projectCode, milestoneId, data) => {
+    try {
+        const response = await api.patch(`/projects/${projectCode}/milestones/${milestoneId}`, data)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const deleteMilestone = async (projectCode, milestoneId) => {
+    try {
+        const response = await api.delete(`/projects/${projectCode}/milestones/${milestoneId}`)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+
+
+
+
+export const getDocuments = async (projectCode) => {
+    try {
+        const response = await api.get(`/projects/${projectCode}/documents`)
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const uploadDocument = async (projectCode, file, description) => {
+    try {
+        const formData = new FormData()
+        formData.append('document', file)
+        if (description) formData.append('description', description)
+
+        const response = await api.post(`/projects/${projectCode}/documents`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        return response.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const deleteDocument = async (projectCode, documentId) => {
+    try {
+        const response = await api.delete(`/projects/${projectCode}/documents/${documentId}`)
+        return response.data
+    } catch (error) {
+        throw error
+    }
 }
