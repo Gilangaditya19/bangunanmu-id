@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom'
-import { FaBars, FaTimes, FaCommentDots, FaSignOutAlt, FaSearch, FaBell, FaCompass, FaExternalLinkAlt, FaLock } from 'react-icons/fa'
+import { Menu, X, MessageSquare, LogOut, Compass, Lock, LayoutDashboard } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
 const AdminLayout = () => {
@@ -15,17 +15,14 @@ const AdminLayout = () => {
     }
 
     const sidebarLinks = [
-        { to: '/admin/dashboard', label: 'Dashboard', icon: <div className="grid grid-cols-2 gap-0.5 w-4 h-4"><div className="bg-current rounded-sm"></div><div className="bg-current rounded-sm"></div><div className="bg-current rounded-sm"></div><div className="bg-current rounded-sm"></div></div> },
-        { to: '/admin/projects', label: 'Kelola Proyek', icon: <FaCompass /> },
-        { to: '/admin/testimonials', label: 'Kelola Testimoni', icon: <FaCommentDots /> },
-        { to: '/admin/settings', label: 'Pengaturan', icon: <div className="text-[16px]"><FaLock /></div> },
+        { to: '/admin/dashboard', label: 'Dashboard', icon: <LayoutDashboard size={18} /> },
+        { to: '/admin/projects', label: 'Kelola Proyek', icon: <Compass size={18} /> },
+        { to: '/admin/testimonials', label: 'Kelola Testimoni', icon: <MessageSquare size={18} /> },
+        { to: '/admin/settings', label: 'Pengaturan', icon: <div className="text-[16px]"><Lock size={18} /></div> },
     ]
 
     return (
         <div className="min-h-screen bg-[#F0F4F8] flex font-sans text-dark-900 relative overflow-hidden">
-            <div className="fixed -bottom-16 right-16 pointer-events-none z-0 opacity-10">
-                <FaCompass className="text-[250px] text-dark-400" />
-            </div>
             <aside
                 className={`fixed inset-y-0 left-0 z-40 w-[260px] bg-white border-r border-[#E2E8EC] shadow-[4px_0_24px_rgba(0,0,0,0.02)] transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col`}
             >
@@ -40,7 +37,7 @@ const AdminLayout = () => {
                         </span>
                     </div>
                     <button onClick={() => setSidebarOpen(false)} className="lg:hidden ml-auto text-dark-400">
-                        <FaTimes className="text-xl" />
+                        <X size={20} />
                     </button>
                 </div>
 
@@ -79,7 +76,7 @@ const AdminLayout = () => {
                             <p className="text-[10px] text-dark-500 font-medium">Super Admin</p>
                         </div>
                         <button onClick={handleLogout} className="p-2 text-dark-400 hover:text-red-500 transition-colors" title="Logout">
-                            <FaSignOutAlt />
+                            <LogOut size={18} />
                         </button>
                     </div>
                 </div>
@@ -96,27 +93,11 @@ const AdminLayout = () => {
                 <header className="px-4 sm:px-8 pt-8 pb-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div className="flex items-center gap-4 w-full md:w-auto">
                         <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 bg-white rounded-lg shadow-sm text-dark-500">
-                            <FaBars />
+                            <Menu size={20} />
                         </button>
-
-                        <div className="relative w-full max-w-lg">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-dark-300">
-                                <FaSearch />
-                            </div>
-                            <input
-                                type="text"
-                                placeholder="Cari proyek atau testimoni..."
-                                className="w-full pl-11 pr-4 py-3 bg-white rounded-full border-none shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-[#658797]/30 text-dark-900 placeholder:text-dark-300"
-                            />
-                        </div>
                     </div>
 
                     <div className="flex items-center gap-6 ml-auto md:ml-0">
-                        <button className="relative text-dark-500 hover:text-dark-900 transition-colors">
-                            <FaBell className="text-xl" />
-                            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 border-2 border-[#E5E9EC] rounded-full"></span>
-                        </button>
-
                         <div className="flex items-center gap-3">
                             <span className="text-sm font-medium text-dark-900 hidden sm:block">
                                 Halo, <span className="font-bold">{user?.name || 'Admin'}</span>

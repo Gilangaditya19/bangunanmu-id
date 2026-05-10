@@ -1,5 +1,5 @@
 import api from './api'
-import { FaStar } from 'react-icons/fa'
+
 
 export const getApprovedTestimonials = async () => {
     try {

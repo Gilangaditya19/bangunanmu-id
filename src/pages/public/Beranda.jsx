@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaArrowRight, FaHome, FaBuilding, FaCouch, FaSearch, FaCheckCircle, FaTools, FaHardHat, FaHandshake, FaFileAlt } from 'react-icons/fa';
+import { ArrowRight, Home, Building2, Armchair, Search, CheckCircle2, Wrench, HardHat, Handshake, FileText } from 'lucide-react';
 import ContactSection from '../../components/ui/ContactSection';
 import ShinyText from '../../components/ui/ShinyText';
 import Typewriter from '../../components/ui/Typewriter';
@@ -161,7 +161,7 @@ const Beranda = () => {
                                 </div>
 
                                 <div className="bg-[#658797] text-white p-5 rounded-[1.5rem] shadow-lg flex flex-col items-center justify-center gap-2 h-[120px]">
-                                    <FaCouch className="text-2xl" />
+                                    <Armchair className="text-2xl" />
                                     <span className="text-sm font-semibold text-center leading-tight">Design and Build</span>
                                 </div>
                             </div>
@@ -183,7 +183,7 @@ const Beranda = () => {
                         </div>
                         <Link to="/layanan" className="inline-flex items-center gap-2 text-[#658797] font-semibold hover:text-[#527181] transition-colors group">
                             Lihat Detail Layanan
-                            <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
 
@@ -193,7 +193,7 @@ const Beranda = () => {
                             <div className="relative h-64 rounded-[1.5rem] overflow-hidden mb-8">
                                 <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop" alt="Konstruksi" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                 <div className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#658797] shadow-lg">
-                                    <FaBuilding className="text-xl" />
+                                    <Building2 size={24} />
                                 </div>
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
@@ -203,7 +203,7 @@ const Beranda = () => {
                                 <ul className="space-y-3 mb-10">
                                     {['Konstruksi Residensial/Perumahan', 'Konstruksi Komersial'].map((item, i) => (
                                         <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
-                                            <FaCheckCircle className="text-[#658797] text-sm" />
+                                            <CheckCircle2 size={16} className="text-[#658797]" />
                                             {item}
                                         </li>
                                     ))}
@@ -219,7 +219,7 @@ const Beranda = () => {
                             <div className="relative h-64 rounded-[1.5rem] overflow-hidden mb-8">
                                 <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop" alt="Design and Build" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                                 <div className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#658797] shadow-lg">
-                                    <FaCouch className="text-xl" />
+                                    <Armchair size={24} />
                                 </div>
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
@@ -229,7 +229,7 @@ const Beranda = () => {
                                 <ul className="space-y-3 mb-10">
                                     {['Interior Design', 'Outdoor Area Design'].map((item, i) => (
                                         <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
-                                            <FaCheckCircle className="text-[#658797] text-sm" />
+                                            <CheckCircle2 size={16} className="text-[#658797]" />
                                             {item}
                                         </li>
                                     ))}
@@ -266,7 +266,7 @@ const Beranda = () => {
 
                             <div className="flex flex-col sm:flex-row gap-4 mb-12">
                                 <div className="relative flex-1">
-                                    <FaSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-dark-400" />
+                                    <Search size={20} className="absolute left-6 top-1/2 -translate-y-1/2 text-dark-400" />
                                     <input
                                         type="text"
                                         name="tracking_id_home"
@@ -361,10 +361,10 @@ const Beranda = () => {
                             contentClassName="mt-4"
                             renderStepIndicator={({ step, isActive, isCompleted }) => {
                                 const stepIcons = {
-                                    1: <FaSearch />,
-                                    2: <FaFileAlt />,
-                                    3: <FaTools />,
-                                    4: <FaCheckCircle />
+                                    1: <Search />,
+                                    2: <FileText />,
+                                    3: <Wrench />,
+                                    4: <CheckCircle2 />
                                 };
                                 const stepLabels = {
                                     1: "KONSULTASI & SURVEY",
@@ -416,11 +416,11 @@ const Beranda = () => {
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <FaSearch className="text-[#658797]" />
+                                                <Search size={16} className="text-[#658797]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Survey Lokasi</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <FaCheckCircle className="text-[#658797]" />
+                                                <CheckCircle2 size={16} className="text-[#658797]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Analisa Kebutuhan</span>
                                             </div>
                                         </div>
@@ -455,11 +455,11 @@ const Beranda = () => {
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <FaTools className="text-[#658797]" />
+                                                <Wrench size={16} className="text-[#658797]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Visualisasi 3D</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <FaCheckCircle className="text-[#658797]" />
+                                                <CheckCircle2 size={16} className="text-[#658797]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Penyusunan RAB</span>
                                             </div>
                                         </div>
@@ -494,11 +494,11 @@ const Beranda = () => {
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <FaHardHat className="text-[#658797]" />
+                                                <HardHat size={16} className="text-[#658797]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Kontrol Kualitas</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <FaCheckCircle className="text-[#658797]" />
+                                                <CheckCircle2 size={16} className="text-[#658797]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Laporan Harian</span>
                                             </div>
                                         </div>
@@ -533,11 +533,11 @@ const Beranda = () => {
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <FaHandshake className="text-[#658797]" />
+                                                <Handshake size={16} className="text-[#658797]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Inspeksi Akhir</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <FaCheckCircle className="text-[#658797]" />
+                                                <CheckCircle2 size={16} className="text-[#658797]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Garansi Retensi</span>
                                             </div>
                                         </div>

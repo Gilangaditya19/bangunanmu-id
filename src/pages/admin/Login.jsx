@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { login as loginService } from '../../services/authService'
-import { FaEye, FaEyeSlash, FaEnvelope } from 'react-icons/fa'
+import { Mail, Eye, EyeOff } from 'lucide-react'
 import ShinyText from '../../components/ui/ShinyText'
 
 import loginBg from '../../assets/images/gallery_architecture_1_1772961143405.png'
@@ -88,7 +88,7 @@ const Login = () => {
                                         required
                                     />
                                     <div className="absolute right-5 top-1/2 -translate-y-1/2 text-dark-300 pointer-events-none">
-                                        <FaEnvelope className="text-lg" />
+                                        <Mail size={20} />
                                     </div>
                                 </div>
                             </div>
@@ -109,7 +109,7 @@ const Login = () => {
                                         onClick={() => setShowPassword(!showPassword)}
                                         className="absolute right-5 top-1/2 -translate-y-1/2 text-dark-400 hover:text-[#658797] focus:outline-none transition-colors"
                                     >
-                                        {showPassword ? <FaEyeSlash className="text-lg" /> : <FaEye className="text-lg" />}
+                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                                     </button>
                                 </div>
                             </div>

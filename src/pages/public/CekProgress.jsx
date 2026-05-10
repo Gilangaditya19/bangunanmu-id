@@ -1,10 +1,5 @@
 import { useState } from 'react';
-import { 
-    FaSearch, FaCheckCircle, FaRegCircle, FaBuilding, FaDraftingCompass, 
-    FaCubes, FaWrench, FaMapMarkerAlt, FaArrowRight, FaUser, FaStar, 
-    FaTimes, FaSpinner, FaHardHat, FaLayerGroup, FaHome, FaPlug, 
-    FaPaintRoller, FaKey, FaTools 
-} from 'react-icons/fa';
+import { Search, CheckCircle2, Circle, Building2, Compass, Box, Wrench, MapPin, ArrowRight, User, Star, X, Loader2, HardHat, Layers, Home, Plug2, PaintRoller, Key, Hammer } from 'lucide-react';
 import api from '../../services/api';
 
 import siteUpdate1 from '../../assets/images/gallery_architecture_1_1772961143405.png';
@@ -37,15 +32,15 @@ const CekProgress = () => {
 
     const getMilestoneIcon = (title) => {
         const t = (title || '').toLowerCase();
-        if (t.includes('desain') || t.includes('gambar') || t.includes('perencanaan') || t.includes('planning')) return <FaDraftingCompass />;
-        if (t.includes('pondasi') || t.includes('galian') || t.includes('tanah') || t.includes('awal') || t.includes('bowplank')) return <FaHardHat />;
-        if (t.includes('struktur') || t.includes('dinding') || t.includes('bata') || t.includes('lantai') || t.includes('beton') || t.includes('balok')) return <FaLayerGroup />;
-        if (t.includes('atap') || t.includes('genteng') || t.includes('rangka atap')) return <FaHome />;
-        if (t.includes('listrik') || t.includes('pipa') || t.includes('air') || t.includes('kabel') || t.includes('sanitasi') || t.includes('mekanikal')) return <FaPlug />;
-        if (t.includes('finishing') || t.includes('cat') || t.includes('keramik') || t.includes('interior') || t.includes('plafon')) return <FaPaintRoller />;
-        if (t.includes('serah terima') || t.includes('kunci') || t.includes('handover')) return <FaKey />;
-        if (t.includes('perbaikan') || t.includes('maintenance')) return <FaTools />;
-        return <FaBuilding />;
+        if (t.includes('desain') || t.includes('gambar') || t.includes('perencanaan') || t.includes('planning')) return <Compass size={18} />;
+        if (t.includes('pondasi') || t.includes('galian') || t.includes('tanah') || t.includes('awal') || t.includes('bowplank')) return <HardHat size={18} />;
+        if (t.includes('struktur') || t.includes('dinding') || t.includes('bata') || t.includes('lantai') || t.includes('beton') || t.includes('balok')) return <Layers size={18} />;
+        if (t.includes('atap') || t.includes('genteng') || t.includes('rangka atap')) return <Home size={18} />;
+        if (t.includes('listrik') || t.includes('pipa') || t.includes('air') || t.includes('kabel') || t.includes('sanitasi') || t.includes('mekanikal')) return <Plug2 size={18} />;
+        if (t.includes('finishing') || t.includes('cat') || t.includes('keramik') || t.includes('interior') || t.includes('plafon')) return <PaintRoller size={18} />;
+        if (t.includes('serah terima') || t.includes('kunci') || t.includes('handover')) return <Key size={18} />;
+        if (t.includes('perbaikan') || t.includes('maintenance')) return <Hammer size={18} />;
+        return <Building2 size={18} />;
     };
 
     const handleReviewSubmit = async () => {
@@ -179,7 +174,7 @@ const CekProgress = () => {
 
                     <form onSubmit={handleSearch} className="max-w-xl mx-auto relative group">
                         <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-dark-400 group-focus-within:text-[#658797] transition-colors z-20">
-                            <FaSearch />
+                            <Search size={18} />
                         </div>
                         <input
                             type="text"
@@ -196,7 +191,7 @@ const CekProgress = () => {
                             disabled={loading}
                             className={`absolute inset-y-2 right-2 px-8 font-bold rounded-full transition-colors shadow-md z-20 flex items-center justify-center gap-2 ${loading ? 'bg-[#527181] text-white/70 cursor-not-allowed' : 'bg-[#658797] hover:bg-[#527181] text-white'}`}
                         >
-                            {loading && <FaSpinner className="animate-spin" />}
+                            {loading && <Loader2 size={18} className="animate-spin" />}
                             Lacak
                         </button>
                     </form>
@@ -226,12 +221,12 @@ const CekProgress = () => {
                             <h2 className="text-2xl md:text-3xl font-bold text-dark-900 mb-3">{projectData.title}</h2>
                             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-dark-500 font-medium">
                                 <p className="flex items-center gap-2">
-                                    <FaUser className="text-[#658797] opacity-80" />
+                                    <User size={16} className="text-[#658797] opacity-80" />
                                     {projectData.client}
                                 </p>
                                 <div className="hidden sm:block w-px h-4 bg-dark-200"></div>
                                 <p className="flex items-center gap-2">
-                                    <FaMapMarkerAlt className="text-[#658797] opacity-80" />
+                                    <MapPin size={16} className="text-[#658797] opacity-80" />
                                     {projectData.address}
                                 </p>
                             </div>
@@ -256,7 +251,7 @@ const CekProgress = () => {
                         <div className="bg-[#658797] rounded-[2rem] p-8 md:p-10 shadow-lg border border-[#527181] mb-10 flex flex-col md:flex-row items-center justify-between gap-6 transform transition-all hover:-translate-y-1">
                             <div>
                                 <div className="flex items-center gap-2 text-yellow-400 mb-2 text-xl drop-shadow-sm">
-                                    <FaStar /><FaStar /><FaStar /><FaStar /><FaStar />
+                                    <Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" />
                                 </div>
                                 <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Proyek Telah Selesai!</h3>
                                 <p className="text-white/80 font-medium">Bagaimana pengalaman Anda membangun bersama tim Bangunanmu.id?</p>
@@ -269,7 +264,7 @@ const CekProgress = () => {
 
                     {reviewSuccess && projectData.overallProgress === 100 && (
                         <div className="bg-green-50 rounded-[2rem] p-8 md:p-10 shadow-sm border border-green-200 mb-10 text-center animate-fadeIn flex flex-col items-center">
-                            <FaCheckCircle className="text-green-500 text-5xl mb-4" />
+                            <CheckCircle2 size={48} className="text-green-500 mb-4" />
                             <h3 className="text-xl md:text-2xl font-bold text-dark-900 mb-2">Terima Kasih atas Ulasan Anda!</h3>
                             <p className="text-dark-600 font-medium max-w-lg">Ulasan Anda sangat berarti bagi kami dan telah berhasil diteruskan ke tim manajemen. Senang bisa bekerjasama dengan Anda.</p>
                         </div>
@@ -331,9 +326,9 @@ const CekProgress = () => {
                                                             {stage.tasks.map((task, idx) => (
                                                                 <div key={idx} className="flex items-start gap-3">
                                                                     {task.completed ? (
-                                                                        <FaCheckCircle className="text-green-500 mt-0.5 text-sm flex-shrink-0" />
+                                                                        <CheckCircle2 size={16} className="text-green-500 mt-0.5 flex-shrink-0" />
                                                                     ) : (
-                                                                        <FaRegCircle className="text-dark-300 mt-0.5 text-sm flex-shrink-0" />
+                                                                        <Circle size={16} className="text-dark-300 mt-0.5 flex-shrink-0" />
                                                                     )}
                                                                     <span className={`text-sm ${task.completed ? 'text-dark-900 font-medium' : 'text-dark-500 italic'}`}>
                                                                         {task.name}
@@ -359,7 +354,7 @@ const CekProgress = () => {
                                     onClick={() => setShowGallery(true)}
                                     className="text-sm font-semibold text-dark-500 hover:text-dark-900 flex items-center gap-1 transition-colors"
                                 >
-                                    Lihat Semua <FaArrowRight className="text-xs" />
+                                    Lihat Semua <ArrowRight size={12} />
                                 </button>
                             )}
                         </div>
@@ -388,7 +383,7 @@ const CekProgress = () => {
                                     className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden bg-dark-50 border-2 border-dashed border-dark-200 hover:border-[#658797] flex flex-col items-center justify-center cursor-pointer transition-colors group shadow-sm"
                                 >
                                     <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-dark-400 group-hover:text-[#658797] group-hover:scale-110 transition-all mb-3 text-xl">
-                                        <FaSearch />
+                                        <Search size={18} />
                                     </div>
                                     <span className="font-bold text-dark-900 text-sm">Lihat Galeri</span>
                                     <span className="text-xs text-dark-400 font-medium">+{projectData.siteUpdates.length - 4} foto</span>
@@ -406,7 +401,7 @@ const CekProgress = () => {
                         <div className="p-6 border-b border-[#527181] flex items-center justify-between bg-[#658797] text-white">
                             <h2 className="text-xl font-bold tracking-tight">Kirimkan Ulasan</h2>
                             <button onClick={() => setShowReviewModal(false)} className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                                <FaTimes />
+                                <X size={20} />
                             </button>
                         </div>
                         <div className="p-8 bg-[#FAFAFA]">
@@ -415,7 +410,7 @@ const CekProgress = () => {
                                 <div className="flex justify-center gap-3 cursor-pointer">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <div key={star} onClick={() => setRating(star)} className={`text-4xl transition-all duration-300 hover:scale-125 ${rating >= star ? 'text-yellow-400 drop-shadow-md' : 'text-dark-100'}`}>
-                                            <FaStar />
+                                            <Star size={36} fill={rating >= star ? "currentColor" : "none"} />
                                         </div>
                                     ))}
                                 </div>
@@ -451,7 +446,7 @@ const CekProgress = () => {
                                     disabled={isSubmittingReview}
                                     className="flex-1 py-4 bg-[#658797] hover:bg-[#527181] text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 disabled:opacity-50 disabled:translate-y-0"
                                 >
-                                    {isSubmittingReview ? <FaSpinner className="animate-spin mx-auto" /> : 'Kirim Ulasan'}
+                                    {isSubmittingReview ? <Loader2 size={18} className="animate-spin mx-auto" /> : 'Kirim Ulasan'}
                                 </button>
                             </div>
                         </div>
@@ -467,7 +462,7 @@ const CekProgress = () => {
                                 <h2 className="text-xl font-bold tracking-tight">Galeri Proyek</h2>
                             </div>
                             <button onClick={() => setShowGallery(false)} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                                <FaTimes />
+                                <X size={20} />
                             </button>
                         </div>
                         <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#FAFAFA]">
@@ -507,7 +502,7 @@ const CekProgress = () => {
                         onClick={() => setLightboxImage(null)} 
                         className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xl transition-colors z-10"
                     >
-                        <FaTimes />
+                        <X size={24} />
                     </button>
                     <img 
                         src={lightboxImage.src} 

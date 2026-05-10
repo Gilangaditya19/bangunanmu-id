@@ -1,4 +1,23 @@
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaInstagram } from 'react-icons/fa'
+import { Mail, Phone, MapPin, Building2 } from 'lucide-react'
+
+const Instagram = ({ size = 24, ...props }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    {...props}
+  >
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
 import ContactForm from '../../components/ui/ContactForm'
 
 const Kontak = () => {
@@ -23,7 +42,7 @@ const Kontak = () => {
                             
                             <a href="mailto:bangunanmu.id@gmail.com" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
                                 <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#658797] shrink-0">
-                                    <FaEnvelope className="text-lg" />
+                                    <Mail size={20} />
                                 </div>
                                 <div>
                                     <p className="text-xs font-semibold text-dark-400 mb-1">Email</p>
@@ -33,7 +52,7 @@ const Kontak = () => {
                             
                             <a href="https://wa.me/6287765823731" target="_blank" rel="noopener noreferrer" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
                                 <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#658797] shrink-0">
-                                    <FaPhone className="text-lg" />
+                                    <Phone size={20} />
                                 </div>
                                 <div>
                                     <p className="text-xs font-semibold text-dark-400 mb-1">Telepon</p>
@@ -43,7 +62,7 @@ const Kontak = () => {
                             
                             <a href="https://www.instagram.com/bangunanmu.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
                                 <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#658797] shrink-0">
-                                    <FaInstagram className="text-xl" />
+                                    <Instagram size={22} />
                                 </div>
                                 <div>
                                     <p className="text-xs font-semibold text-dark-400 mb-1">Instagram</p>
@@ -88,9 +107,7 @@ const Kontak = () => {
 
                                 <div className="w-14 h-14 bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg relative z-20 mb-2">
                                     <div className="w-10 h-10 bg-[#658797] border-[3px] border-white rounded-full flex items-center justify-center text-white shadow-md">
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                        </svg>
+                                        <Building2 size={20} />
                                     </div>
                                 </div>
 

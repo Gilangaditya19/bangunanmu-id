@@ -1,4 +1,5 @@
 import React from 'react'
+import { MapPin } from 'lucide-react'
 
 const ProgressTracker = ({ projectData }) => {
     if (!projectData) return null
@@ -45,8 +46,8 @@ const ProgressTracker = ({ projectData }) => {
             </div>
 
             <div className="mb-6">
-                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
-                    📍 Tahap Saat Ini: {stage}
+                <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800 gap-2">
+                    <MapPin size={14} /> Tahap Saat Ini: {stage}
                 </span>
             </div>
 

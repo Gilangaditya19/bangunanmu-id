@@ -4,7 +4,7 @@ import {
     getMilestones, addMilestone, updateMilestone, deleteMilestone,
     getDocuments, uploadDocument, deleteDocument
 } from '../../services/projectService'
-import { FaPlus, FaPen, FaTrash, FaTimes, FaBuilding, FaChartLine, FaChevronDown, FaChevronLeft, FaChevronRight, FaCheckCircle, FaRegCircle, FaUpload, FaImage } from 'react-icons/fa'
+import { Plus, Pencil, Trash2, X, Building2, TrendingUp, ChevronDown, ChevronLeft, ChevronRight, CheckCircle2, Circle, Upload, Image } from 'lucide-react'
 
 const ProjectManagement = () => {
     const [projects, setProjects] = useState([])
@@ -241,15 +241,12 @@ const ProjectManagement = () => {
 
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
-                    <div className="inline-flex px-3 py-1 bg-[#E2E8EC] rounded-full mb-3">
-                        <span className="text-[9px] font-extrabold text-[#658797] tracking-widest uppercase">SISTEM INVENTORI</span>
-                    </div>
                     <h1 className="text-4xl font-extrabold text-dark-900 tracking-tight mb-2">Manajemen Proyek</h1>
                     <p className="text-dark-500 font-medium">Pantau dan kelola semua proyek konstruksi Anda secara real-time.</p>
                 </div>
                 <div className="mt-2 md:mt-0 flex-shrink-0">
                     <button onClick={openCreate} className="px-6 py-3.5 bg-[#658797] hover:bg-[#527181] text-white font-bold rounded-full shadow-md transition-all flex items-center gap-2">
-                        <FaPlus className="text-sm" /> Tambah Proyek Baru
+                        <Plus size={18} /> Tambah Proyek Baru
                     </button>
                 </div>
             </div>
@@ -260,9 +257,6 @@ const ProjectManagement = () => {
                     <div className="relative z-10">
                         <p className="text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-1">Total Proyek</p>
                         <p className="text-4xl font-extrabold text-dark-900">{projects.length > 0 ? projects.length : 42}</p>
-                    </div>
-                    <div className="absolute right-6 top-1/2 -translate-y-1/2 opacity-10 text-dark-400">
-                        <FaBuilding className="text-5xl" />
                     </div>
                 </div>
 
@@ -279,7 +273,7 @@ const ProjectManagement = () => {
                             <option value="Design and Build">Design and Build</option>
                         </select>
                         <div className="absolute right-4 bottom-3.5 text-dark-300 pointer-events-none">
-                            <FaChevronDown className="text-xs" />
+                            <ChevronDown size={14} />
                         </div>
                     </div>
                     <div className="flex-1 w-full relative">
@@ -296,7 +290,7 @@ const ProjectManagement = () => {
                             <option value="DIBATALKAN">DIBATALKAN</option>
                         </select>
                         <div className="absolute right-4 bottom-3.5 text-dark-300 pointer-events-none">
-                            <FaChevronDown className="text-xs" />
+                            <ChevronDown size={14} />
                         </div>
                     </div>
                     <div className="w-full sm:w-auto flex-shrink-0">
@@ -386,10 +380,10 @@ const ProjectManagement = () => {
                                             <td className="px-8 py-6">
                                                 <div className="flex items-center justify-end gap-4 opacity-70 group-hover:opacity-100 transition-opacity">
                                                     <button onClick={() => openEdit(project)} className="text-dark-300 hover:text-dark-900 transition-colors" title="Edit">
-                                                        <FaPen className="text-[17px]" />
+                                                        <Pencil size={18} />
                                                     </button>
                                                     <button onClick={() => handleDelete(project.id)} className="text-dark-300 hover:text-red-500 transition-colors" title="Hapus">
-                                                        <FaTrash className="text-[17px]" />
+                                                        <Trash2 size={18} />
                                                     </button>
                                                 </div>
                                             </td>
@@ -407,7 +401,7 @@ const ProjectManagement = () => {
                     </span>
                     <div className="flex items-center gap-2">
                         <button className="w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center text-dark-400 hover:bg-dark-50 hover:text-dark-900 transition-colors">
-                            <FaChevronLeft className="text-[10px]" />
+                            <ChevronLeft size={14} />
                         </button>
                         <button className="w-8 h-8 rounded-full bg-[#658797] text-white font-bold text-xs flex items-center justify-center shadow-sm">
                             1
@@ -416,7 +410,7 @@ const ProjectManagement = () => {
                             2
                         </button>
                         <button className="w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center text-dark-400 hover:bg-dark-50 hover:text-dark-900 transition-colors">
-                            <FaChevronRight className="text-[10px]" />
+                            <ChevronRight size={14} />
                         </button>
                     </div>
                 </div>
@@ -430,7 +424,7 @@ const ProjectManagement = () => {
                                 {editingProject ? 'Edit Proyek' : 'Tambah Proyek Baru'}
                             </h2>
                             <button onClick={() => { setShowModal(false); resetForm() }} className="text-dark-400 hover:text-dark-600">
-                                <FaTimes className="text-xl" />
+                                <X size={24} />
                             </button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-4">
@@ -514,7 +508,7 @@ const ProjectManagement = () => {
                                 <p className="text-white/80 text-sm">Menyusun urutan tahapan & checklist proyek</p>
                             </div>
                             <button onClick={() => setShowTimelineModal(false)} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                                <FaTimes />
+                                <X />
                             </button>
                         </div>
 
@@ -529,11 +523,11 @@ const ProjectManagement = () => {
                                         <div key={stage.id} className="bg-white p-5 rounded-2xl border border-dark-100 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
                                             <div className="mt-1">
                                                 {stage.status === 'completed' ? (
-                                                    <FaCheckCircle className="text-green-500 text-xl" />
+                                                    <CheckCircle2 className="text-green-500 text-xl" />
                                                 ) : stage.status === 'in_progress' ? (
                                                     <div className="w-5 h-5 rounded-full border-4 border-[#658797] bg-white"></div>
                                                 ) : (
-                                                    <FaRegCircle className="text-dark-300 text-xl" />
+                                                    <Circle className="text-dark-300 text-xl" />
                                                 )}
                                             </div>
                                             <div className="flex-1">
@@ -543,8 +537,8 @@ const ProjectManagement = () => {
                                                         {stage.status === 'in_progress' && <span className="text-[10px] px-2 py-0.5 bg-[#658797]/10 text-[#658797] font-bold uppercase rounded-sm">Sedang Berjalan</span>}
                                                     </div>
                                                     <div className="flex gap-2 text-dark-300">
-                                                        <button onClick={() => openEditMs(stage)} className="hover:text-[#658797] transition-colors"><FaPen className="text-sm" /></button>
-                                                        <button onClick={() => handleDeleteMilestone(stage.id)} className="hover:text-red-500 transition-colors"><FaTrash className="text-sm" /></button>
+                                                        <button onClick={() => openEditMs(stage)} className="hover:text-[#658797] transition-colors"><Pencil size={14} /></button>
+                                                        <button onClick={() => handleDeleteMilestone(stage.id)} className="hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
                                                     </div>
                                                 </div>
                                                 <p className="text-dark-400 text-xs font-medium mb-1">{stage.description}</p>
@@ -564,7 +558,7 @@ const ProjectManagement = () => {
 
                             <div className="bg-white p-5 md:p-6 rounded-2xl border-2 border-dashed border-dark-200">
                                 <h4 className="font-bold text-dark-900 mb-4 flex items-center gap-2">
-                                    {editingMs ? <FaPen className="text-dark-400" /> : <FaPlus className="text-dark-400" />} {editingMs ? 'Edit Tahapan' : 'Tambah Tahap Baru'}
+                                    {editingMs ? <Pencil size={18} className="text-dark-400" /> : <Plus size={18} className="text-dark-400" />} {editingMs ? 'Edit Tahapan' : 'Tambah Tahap Baru'}
                                 </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
@@ -615,7 +609,7 @@ const ProjectManagement = () => {
                                 <p className="text-white/80 text-sm">Unggah dan kelola dokumentasi visual progres proyek</p>
                             </div>
                             <button onClick={() => setShowGalleryModal(false)} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                                <FaTimes />
+                                <X />
                             </button>
                         </div>
 
@@ -623,7 +617,7 @@ const ProjectManagement = () => {
 
                             <div className="bg-white p-6 md:p-8 rounded-2xl border-2 border-dashed border-dark-200 mb-8 flex flex-col items-center justify-center text-center hover:bg-dark-50/30 transition-colors">
                                 <div className="w-16 h-16 bg-[#F0F4F8] rounded-full flex items-center justify-center text-[#658797] mb-4 shadow-sm">
-                                    <FaUpload className="text-2xl" />
+                                    <Upload size={32} />
                                 </div>
                                 <h4 className="font-bold text-dark-900 text-lg mb-1">Unggah Foto Pembaruan Baru</h4>
                                 <p className="text-dark-400 text-sm mb-5">Mendukung format gambar JPG, PNG (Maks 5MB)</p>
@@ -636,7 +630,7 @@ const ProjectManagement = () => {
                             </div>
 
                             <h4 className="font-bold text-dark-900 mb-5 flex items-center gap-2">
-                                <FaImage className="text-dark-400 text-lg" /> Daftar Dokumentasi Tersimpan
+                                <Image size={20} className="text-dark-400" /> Daftar Dokumentasi Tersimpan
                             </h4>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 {docLoading ? (
@@ -655,7 +649,7 @@ const ProjectManagement = () => {
 
                                                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     <button onClick={() => handleDeleteDoc(photo.id)} className="w-8 h-8 rounded-full bg-red-500/90 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transform hover:scale-110 transition-all">
-                                                        <FaTrash className="text-sm" />
+                                                        <Trash2 size={14} />
                                                     </button>
                                                 </div>
                                             </div>
@@ -706,7 +700,7 @@ const ProjectManagement = () => {
                         onClick={() => setLightboxImage(null)} 
                         className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xl transition-colors z-10"
                     >
-                        <FaTimes />
+                        <X size={24} />
                     </button>
                     <img 
                         src={lightboxImage.src} 

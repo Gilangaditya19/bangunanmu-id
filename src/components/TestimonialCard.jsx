@@ -1,4 +1,4 @@
-import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'
+import { Star, StarHalf } from 'lucide-react'
 
 const TestimonialCard = ({ testimonial }) => {
     const { name, review, rating, project } = testimonial
@@ -7,11 +7,11 @@ const TestimonialCard = ({ testimonial }) => {
         const stars = []
         for (let i = 1; i <= 5; i++) {
             if (i <= rating) {
-                stars.push(<FaStar key={i} className="text-yellow-400" />)
+                stars.push(<Star key={i} size={16} fill="currentColor" className="text-yellow-400" />)
             } else if (i - 0.5 <= rating) {
-                stars.push(<FaStarHalfAlt key={i} className="text-yellow-400" />)
+                stars.push(<StarHalf key={i} size={16} fill="currentColor" className="text-yellow-400" />)
             } else {
-                stars.push(<FaRegStar key={i} className="text-yellow-400" />)
+                stars.push(<Star key={i} size={16} className="text-dark-200" />)
             }
         }
         return stars

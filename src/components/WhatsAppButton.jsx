@@ -1,4 +1,4 @@
-import { FaWhatsapp } from 'react-icons/fa'
+import { MessageCircle } from 'lucide-react'
 import { openWhatsApp } from '../utils/whatsapp'
 
 const WhatsAppButton = ({
@@ -32,7 +32,7 @@ const WhatsAppButton = ({
             className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
             aria-label={`Hubungi kami via WhatsApp${serviceName ? ` untuk ${serviceName}` : ''}`}
         >
-            <FaWhatsapp className="text-xl" />
+            <MessageCircle size={20} />
             <span>{label}</span>
         </button>
     )

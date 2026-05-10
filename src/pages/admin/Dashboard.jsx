@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { FaCompass, FaCheckCircle, FaCommentDots, FaGlobe, FaStar, FaArrowRight, FaExternalLinkAlt, FaSpinner } from 'react-icons/fa'
+import { Compass, CheckCircle2, MessageSquare, Globe, Star, ArrowRight, ExternalLink, Loader2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { getAllProjects } from '../../services/projectService'
 import { getAllTestimonials } from '../../services/testimonialService'
@@ -55,24 +55,21 @@ const Dashboard = () => {
                 
                 <div className="bg-white rounded-[1.5rem] p-6 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex flex-col justify-between min-h-[140px] xl:min-h-[180px]">
                     <div className="w-10 h-10 rounded-full bg-[#F0F4F8] flex items-center justify-center text-[#658797]">
-                        <FaCompass />
+                        <Compass size={20} />
                     </div>
                     <div className="mt-8 xl:mt-auto">
                         <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Total Proyek</p>
                         <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
-                            {loading ? <FaSpinner className="animate-spin text-2xl" /> : stats.totalProjects}
+                            {loading ? <Loader2 className="animate-spin" size={24} /> : stats.totalProjects}
                         </p>
                     </div>
                 </div>
 
                 <div className="bg-[#658797] rounded-[1.5rem] p-6 shadow-md flex flex-col justify-between min-h-[140px] xl:min-h-[180px] text-white overflow-hidden relative">
-                    <div className="absolute top-0 right-0 -mr-8 -mt-6 opacity-10">
-                        <FaCompass className="text-[120px]" />
-                    </div>
                     <div className="relative z-10">
                         <p className="text-[10px] sm:text-xs font-bold text-white/80 tracking-widest uppercase mb-1">Proyek Aktif</p>
                         <p className="text-4xl sm:text-5xl font-extrabold leading-none tracking-tight">
-                            {loading ? <FaSpinner className="animate-spin text-2xl" /> : stats.activeProjects}
+                            {loading ? <Loader2 className="animate-spin" size={24} /> : stats.activeProjects}
                         </p>
                     </div>
                     <div className="mt-8 xl:mt-auto relative z-10">
@@ -82,24 +79,24 @@ const Dashboard = () => {
 
                 <div className="bg-white rounded-[1.5rem] p-6 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex flex-col justify-between min-h-[140px] xl:min-h-[180px]">
                     <div className="w-10 h-10 rounded-full bg-green-50 flex items-center justify-center text-green-500">
-                        <FaCheckCircle className="text-lg" />
+                        <CheckCircle2 size={20} />
                     </div>
                     <div className="mt-8 xl:mt-auto">
                         <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Proyek Selesai</p>
                         <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
-                            {loading ? <FaSpinner className="animate-spin text-2xl" /> : stats.completedProjects}
+                            {loading ? <Loader2 className="animate-spin" size={24} /> : stats.completedProjects}
                         </p>
                     </div>
                 </div>
 
                 <div className="bg-white rounded-[1.5rem] p-6 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex flex-col justify-between min-h-[140px] xl:min-h-[180px]">
                     <div className="w-10 h-10 rounded-full bg-[#f4ece3] flex items-center justify-center text-[#9c754d]">
-                        <FaCommentDots />
+                        <MessageSquare size={20} />
                     </div>
                     <div className="mt-8 xl:mt-auto">
                         <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Total Testimoni</p>
                         <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
-                            {loading ? <FaSpinner className="animate-spin text-2xl" /> : stats.totalTestimonials}
+                            {loading ? <Loader2 className="animate-spin" size={24} /> : stats.totalTestimonials}
                         </p>
                     </div>
                 </div>
@@ -113,12 +110,9 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 
                 <div className="bg-white rounded-[2rem] p-8 shadow-md border border-dark-100/50 hover:shadow-lg transition-all relative overflow-hidden group flex flex-col">
-                    <div className="absolute -bottom-8 -right-8 transition-transform duration-500 group-hover:scale-110">
-                        <FaCompass className="text-[140px] text-dark-50" />
-                    </div>
                     <div className="relative z-10 flex-1 flex flex-col">
                         <div className="w-12 h-12 rounded-xl bg-[#F0F4F8] flex items-center justify-center text-[#658797] mb-6">
-                            <FaCompass className="text-xl" />
+                            <Compass size={24} />
                         </div>
                         <h3 className="text-xl font-bold text-dark-900 mb-3 tracking-tight">Kelola Proyek</h3>
                         <p className="text-sm text-dark-500 leading-relaxed font-medium mb-8">
@@ -126,19 +120,16 @@ const Dashboard = () => {
                         </p>
                         <div className="mt-auto">
                             <Link to="/admin/projects" className="inline-flex items-center gap-2 text-sm font-bold text-[#658797] hover:text-dark-900 transition-colors">
-                                Buka Manajemen <FaArrowRight />
+                                Buka Manajemen <ArrowRight size={14} />
                             </Link>
                         </div>
                     </div>
                 </div>
 
                 <div className="bg-white rounded-[2rem] p-8 shadow-md border border-dark-100/50 hover:shadow-lg transition-all relative overflow-hidden group flex flex-col">
-                    <div className="absolute -bottom-8 -right-8 transition-transform duration-500 group-hover:scale-110">
-                        <FaStar className="text-[140px] text-dark-50" />
-                    </div>
                     <div className="relative z-10 flex-1 flex flex-col">
                         <div className="w-12 h-12 rounded-xl bg-[#f4ece3] flex items-center justify-center text-[#9c754d] mb-6">
-                            <FaCommentDots className="text-xl" />
+                            <MessageSquare size={24} />
                         </div>
                         <h3 className="text-xl font-bold text-dark-900 mb-3 tracking-tight">Kelola Testimoni</h3>
                         <p className="text-sm text-dark-500 leading-relaxed font-medium mb-8">
@@ -146,19 +137,16 @@ const Dashboard = () => {
                         </p>
                         <div className="mt-auto">
                             <Link to="/admin/testimonials" className="inline-flex items-center gap-2 text-sm font-bold text-[#9c754d] hover:text-dark-900 transition-colors">
-                                Buka Testimoni <FaArrowRight />
+                                Buka Testimoni <ArrowRight size={14} />
                             </Link>
                         </div>
                     </div>
                 </div>
 
                 <div className="bg-[#0f172a] rounded-[2rem] p-8 shadow-md relative overflow-hidden group flex flex-col text-white">
-                    <div className="absolute -bottom-8 -right-8 transition-transform duration-500 group-hover:scale-110">
-                        <FaGlobe className="text-[140px] text-white/5" />
-                    </div>
                     <div className="relative z-10 flex-1 flex flex-col">
                         <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-white mb-6 backdrop-blur-sm">
-                            <FaGlobe className="text-xl" />
+                            <Globe size={24} />
                         </div>
                         <h3 className="text-xl font-bold text-white mb-3 tracking-tight">Lihat Website</h3>
                         <p className="text-sm text-white/70 leading-relaxed font-medium mb-8">
@@ -166,7 +154,7 @@ const Dashboard = () => {
                         </p>
                         <div className="mt-auto">
                             <Link to="/" target="_blank" className="inline-flex items-center gap-2 text-sm font-bold text-[#E5E9EC] hover:text-white transition-colors">
-                                Kunjungi Situs <FaExternalLinkAlt className="text-xs" />
+                                Kunjungi Situs <ExternalLink size={12} />
                             </Link>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getAllTestimonials, updateTestimonialStatus, deleteTestimonial } from '../../services/testimonialService'
-import { FaStar, FaEye, FaEyeSlash, FaTrash, FaPen, FaChevronDown, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
+import { Star, Eye, EyeOff, Trash2, Pencil, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const TestimonialManagement = () => {
     const [testimonials, setTestimonials] = useState([])
@@ -55,7 +55,7 @@ const TestimonialManagement = () => {
 
     const renderStars = (rating) => {
         return Array.from({ length: 5 }, (_, i) => (
-            <FaStar key={i} className={`text-[12px] sm:text-sm ${i < rating ? 'text-yellow-400' : 'text-dark-100'}`} />
+            <Star key={i} size={14} className={`${i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-dark-100'}`} />
         ))
     }
 
@@ -103,13 +103,10 @@ const TestimonialManagement = () => {
                     <p className="text-dark-500 font-medium text-sm sm:text-base">Kelola ulasan dan umpan balik dari klien Anda untuk membangun kepercayaan.</p>
                 </div>
                 
-                <div className="bg-white rounded-full sm:rounded-[40px] pl-2 pr-6 py-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex items-center gap-6 min-w-max border-l-[12px] border-[#658797] border">
-                    <div className="pl-6 py-4">
+                <div className="bg-white rounded-full sm:rounded-[40px] px-8 py-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex items-center gap-6 min-w-max border border-dark-100/50">
+                    <div className="pl-6 py-4 pr-12">
                         <p className="text-[9px] sm:text-[10px] font-extrabold text-dark-300 tracking-widest uppercase mb-1">Total Testimoni</p>
                         <p className="text-3xl sm:text-4xl font-extrabold text-dark-900 leading-none">{(testimonials || []).length}</p>
-                    </div>
-                    <div className="w-12 h-12 rounded-full bg-[#F0F4F8] flex items-center justify-center text-[#658797]">
-                        <FaStar className="text-xl" />
                     </div>
                 </div>
             </div>
@@ -127,7 +124,7 @@ const TestimonialManagement = () => {
                         <option value="Design and Build">Design and Build</option>
                     </select>
                     <div className="absolute right-4 bottom-3.5 text-dark-400 pointer-events-none">
-                        <FaChevronDown className="text-xs" />
+                        <ChevronDown size={14} />
                     </div>
                 </div>
                 <div className="flex-1 w-full relative">
@@ -143,7 +140,7 @@ const TestimonialManagement = () => {
                         <option value="Disembunyikan">Disembunyikan</option>
                     </select>
                     <div className="absolute right-4 bottom-3.5 text-dark-400 pointer-events-none">
-                        <FaChevronDown className="text-xs" />
+                        <ChevronDown size={14} />
                     </div>
                 </div>
                 <div className="w-full sm:w-auto flex-shrink-0">
@@ -228,14 +225,14 @@ const TestimonialManagement = () => {
                                                         className="w-8 h-8 rounded-full bg-[#F4F6F8] border border-[#EAECEE] flex items-center justify-center text-dark-400 hover:text-[#658797] hover:bg-[#EAECEE] transition-all" 
                                                         title="Sembunyikan/Tampilkan"
                                                     >
-                                                        {isHidden ? <FaEyeSlash className="text-[13px]" /> : <FaEye className="text-[13px]" />}
+                                                        {isHidden ? <EyeOff size={16} /> : <Eye size={16} />}
                                                     </button>
                                                     <button 
                                                         onClick={() => testimonials.length > 0 && handleDelete(testi.id)}
                                                         className="w-8 h-8 rounded-full bg-[#fce8e8] border border-[#facaca] flex items-center justify-center text-red-500 hover:text-white hover:bg-red-500 transition-all shadow-sm" 
                                                         title="Hapus"
                                                     >
-                                                        <FaTrash className="text-[11px]" />
+                                                        <Trash2 size={14} />
                                                     </button>
                                                 </div>
                                             </td>
@@ -253,7 +250,7 @@ const TestimonialManagement = () => {
                     </span>
                     <div className="flex items-center gap-1.5">
                         <button className="w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center text-dark-400 hover:bg-dark-50 hover:text-dark-900 transition-colors">
-                            <FaChevronLeft className="text-[10px]" />
+                            <ChevronLeft size={14} />
                         </button>
                         <button className="w-8 h-8 rounded-full bg-[#658797] text-white font-bold text-xs flex items-center justify-center shadow-md">
                             1
@@ -269,7 +266,7 @@ const TestimonialManagement = () => {
                             16
                         </button>
                         <button className="w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center text-dark-400 hover:bg-dark-50 hover:text-dark-900 transition-colors">
-                            <FaChevronRight className="text-[10px]" />
+                            <ChevronRight size={14} />
                         </button>
                     </div>
                 </div>

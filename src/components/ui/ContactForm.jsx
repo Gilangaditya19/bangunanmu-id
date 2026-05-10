@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaWhatsapp, FaChevronDown } from 'react-icons/fa';
+import { MessageCircle, ChevronDown } from 'lucide-react';
 import { openWhatsApp } from '../../utils/whatsapp';
 
 const ContactForm = () => {
@@ -69,7 +69,7 @@ const ContactForm = () => {
                         <option value="Kemitraan vendor/supplier">Kemitraan vendor/supplier</option>
                     </select>
                     <div className="absolute inset-y-0 right-5 flex items-center pointer-events-none text-dark-500">
-                        <FaChevronDown className="text-sm" />
+                        <ChevronDown size={16} />
                     </div>
                 </div>
             </div>
@@ -91,7 +91,7 @@ const ContactForm = () => {
                 type="submit"
                 className="w-full py-3 sm:py-4 mt-2 sm:mt-4 text-white text-sm font-bold tracking-wide rounded-xl sm:rounded-2xl bg-[#658797] hover:bg-[#527181] shadow-md hover:shadow-xl hover:shadow-[#658797]/20 transition-all duration-300 flex items-center justify-center gap-2"
             >
-                Kirim Pesan <FaWhatsapp className="text-[16px]" />
+                Kirim Pesan <MessageCircle size={18} />
             </button>
         </form>
     );

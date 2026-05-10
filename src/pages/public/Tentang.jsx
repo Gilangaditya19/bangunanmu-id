@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaPlay, FaLightbulb, FaPalette, FaShieldAlt } from 'react-icons/fa';
+import { Play, Lightbulb, Palette, Shield, ArrowRight } from 'lucide-react';
 import ShinyText from '../../components/ui/ShinyText';
 
 const Tentang = () => {
@@ -11,9 +11,14 @@ const Tentang = () => {
                 <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
                     <div className="space-y-8 z-10 relative">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-dark-900 border border-dark-800 shadow-lg max-w-max">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-dark-100 shadow-sm max-w-max">
                             <span className="w-2 h-2 rounded-full bg-[#658797] animate-pulse"></span>
-                            <ShinyText text="OVER 4 YEARS OF EXPERIENCE" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
+                            <ShinyText 
+                                text="OVER 4 YEARS OF EXPERIENCE" 
+                                theme="dark"
+                                speed={3} 
+                                className="text-[10px] font-bold tracking-widest uppercase" 
+                            />
                         </div>
 
                         <h1 className="text-5xl sm:text-7xl font-bold text-dark-900 tracking-tight leading-[1.1]">
@@ -28,9 +33,7 @@ const Tentang = () => {
                         <div className="flex flex-wrap gap-4 pt-4">
                             <Link to="/layanan" className="inline-flex items-center justify-center px-8 py-4 bg-[#658797] text-white font-semibold rounded-full hover:bg-[#527181] transition-colors shadow-lg shadow-[#658797]/30 group">
                                 Lihat Portfolio
-                                <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
+                                <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
                     </div>
@@ -81,7 +84,7 @@ const Tentang = () => {
 
                         <div className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
-                                <FaLightbulb className="text-xl text-[#658797]" />
+                                <Lightbulb size={24} className="text-[#658797]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Inovasi Tanpa Batas</h3>
                             <p className="text-dark-500 text-sm leading-relaxed">
@@ -91,7 +94,7 @@ const Tentang = () => {
 
                         <div className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
-                                <FaPalette className="text-xl text-[#658797]" />
+                                <Palette size={24} className="text-[#658797]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Transparansi</h3>
                             <p className="text-dark-500 text-sm leading-relaxed">
@@ -101,7 +104,7 @@ const Tentang = () => {
 
                         <div className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
-                                <FaShieldAlt className="text-xl text-[#658797]" />
+                                <Shield size={24} className="text-[#658797]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Kolaborasi</h3>
                             <p className="text-dark-500 text-sm leading-relaxed">

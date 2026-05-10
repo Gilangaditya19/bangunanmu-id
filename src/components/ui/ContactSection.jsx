@@ -1,4 +1,23 @@
-import { FaWhatsapp, FaEnvelope, FaMapMarkerAlt, FaInstagram } from 'react-icons/fa';
+import { MessageCircle, Mail, MapPin } from 'lucide-react';
+
+const Instagram = ({ size = 24, ...props }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    {...props}
+  >
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
 import ContactForm from './ContactForm';
 
 const ContactSection = () => {
@@ -23,7 +42,7 @@ const ContactSection = () => {
                             <div className="space-y-6 sm:space-y-8">
                                 <a href="https://wa.me/6287765823731" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
                                     <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#658797] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
-                                        <FaWhatsapp />
+                                        <MessageCircle size={24} />
                                     </div>
                                     <div className="min-w-0 flex-1">
                                         <p className="text-xs sm:text-sm text-dark-400 font-medium mb-0.5 sm:mb-1">Telepon / WhatsApp</p>
@@ -33,7 +52,7 @@ const ContactSection = () => {
 
                                 <a href="mailto:bangunanmu.id@gmail.com" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
                                     <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#658797] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
-                                        <FaEnvelope />
+                                        <Mail size={24} />
                                     </div>
                                     <div className="min-w-0 flex-1">
                                         <p className="text-xs sm:text-sm text-dark-400 font-medium mb-0.5 sm:mb-1">Email</p>
@@ -43,7 +62,7 @@ const ContactSection = () => {
 
                                 <a href="https://www.instagram.com/bangunanmu.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
                                     <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#658797] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
-                                        <FaInstagram />
+                                        <Instagram size={24} />
                                     </div>
                                     <div className="min-w-0 flex-1">
                                         <p className="text-xs sm:text-sm text-dark-400 font-medium mb-0.5 sm:mb-1">Instagram</p>

@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import api from '../../services/api'
-import { FaLock, FaKey, FaCheckCircle, FaEye, FaEyeSlash, FaSave } from 'react-icons/fa'
-import { MdPassword } from 'react-icons/md'
+import { Lock, Key, CheckCircle2, Eye, EyeOff, Save } from 'lucide-react'
 
 const Settings = () => {
     const { user, logoutUser } = useAuth()
@@ -115,7 +114,7 @@ const Settings = () => {
                             <label className="block text-sm font-bold text-dark-900 mb-2">Kata Sandi Saat Ini</label>
                             <div className="relative flex items-center">
                                 <div className="absolute left-4 text-dark-300">
-                                    <FaLock />
+                                    <Lock size={18} />
                                 </div>
                                 <input
                                     type={showPassword.current ? "text" : "password"}
@@ -131,7 +130,7 @@ const Settings = () => {
                                     onClick={() => togglePassword('current')}
                                     className="absolute right-4 text-dark-300 hover:text-dark-600 focus:outline-none"
                                 >
-                                    {showPassword.current ? <FaEye /> : <FaEyeSlash />}
+                                    {showPassword.current ? <Eye size={18} /> : <EyeOff size={18} />}
                                 </button>
                             </div>
                         </div>
@@ -143,7 +142,7 @@ const Settings = () => {
                             <label className="block text-sm font-bold text-dark-900 mb-2">Kata Sandi Baru</label>
                             <div className="relative flex items-center">
                                 <div className="absolute left-4 text-dark-300">
-                                    <FaKey />
+                                    <Key size={18} />
                                 </div>
                                 <input
                                     type={showPassword.new ? "text" : "password"}
@@ -159,7 +158,7 @@ const Settings = () => {
                                     onClick={() => togglePassword('new')}
                                     className="absolute right-4 text-dark-300 hover:text-dark-600 focus:outline-none"
                                 >
-                                    {showPassword.new ? <FaEye /> : <FaEyeSlash />}
+                                    {showPassword.new ? <Eye size={18} /> : <EyeOff size={18} />}
                                 </button>
                             </div>
                             <p className="text-[10px] font-bold text-dark-400 mt-2 tracking-wider uppercase ml-2">
@@ -172,7 +171,7 @@ const Settings = () => {
                             <label className="block text-sm font-bold text-dark-900 mb-2">Konfirmasi Kata Sandi Baru</label>
                             <div className="relative flex items-center">
                                 <div className="absolute left-4 text-dark-300">
-                                    <FaCheckCircle />
+                                    <CheckCircle2 size={18} />
                                 </div>
                                 <input
                                     type={showPassword.confirm ? "text" : "password"}
@@ -188,7 +187,7 @@ const Settings = () => {
                                     onClick={() => togglePassword('confirm')}
                                     className="absolute right-4 text-dark-300 hover:text-dark-600 focus:outline-none"
                                 >
-                                    {showPassword.confirm ? <FaEye /> : <FaEyeSlash />}
+                                    {showPassword.confirm ? <Eye size={18} /> : <EyeOff size={18} />}
                                 </button>
                             </div>
                         </div>
@@ -207,7 +206,7 @@ const Settings = () => {
                                 disabled={loading}
                                 className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-white transition-all shadow-md ${loading ? 'bg-[#658797]/70 cursor-not-allowed' : 'bg-[#658797] hover:bg-[#527181] hover:-translate-y-0.5'}`}
                             >
-                                <FaSave />
+                                <Save size={18} />
                                 {loading ? 'Menyimpan...' : 'Simpan Perubahan'}
                             </button>
                         </div>

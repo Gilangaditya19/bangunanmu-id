@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { getApprovedTestimonials } from '../../services/testimonialService'
 import { Link, useSearchParams } from 'react-router-dom'
-import { FaHome, FaWrench, FaBuilding, FaChevronRight, FaQuoteRight, FaCouch, FaPaintBrush, FaSearch, FaTools, FaHardHat, FaHandshake, FaDraftingCompass, FaCubes, FaClipboardCheck, FaCheckCircle, FaStar } from 'react-icons/fa'
+import { Home, Wrench, Building2, ChevronRight, Quote, Armchair, Paintbrush, Search, Hammer, HardHat, Handshake, Compass, Box, ClipboardCheck, CheckCircle2, Star } from 'lucide-react'
 import WhatsAppButton from '../../components/WhatsAppButton'
 import ShinyText from '../../components/ui/ShinyText'
 import Stepper, { Step } from '../../components/ui/Stepper'
@@ -32,13 +32,13 @@ const Layanan = () => {
                 {
                     title: 'Konstruksi Residensial/Perumahan',
                     desc: 'Tujuan kami adalah menciptakan hunian yang tidak hanya indah secara estetika, tetapi juga kokoh dan fungsional, guna menjamin kenyamanan serta kepuasan bagi penghuninya dalam jangka panjang. Melalui layanan Konstruksi Residensial kami, Anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.',
-                    icon: <FaHome className="text-xl text-[#658797]" />,
+                    icon: <Home size={20} className="text-[#658797]" />,
                     link: '/kontak'
                 },
                 {
                     title: 'Konstruksi Komersial',
                     desc: 'Layanan Konstruksi Komersial kami berfokus pada penyediaan solusi bangunan yang berkualitas tinggi, efisien, dan berkelanjutan bagi berbagai bisnis dan ruang komersial. Kami memahami bahwa lingkungan komersial yang dirancang dengan baik sangat penting bagi efisiensi operasional, citra merek (brand image), serta kepuasan pelanggan.',
-                    icon: <FaBuilding className="text-xl text-[#658797]" />,
+                    icon: <Building2 size={20} className="text-[#658797]" />,
                     link: '/kontak'
                 }
             ],
@@ -47,65 +47,65 @@ const Layanan = () => {
                     step: 1,
                     title: 'Konsultasi & Survey',
                     description: 'Diskusi awal kebutuhan Anda dan survey lokasi untuk pemetaan awal yang sangat presisi sesuai regulasi.',
-                    icon: <FaSearch />,
+                    icon: <Search />,
                     image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 01 : INISIASI',
                     buttonText: 'Mulai Konsultasi',
-                    subIcon1: <FaSearch className="text-[#658797]" />,
+                    subIcon1: <Search size={16} className="text-[#658797]" />,
                     subText1: 'Survey Lokasi',
-                    subIcon2: <FaCheckCircle className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
                     subText2: 'Analisa Awal'
                 },
                 {
                     step: 2,
                     title: 'Desain Arsitektur',
                     description: 'Pembuatan desain perancangan awal 3D dan Rencana Anggaran Biaya yang transparan secara menyeluruh.',
-                    icon: <FaDraftingCompass />,
+                    icon: <Compass />,
                     image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 02 : DESAIN',
                     buttonText: 'Lihat Desain',
-                    subIcon1: <FaDraftingCompass className="text-[#658797]" />,
+                    subIcon1: <Compass size={16} className="text-[#658797]" />,
                     subText1: 'Perancangan 3D',
-                    subIcon2: <FaClipboardCheck className="text-[#658797]" />,
+                    subIcon2: <ClipboardCheck size={16} className="text-[#658797]" />,
                     subText2: 'Review RAB'
                 },
                 {
                     step: 3,
                     title: 'Penandatanganan',
                     description: 'Kesepakatan final atas desain, timeline penyelesaian, dan biaya pekerjaan konstruksi secara tertulis hitam di atas putih.',
-                    icon: <FaHandshake />,
+                    icon: <Handshake />,
                     image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 03 : KESEPAKATAN',
                     buttonText: 'Draft Kontrak',
-                    subIcon1: <FaHandshake className="text-[#658797]" />,
+                    subIcon1: <Handshake size={16} className="text-[#658797]" />,
                     subText1: 'Legalitas',
-                    subIcon2: <FaClipboardCheck className="text-[#658797]" />,
+                    subIcon2: <ClipboardCheck size={16} className="text-[#658797]" />,
                     subText2: 'MOU Final'
                 },
                 {
                     step: 4,
                     title: 'Proses Konstruksi',
                     description: 'Eksekusi fisik pembangunan di lapangan dengan pengawasan ketat dan laporan progres berkala melalui sistem yang transparan.',
-                    icon: <FaHardHat />,
+                    icon: <HardHat />,
                     image: 'https://images.unsplash.com/photo-1541888081622-152e00780f2d?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 04 : EKSEKUSI',
                     buttonText: 'Pantau Proyek',
-                    subIcon1: <FaHardHat className="text-[#658797]" />,
+                    subIcon1: <HardHat size={16} className="text-[#658797]" />,
                     subText1: 'Sipil Aktif',
-                    subIcon2: <FaCheckCircle className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
                     subText2: 'Laporan Berkala'
                 },
                 {
                     step: 5,
                     title: 'Serah Terima Kunci',
                     description: 'Inspeksi final bersama dan penyerahan bangunan siap huni beserta dokumen retensi dan garansi pemeliharaan struktur.',
-                    icon: <FaHome />,
+                    icon: <Home />,
                     image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 05 : FINAL',
                     buttonText: 'Hubungi Kami',
-                    subIcon1: <FaHome className="text-[#658797]" />,
+                    subIcon1: <Home size={16} className="text-[#658797]" />,
                     subText1: 'Handover',
-                    subIcon2: <FaCheckCircle className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
                     subText2: 'Garansi Kualitas'
                 }
             ]
@@ -121,13 +121,13 @@ const Layanan = () => {
                 {
                     title: 'Interior Design',
                     desc: 'Layanan ini berfokus pada pengoptimalan fungsi dan estetika ruang di dalam bangunan untuk meningkatkan kualitas hidup serta kenyamanan penghuninya.',
-                    icon: <FaPaintBrush className="text-xl text-[#658797]" />,
+                    icon: <Paintbrush size={20} className="text-[#658797]" />,
                     link: '/kontak'
                 },
                 {
                     title: 'Outdoor Area Design',
                     desc: 'Layanan ini berfokus pada transformasi area terbuka di sekitar bangunan agar menjadi ruang yang fungsional dan memiliki nilai tambah bagi properti.',
-                    icon: <FaHome className="text-xl text-[#658797]" />,
+                    icon: <Home size={20} className="text-[#658797]" />,
                     link: '/kontak'
                 }
             ],
@@ -136,65 +136,65 @@ const Layanan = () => {
                     step: 1,
                     title: 'Konsultasi Briefing',
                     description: 'Penggalian ide secara detail, gaya desain yang diinginkan pelanggan, serta pengukuran ruang di awal secara spesifik.',
-                    icon: <FaSearch />,
+                    icon: <Search />,
                     image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 01 : PENGGALIAN',
                     buttonText: 'Jadwalkan Sesi',
-                    subIcon1: <FaSearch className="text-[#658797]" />,
+                    subIcon1: <Search size={16} className="text-[#658797]" />,
                     subText1: 'Brainstorming',
-                    subIcon2: <FaCheckCircle className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
                     subText2: 'Pengukuran'
                 },
                 {
                     step: 2,
                     title: 'Desain & Material',
                     description: 'Presentasi visualisasi 3D fotorealistik lengkap dengan referensi serta pemilihan sampel material fisik yang diaplikasikan.',
-                    icon: <FaCubes />,
+                    icon: <Box />,
                     image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 02 : VISUALISASI',
                     buttonText: 'Lihat Katalog',
-                    subIcon1: <FaPaintBrush className="text-[#658797]" />,
+                    subIcon1: <Paintbrush size={16} className="text-[#658797]" />,
                     subText1: 'Moodboard',
-                    subIcon2: <FaCubes className="text-[#658797]" />,
+                    subIcon2: <Box size={16} className="text-[#658797]" />,
                     subText2: 'Sample Fisik'
                 },
                 {
                     step: 3,
                     title: 'Tinjau Anggaran',
                     description: 'Finalisasi ruang lingkup pekerjaan interior agar tetap linear dengan bujet Anda, yang selanjutnya diakhiri kontrak.',
-                    icon: <FaHandshake />,
+                    icon: <Handshake />,
                     image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 03 : KESEPAKATAN',
                     buttonText: 'Atur Anggaran',
-                    subIcon1: <FaTools className="text-[#658797]" />,
+                    subIcon1: <Hammer size={16} className="text-[#658797]" />,
                     subText1: 'Optimasi Biaya',
-                    subIcon2: <FaCheckCircle className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
                     subText2: 'Approval'
                 },
                 {
                     step: 4,
                     title: 'Pabrikasi & Instalasi',
                     description: 'Pabrikasi custom furniture di workshop kami untuk menghemat waktu, dilanjutkan instalasi final di panel lokasi.',
-                    icon: <FaWrench />,
+                    icon: <Wrench />,
                     image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 04 : PRODUKSI',
                     buttonText: 'Pantau Proyek',
-                    subIcon1: <FaWrench className="text-[#658797]" />,
+                    subIcon1: <Wrench size={16} className="text-[#658797]" />,
                     subText1: 'Workshop',
-                    subIcon2: <FaHardHat className="text-[#658797]" />,
+                    subIcon2: <HardHat size={16} className="text-[#658797]" />,
                     subText2: 'Fitting Akhir'
                 },
                 {
                     step: 5,
                     title: 'Final Inspection',
                     description: 'Pengecekan dan finishing setiap detail akhir sebelum kami melaksanakan serah terima kepemilikan hasil karya.',
-                    icon: <FaClipboardCheck />,
+                    icon: <ClipboardCheck />,
                     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 05 : SERAH TERIMA',
                     buttonText: 'Cek Lokasi',
-                    subIcon1: <FaClipboardCheck className="text-[#658797]" />,
+                    subIcon1: <ClipboardCheck size={16} className="text-[#658797]" />,
                     subText1: 'Defect Audit',
-                    subIcon2: <FaHome className="text-[#658797]" />,
+                    subIcon2: <Home size={16} className="text-[#658797]" />,
                     subText2: 'Masa Pemeliharaan'
                 }
             ]
@@ -256,8 +256,13 @@ const Layanan = () => {
 
             <section className="pt-16 pb-12">
                 <div className="section-container text-center">
-                    <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full bg-dark-900 border border-dark-800 shadow-lg">
-                        <ShinyText text={currentContent.badge} speed={3} className="text-[10px] font-bold uppercase tracking-widest" />
+                    <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full bg-white border border-dark-100 shadow-sm">
+                        <ShinyText 
+                            text={currentContent.badge} 
+                            theme="dark"
+                            speed={3} 
+                            className="text-[10px] font-bold uppercase tracking-widest" 
+                        />
                     </div>
                     <h1 className="text-4xl md:text-5xl font-bold text-dark-900 mb-6 tracking-tight">{currentContent.title}</h1>
                     <p className="text-dark-500 max-w-2xl mx-auto leading-relaxed text-lg">
@@ -297,7 +302,7 @@ const Layanan = () => {
                                     to={card.link}
                                     className="inline-flex items-center gap-2 text-dark-900 font-bold text-sm hover:gap-3 transition-all"
                                 >
-                                    Lihat Detail <FaChevronRight className="text-[10px]" />
+                                    Lihat Detail <ChevronRight size={14} />
                                 </Link>
                             </div>
                         ))}
@@ -428,14 +433,14 @@ const Layanan = () => {
                                 <p className="text-center col-span-1 md:col-span-3 py-8 text-dark-400">Memuat testimoni...</p>
                             ) : testimonials.slice(0, 3).map((testi, i) => (
                                 <div key={i} className="bg-white p-10 rounded-[40px] border border-dark-100 shadow-sm relative text-left h-full flex flex-col">
-                                    <FaQuoteRight className="absolute top-10 right-10 text-dark-100 text-3xl" />
+                                    <Quote size={30} className="absolute top-10 right-10 text-dark-100 rotate-180" />
                                     <div className="flex items-center gap-4 mb-6">
                                         <img src={testi.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(testi.name)}&background=658797&color=fff&rounded=true&bold=true`} alt={testi.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-4 border-[#F0F4F8] shadow-sm" />
                                         <div>
                                             <h4 className="font-bold text-dark-900 text-sm mb-1">{testi.name}</h4>
                                             <div className="flex items-center gap-1 mb-1.5">
                                                 {[...Array(5)].map((_, starIndex) => (
-                                                    <FaStar key={starIndex} className={`text-[11px] sm:text-xs ${starIndex < (testi.rating || 5) ? 'text-yellow-400' : 'text-dark-100'}`} />
+                                                    <Star key={starIndex} size={12} fill={starIndex < (testi.rating || 5) ? "currentColor" : "none"} className={`${starIndex < (testi.rating || 5) ? 'text-yellow-400' : 'text-dark-100'}`} />
                                                 ))}
                                             </div>
                                             <p className="text-dark-400 text-[10px] sm:text-[11px] font-medium leading-tight">{testi.project || testi.role || 'Klien Bangunanmu'}</p>
