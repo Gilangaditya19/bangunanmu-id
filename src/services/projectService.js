@@ -4,24 +4,34 @@ export const getProjectById = async (id) => {
     return api.get(`/projects/${id}`)
 }
 
-export const getAllProjects = async () => {
+export const getAllProjects = async ({ page = 1, limit = 10, status, projectType, search } = {}) => {
     try {
-        const response = await api.get('/projects')
+        const params = { page, limit }
+        if (status) params.status = status
+        if (projectType) params.projectType = projectType
+        if (search) params.search = search
+
+        const response = await api.get('/projects', { params })
         const rawData = response.data.data.data || []
+        const pagination = response.data.data.pagination || { page: 1, limit: 10, total: 0, pages: 1 }
         
         const mappedData = rawData.map(p => ({
             id: p.projectCode,
             title: p.projectName,
             client: p.customerName,
+            email: p.customerEmail,
+            phone: p.customerPhone,
             address: p.customerAddress,
-            category: p.projectType === 'design_and_build' ? 'Design and Build' : 'Konstruksi',
+            category: p.projectType === 'konstruksi' ? 'Konstruksi' : p.projectType === 'desain' ? 'desain' : 'Design and Build',
             description: p.description,
             progress: p.progress,
             stage: 'Tahapan Saat Ini',
             status: p.status,
+            startDate: p.startDate,
+            estimatedEndDate: p.estimatedEndDate,
             createdAt: p.createdAt
         }))
-        return { data: mappedData }
+        return { data: mappedData, pagination }
     } catch (error) {
         throw error
     }
@@ -29,7 +39,7 @@ export const getAllProjects = async () => {
 
 export const getCompletedProjects = async () => {
     try {
-        const response = await getAllProjects()
+        const response = await getAllProjects({ page: 1, limit: 100 })
         return { data: response.data.filter(p => p.status === 'completed') }
     } catch (error) {
         throw error
@@ -40,15 +50,14 @@ export const createProject = async (data) => {
     try {
         const payload = {
             projectName: data.title,
-            projectType: data.category?.toLowerCase().includes('konstruksi') ? 'konstruksi' : 'design_and_build',
+            projectType: data.category === 'Konstruksi' ? 'konstruksi' : data.category === 'desain' ? 'desain' : 'design_and_build',
             customerName: data.client,
-            customerEmail: `${data.client.replace(/\s+/g, '').toLowerCase()}@example.com`,
-            customerPhone: '081234567890',
+            customerEmail: data.email,
+            customerPhone: data.phone,
             customerAddress: data.address || '-',
             description: data.description || '-',
-            progress: data.progress || 0,
-            startDate: new Date().toISOString(),
-            estimatedEndDate: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()
+            startDate: data.startDate ? new Date(data.startDate).toISOString() : new Date().toISOString(),
+            estimatedEndDate: data.estimatedEndDate ? new Date(data.estimatedEndDate).toISOString() : new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString()
         }
         const response = await api.post('/projects', payload)
         return response.data
@@ -62,12 +71,15 @@ export const updateProject = async (id, data) => {
     try {
         const payload = {
             projectName: data.title,
-            projectType: data.category?.toLowerCase().includes('konstruksi') ? 'konstruksi' : 'design_and_build',
+            projectType: data.category === 'Konstruksi' ? 'konstruksi' : data.category === 'desain' ? 'desain' : 'design_and_build',
             customerName: data.client,
+            customerEmail: data.email,
+            customerPhone: data.phone,
             customerAddress: data.address || '-',
             description: data.description || '-',
             status: data.status,
-            progress: data.progress || 0
+            startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
+            estimatedEndDate: data.estimatedEndDate ? new Date(data.estimatedEndDate).toISOString() : undefined
         }
         const response = await api.put(`/projects/${id}`, payload)
         return response.data

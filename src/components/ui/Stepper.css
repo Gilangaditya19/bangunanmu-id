@@ -37,17 +37,17 @@
 }
 
 .step-indicator.active {
-    background-color: #658797;
+    background-color: #396680;
     color: white;
-    border-color: #658797;
-    box-shadow: 0 0 0 8px rgba(101, 135, 151, 0.15);
+    border-color: #396680;
+    box-shadow: 0 0 0 8px rgba(57, 102, 128, 0.15);
     transform: scale(1.1);
 }
 
 .step-indicator.completed {
-    background-color: #658797;
+    background-color: #396680;
     color: white;
-    border-color: #658797;
+    border-color: #396680;
 }
 
 .step-connector {
@@ -59,7 +59,7 @@
 }
 
 .step-connector.completed {
-    background-color: #658797;
+    background-color: #396680;
 }
 
 .step-content-default {
@@ -113,16 +113,16 @@
 }
 
 .next-button {
-    background: #658797;
+    background: #396680;
     border: none;
     color: white;
-    box-shadow: 0 4px 12px rgba(101, 135, 151, 0.2);
+    box-shadow: 0 4px 12px rgba(57, 102, 128, 0.2);
 }
 
 .next-button:hover {
-    background: #527181;
+    background: #2d5166;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(101, 135, 151, 0.25);
+    box-shadow: 0 6px 16px rgba(57, 102, 128, 0.25);
 }
 
 .next-button:active {

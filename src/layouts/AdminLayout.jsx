@@ -27,12 +27,12 @@ const AdminLayout = () => {
                 className={`fixed inset-y-0 left-0 z-40 w-[260px] bg-white border-r border-[#E2E8EC] shadow-[4px_0_24px_rgba(0,0,0,0.02)] transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col`}
             >
                 <div className="px-8 pt-8 pb-10 flex items-center gap-3">
-                    <img src="/logo.jpg" alt="Bangunanmu.id Logo" className="h-10 w-auto object-contain mix-blend-multiply flex-shrink-0" />
+                    <img src="/logo.png" alt="Bangunanmu.id Logo" className="h-10 w-auto object-contain flex-shrink-0" />
                     <div className="flex flex-col">
                         <span className="text-xl font-extrabold text-dark-900 tracking-tight leading-tight">
                             Bangunanmu<span className="font-medium text-dark-500">.id</span>
                         </span>
-                        <span className="text-[8px] font-bold text-[#658797] tracking-widest uppercase mt-0.5">
+                        <span className="text-[8px] font-bold text-[#396680] tracking-widest uppercase mt-0.5">
                             Konstruksi & Design and Build
                         </span>
                     </div>
@@ -50,14 +50,14 @@ const AdminLayout = () => {
                                 to={link.to}
                                 onClick={() => setSidebarOpen(false)}
                                 className={`flex items-center gap-4 px-6 py-3.5 rounded-lg font-bold text-[15px] transition-all relative ${isActive
-                                    ? 'text-[#658797] bg-white shadow-sm'
+                                    ? 'text-[#396680] bg-white shadow-sm'
                                     : 'text-dark-500 hover:text-dark-900 hover:bg-dark-100/50'
                                     }`}
                             >
                                 {isActive && (
-                                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-[#658797] rounded-r-md"></div>
+                                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-[#396680] rounded-r-md"></div>
                                 )}
-                                <div className={`text-lg ${isActive ? 'text-[#658797]' : 'text-dark-400'}`}>
+                                <div className={`text-lg ${isActive ? 'text-[#396680]' : 'text-dark-400'}`}>
                                     {link.icon}
                                 </div>
                                 <span>{link.label}</span>
@@ -110,7 +110,9 @@ const AdminLayout = () => {
                 </header>
 
                 <main className="p-4 sm:p-8 flex-1 w-full max-w-7xl mx-auto">
-                    <Outlet />
+                    <div key={location.pathname} className="animate-fade-in-up">
+                        <Outlet />
+                    </div>
                 </main>
             </div>
         </div>

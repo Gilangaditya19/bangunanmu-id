@@ -1,4 +1,5 @@
 import { Mail, Phone, MapPin, Building2 } from 'lucide-react'
+import ScrollReveal from '../../components/ui/ScrollReveal'
 
 const Instagram = ({ size = 24, ...props }) => (
   <svg 
@@ -20,19 +21,20 @@ const Instagram = ({ size = 24, ...props }) => (
 );
 import ContactForm from '../../components/ui/ContactForm'
 
+
 const Kontak = () => {
     return (
         <div className="bg-[#f8f9fa] min-h-screen py-16 sm:py-24 font-sans">
             <div className="section-container">
                 <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 lg:justify-between">
 
-                    <div className="flex-1 lg:max-w-md pt-4">
-                        <p className="text-[#658797] font-bold text-xs tracking-widest uppercase mb-4">
+                    <ScrollReveal variant="fadeInLeft" className="flex-1 lg:max-w-md pt-4">
+                        <p className="text-[#396680] font-bold text-xs tracking-widest uppercase mb-4">
                             HUBUNGI KAMI
                         </p>
                         <h1 className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-[1.15] tracking-tight mb-6">
                             Mari bangun sesuatu yang <br className="hidden lg:block " />
-                            <span className="text-[#658797]">luar biasa bersama.</span>
+                            <span className="text-[#396680]">luar biasa bersama.</span>
                         </h1>
                         <p className="text-dark-500 text-[17px] mb-12 leading-relaxed max-w-sm">
                             Punya ide proyek? Kami sangat ingin mendengarnya dari Anda. Hubungi kami untuk pertanyaan, penawaran harga, atau sekadar menyapa.
@@ -41,7 +43,7 @@ const Kontak = () => {
                         <div className="space-y-4 mb-14">
                             
                             <a href="mailto:bangunanmu.id@gmail.com" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
-                                <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#658797] shrink-0">
+                                <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#396680] shrink-0">
                                     <Mail size={20} />
                                 </div>
                                 <div>
@@ -51,7 +53,7 @@ const Kontak = () => {
                             </a>
                             
                             <a href="https://wa.me/6287765823731" target="_blank" rel="noopener noreferrer" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
-                                <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#658797] shrink-0">
+                                <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#396680] shrink-0">
                                     <Phone size={20} />
                                 </div>
                                 <div>
@@ -61,7 +63,7 @@ const Kontak = () => {
                             </a>
                             
                             <a href="https://www.instagram.com/bangunanmu.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
-                                <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#658797] shrink-0">
+                                <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#396680] shrink-0">
                                     <Instagram size={22} />
                                 </div>
                                 <div>
@@ -71,9 +73,9 @@ const Kontak = () => {
                             </a>
                         </div>
 
-                    </div>
+                    </ScrollReveal>
 
-                    <div className="flex-1 lg:max-w-2xl">
+                    <ScrollReveal variant="fadeInRight" delay={200} className="flex-1 lg:max-w-2xl">
 
                         <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-lg mb-8">
                             <h2 className="text-2xl font-bold text-dark-900 mb-8">Kirim pesan kepada kami</h2>
@@ -106,7 +108,7 @@ const Kontak = () => {
                                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 bg-white/20 rounded-full blur-xl pointer-events-none"></div>
 
                                 <div className="w-14 h-14 bg-white/40 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg relative z-20 mb-2">
-                                    <div className="w-10 h-10 bg-[#658797] border-[3px] border-white rounded-full flex items-center justify-center text-white shadow-md">
+                                    <div className="w-10 h-10 bg-[#396680] border-[3px] border-white rounded-full flex items-center justify-center text-white shadow-md">
                                         <Building2 size={20} />
                                     </div>
                                 </div>
@@ -117,7 +119,7 @@ const Kontak = () => {
                             </div>
                         </div>
 
-                    </div>
+                    </ScrollReveal>
                 </div>
             </div>
         </div>

@@ -54,7 +54,7 @@ const Dashboard = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 w-full">
                 
                 <div className="bg-white rounded-[1.5rem] p-6 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex flex-col justify-between min-h-[140px] xl:min-h-[180px]">
-                    <div className="w-10 h-10 rounded-full bg-[#F0F4F8] flex items-center justify-center text-[#658797]">
+                    <div className="w-10 h-10 rounded-full bg-[#F0F4F8] flex items-center justify-center text-[#396680]">
                         <Compass size={20} />
                     </div>
                     <div className="mt-8 xl:mt-auto">
@@ -65,7 +65,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="bg-[#658797] rounded-[1.5rem] p-6 shadow-md flex flex-col justify-between min-h-[140px] xl:min-h-[180px] text-white overflow-hidden relative">
+                <div className="bg-[#396680] rounded-[1.5rem] p-6 shadow-md flex flex-col justify-between min-h-[140px] xl:min-h-[180px] text-white overflow-hidden relative">
                     <div className="relative z-10">
                         <p className="text-[10px] sm:text-xs font-bold text-white/80 tracking-widest uppercase mb-1">Proyek Aktif</p>
                         <p className="text-4xl sm:text-5xl font-extrabold leading-none tracking-tight">
@@ -111,7 +111,7 @@ const Dashboard = () => {
                 
                 <div className="bg-white rounded-[2rem] p-8 shadow-md border border-dark-100/50 hover:shadow-lg transition-all relative overflow-hidden group flex flex-col">
                     <div className="relative z-10 flex-1 flex flex-col">
-                        <div className="w-12 h-12 rounded-xl bg-[#F0F4F8] flex items-center justify-center text-[#658797] mb-6">
+                        <div className="w-12 h-12 rounded-xl bg-[#F0F4F8] flex items-center justify-center text-[#396680] mb-6">
                             <Compass size={24} />
                         </div>
                         <h3 className="text-xl font-bold text-dark-900 mb-3 tracking-tight">Kelola Proyek</h3>
@@ -119,7 +119,7 @@ const Dashboard = () => {
                             Pantau progres, tambahkan proyek baru, atau perbarui status konstruksi.
                         </p>
                         <div className="mt-auto">
-                            <Link to="/admin/projects" className="inline-flex items-center gap-2 text-sm font-bold text-[#658797] hover:text-dark-900 transition-colors">
+                            <Link to="/admin/projects" className="inline-flex items-center gap-2 text-sm font-bold text-[#396680] hover:text-dark-900 transition-colors">
                                 Buka Manajemen <ArrowRight size={14} />
                             </Link>
                         </div>

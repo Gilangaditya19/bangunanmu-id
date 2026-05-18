@@ -36,6 +36,7 @@ const PublicLayout = () => {
             children: [
                 { to: '/layanan?tab=konstruksi', label: 'Konstruksi' },
                 { to: '/layanan?tab=design-build', label: 'Design and Build' },
+                { to: '/layanan?tab=desain', label: 'Design' },
             ],
         },
         { to: '/cek-progress', label: 'Cek Progress' },
@@ -52,7 +53,7 @@ const PublicLayout = () => {
                 <div className="section-container">
                     <div className="flex items-center justify-between h-20">
                         <Link to="/" className="flex items-center gap-2 group">
-                            <img src="/logo.jpg" alt="Bangunanmu.id Logo" className="h-10 w-auto object-contain mix-blend-multiply flex-shrink-0" />
+                            <img src="/logo.png" alt="Bangunanmu.id Logo" className="h-10 w-auto object-contain flex-shrink-0 transition-transform group-hover:scale-105" />
                             <span className="text-xl font-bold text-dark-900 tracking-tight">
                                 Bangunanmu<span className="text-dark-500 font-normal">.id</span>
                             </span>
@@ -98,7 +99,7 @@ const PublicLayout = () => {
                         </div>
 
                         <div className="hidden lg:flex items-center justify-end">
-                            <Link to="/kontak" className="inline-flex items-center justify-center px-6 py-2.5 bg-[#658797] hover:bg-[#527181] text-white text-sm font-semibold rounded-full shadow-md transition-colors">
+                            <Link to="/kontak" className="inline-flex items-center justify-center px-6 py-2.5 bg-[#396680] hover:bg-[#2d5166] text-white text-sm font-semibold rounded-full shadow-md transition-colors">
                                 Mulai Proyek
                             </Link>
                         </div>
@@ -158,7 +159,7 @@ const PublicLayout = () => {
                                 )
                             )}
                             <div className="pt-4 px-2">
-                                <Link to="/kontak" onClick={() => setMobileMenuOpen(false)} className="inline-flex w-full items-center justify-center px-6 py-3.5 bg-[#658797] hover:bg-[#527181] text-white font-semibold rounded-xl shadow-md transition-colors">
+                                <Link to="/kontak" onClick={() => setMobileMenuOpen(false)} className="inline-flex w-full items-center justify-center px-6 py-3.5 bg-[#396680] hover:bg-[#2d5166] text-white font-semibold rounded-xl shadow-md transition-colors">
                                     Mulai Proyek
                                 </Link>
                             </div>
@@ -171,14 +172,12 @@ const PublicLayout = () => {
                 <Outlet />
             </main>
 
-            <footer className="bg-[#658797] text-white pt-20 pb-10 border-t border-white/10">
+            <footer className="bg-[#396680] text-white pt-20 pb-10 border-t border-white/10">
                 <div className="section-container">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
                         <div className="lg:col-span-6 pr-0 lg:pr-12">
                             <Link to="/" className="flex items-center gap-3 mb-6">
-                                <div className="h-12 w-auto bg-white rounded-xl flex items-center justify-center shadow-lg overflow-hidden flex-shrink-0 border-2 border-white/20 p-1">
-                                    <img src="/logo.jpg" alt="Bangunanmu.id Logo" className="h-full w-auto object-contain" />
-                                </div>
+                                <img src="/logo.png" alt="Bangunanmu.id Logo" className="h-12 w-auto object-contain" />
                                 <span className="text-2xl font-bold text-white tracking-tight">
                                     Bangunanmu<span className="text-white/80 font-normal">.id</span>
                                 </span>
@@ -187,7 +186,7 @@ const PublicLayout = () => {
                                 Jadikan simulasi dan merencanakan hunian impianmu jadi lebih transparan, aman & mudah dengan Bangunanmu.id. Wujudkan rumah idamanmu dengan kami.
                             </p>
                             <div className="flex gap-4">
-                                <a href="https://instagram.com/bangunanmu.id/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white text-white hover:text-[#658797] transition-all focus:ring-4 focus:ring-white/20">
+                                <a href="https://instagram.com/bangunanmu.id/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white text-white hover:text-[#396680] transition-all focus:ring-4 focus:ring-white/20">
                                     <span className="sr-only">Instagram</span>
                                     <Instagram size={18} />
                                 </a>
@@ -205,6 +204,11 @@ const PublicLayout = () => {
                                 <li>
                                     <Link to="/layanan?tab=design-build" className="text-white/80 hover:text-white transition-colors text-sm">
                                         Design and Build
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to="/layanan?tab=desain" className="text-white/80 hover:text-white transition-colors text-sm">
+                                        Design
                                     </Link>
                                 </li>
                             </ul>

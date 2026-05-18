@@ -41,7 +41,7 @@ const ContactSection = () => {
 
                             <div className="space-y-6 sm:space-y-8">
                                 <a href="https://wa.me/6287765823731" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
-                                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#658797] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
+                                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#396680] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
                                         <MessageCircle size={24} />
                                     </div>
                                     <div className="min-w-0 flex-1">
@@ -51,7 +51,7 @@ const ContactSection = () => {
                                 </a>
 
                                 <a href="mailto:bangunanmu.id@gmail.com" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
-                                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#658797] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
+                                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#396680] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
                                         <Mail size={24} />
                                     </div>
                                     <div className="min-w-0 flex-1">
@@ -61,7 +61,7 @@ const ContactSection = () => {
                                 </a>
 
                                 <a href="https://www.instagram.com/bangunanmu.id?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
-                                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#658797] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
+                                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#396680] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
                                         <Instagram size={24} />
                                     </div>
                                     <div className="min-w-0 flex-1">

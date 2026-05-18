@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import {
     getAllProjects, createProject, updateProject, deleteProject,
     getMilestones, addMilestone, updateMilestone, deleteMilestone,
@@ -23,25 +24,49 @@ const ProjectManagement = () => {
     const [editingMs, setEditingMs] = useState(null)
     const [newDoc, setNewDoc] = useState({ file: null, description: '' })
     const [editingProject, setEditingProject] = useState(null)
-    
+
 
     const [filterCategory, setFilterCategory] = useState('Semua Kategori')
     const [filterStatus, setFilterStatus] = useState('Semua Status')
     const [appliedFilters, setAppliedFilters] = useState({ category: 'Semua Kategori', status: 'Semua Status' })
+    const [currentPage, setCurrentPage] = useState(1)
+    const [paginationMeta, setPaginationMeta] = useState({ page: 1, limit: 10, total: 0, pages: 1, hasNextPage: false, hasPrevPage: false })
     const [formData, setFormData] = useState({
         title: '',
         client: '',
+        email: '',
+        phone: '',
         address: '',
         category: 'Konstruksi',
-        progress: 0,
         status: 'pending',
+        startDate: '',
+        estimatedEndDate: '',
     })
 
-    const fetchProjects = async () => {
+    const fetchProjects = async (page = currentPage) => {
         setLoading(true)
         try {
-            const response = await getAllProjects()
+            let beStatus = undefined;
+            if (appliedFilters.status === 'MENUNGGU') beStatus = 'pending';
+            else if (appliedFilters.status === 'BERJALAN') beStatus = 'in_progress';
+            else if (appliedFilters.status === 'SELESAI') beStatus = 'completed';
+            else if (appliedFilters.status === 'DIBATALKAN') beStatus = 'cancelled';
+
+            let beProjectType = undefined;
+            if (appliedFilters.category === 'Konstruksi') beProjectType = 'konstruksi';
+            else if (appliedFilters.category === 'Design and Build') beProjectType = 'design_and_build';
+            else if (appliedFilters.category === 'desain') beProjectType = 'desain';
+
+            const response = await getAllProjects({ 
+                page, 
+                limit: 10,
+                status: beStatus,
+                projectType: beProjectType
+            })
             setProjects(response.data)
+            if (response.pagination) {
+                setPaginationMeta(response.pagination)
+            }
         } catch (error) {
             console.error('Error fetching projects:', error)
         } finally {
@@ -50,11 +75,11 @@ const ProjectManagement = () => {
     }
 
     useEffect(() => {
-        fetchProjects()
-    }, [])
+        fetchProjects(currentPage)
+    }, [currentPage, appliedFilters])
 
     const resetForm = () => {
-        setFormData({ title: '', client: '', address: '', category: 'Konstruksi', progress: 0, status: 'pending' })
+        setFormData({ title: '', client: '', email: '', phone: '', address: '', category: 'Konstruksi', status: 'pending', startDate: '', estimatedEndDate: '' })
         setEditingProject(null)
     }
 
@@ -68,10 +93,13 @@ const ProjectManagement = () => {
         setFormData({
             title: project.title,
             client: project.client,
+            email: project.email || '',
+            phone: project.phone || '',
             address: project.address || '',
             category: project.category,
-            progress: project.progress,
             status: project.status,
+            startDate: project.startDate ? new Date(project.startDate).toISOString().split('T')[0] : '',
+            estimatedEndDate: project.estimatedEndDate ? new Date(project.estimatedEndDate).toISOString().split('T')[0] : '',
         })
         setShowModal(true)
     }
@@ -220,21 +248,10 @@ const ProjectManagement = () => {
 
     const handleApplyFilters = () => {
         setAppliedFilters({ category: filterCategory, status: filterStatus })
+        setCurrentPage(1)
     }
 
-    const filteredProjects = projects.filter(project => {
-        const matchCategory = appliedFilters.category === 'Semua Kategori' || project.category === appliedFilters.category;
-        
-        if (appliedFilters.status !== 'Semua Status') {
-            const statusFilter = appliedFilters.status;
-            if (statusFilter === 'MENUNGGU' && project.status !== 'pending') return false;
-            if (statusFilter === 'BERJALAN' && project.status !== 'in_progress') return false;
-            if (statusFilter === 'SELESAI' && project.status !== 'completed') return false;
-            if (statusFilter === 'DIBATALKAN' && project.status !== 'cancelled') return false;
-        }
-
-        return matchCategory;
-    });
+    const filteredProjects = projects;
 
     return (
         <div className="pb-12 max-w-7xl mx-auto w-full">
@@ -245,7 +262,7 @@ const ProjectManagement = () => {
                     <p className="text-dark-500 font-medium">Pantau dan kelola semua proyek konstruksi Anda secara real-time.</p>
                 </div>
                 <div className="mt-2 md:mt-0 flex-shrink-0">
-                    <button onClick={openCreate} className="px-6 py-3.5 bg-[#658797] hover:bg-[#527181] text-white font-bold rounded-full shadow-md transition-all flex items-center gap-2">
+                    <button onClick={openCreate} className="px-6 py-3.5 bg-[#396680] hover:bg-[#2d5166] text-white font-bold rounded-full shadow-md transition-all flex items-center gap-2">
                         <Plus size={18} /> Tambah Proyek Baru
                     </button>
                 </div>
@@ -256,21 +273,22 @@ const ProjectManagement = () => {
                 <div className="bg-white rounded-[2rem] p-8 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex items-center justify-between w-full lg:w-[280px] relative overflow-hidden flex-shrink-0">
                     <div className="relative z-10">
                         <p className="text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-1">Total Proyek</p>
-                        <p className="text-4xl font-extrabold text-dark-900">{projects.length > 0 ? projects.length : 42}</p>
+                        <p className="text-4xl font-extrabold text-dark-900">{paginationMeta.total || projects.length}</p>
                     </div>
                 </div>
 
                 <div className="bg-white rounded-[2rem] p-6 lg:p-8 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex-1 flex flex-col sm:flex-row items-end gap-4 lg:gap-6">
                     <div className="flex-1 w-full relative">
                         <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Kategori</label>
-                        <select 
-                            value={filterCategory} 
+                        <select
+                            value={filterCategory}
                             onChange={(e) => setFilterCategory(e.target.value)}
                             className="w-full px-5 py-3 rounded-xl border border-dark-100 bg-transparent text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer"
                         >
                             <option value="Semua Kategori">Semua Kategori</option>
                             <option value="Konstruksi">Konstruksi</option>
                             <option value="Design and Build">Design and Build</option>
+                            <option value="desain">Design</option>
                         </select>
                         <div className="absolute right-4 bottom-3.5 text-dark-300 pointer-events-none">
                             <ChevronDown size={14} />
@@ -278,7 +296,7 @@ const ProjectManagement = () => {
                     </div>
                     <div className="flex-1 w-full relative">
                         <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Status</label>
-                        <select 
+                        <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
                             className="w-full px-5 py-3 rounded-xl border border-dark-100 bg-transparent text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer"
@@ -294,7 +312,7 @@ const ProjectManagement = () => {
                         </div>
                     </div>
                     <div className="w-full sm:w-auto flex-shrink-0">
-                        <button 
+                        <button
                             onClick={handleApplyFilters}
                             className="w-full sm:w-auto px-8 py-3 bg-dark-900 hover:bg-black text-white font-bold text-sm rounded-xl shadow-md transition-all"
                         >
@@ -367,8 +385,8 @@ const ProjectManagement = () => {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-6">
-                                                <span className={`inline-flex px-3 py-1.5 rounded-full text-[9px] font-extrabold uppercase tracking-widest ${isKonstruksi ? 'bg-[#F0F4F8] text-[#658797]' : 'bg-[#F4F4F4] text-dark-500'}`}>
-                                                    {project.category || (isKonstruksi ? 'Konstruksi' : 'Design and Build')}
+                                                <span className={`inline-flex px-3 py-1.5 rounded-full text-[9px] font-extrabold uppercase tracking-widest ${isKonstruksi ? 'bg-[#F0F4F8] text-[#396680]' : 'bg-[#F4F4F4] text-dark-500'}`}>
+                                                    {project.category === 'desain' ? 'Design' : (project.category || (isKonstruksi ? 'Konstruksi' : 'Design and Build'))}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-6">
@@ -397,26 +415,54 @@ const ProjectManagement = () => {
 
                 <div className="px-8 py-5 border-t border-dark-100/60 flex items-center justify-between bg-white text-sm">
                     <span className="text-[10px] font-bold text-dark-300 uppercase tracking-widest">
-                        Menampilkan 3 Dari {projects.length || 42} Proyek
+                        Menampilkan {filteredProjects.length > 0 ? `${(paginationMeta.page - 1) * paginationMeta.limit + 1}-${Math.min(paginationMeta.page * paginationMeta.limit, paginationMeta.total)}` : '0'} Dari {paginationMeta.total} Proyek
                     </span>
-                    <div className="flex items-center gap-2">
-                        <button className="w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center text-dark-400 hover:bg-dark-50 hover:text-dark-900 transition-colors">
-                            <ChevronLeft size={14} />
-                        </button>
-                        <button className="w-8 h-8 rounded-full bg-[#658797] text-white font-bold text-xs flex items-center justify-center shadow-sm">
-                            1
-                        </button>
-                        <button className="w-8 h-8 rounded-full bg-transparent text-dark-500 font-bold text-xs flex items-center justify-center hover:bg-dark-50 hover:text-dark-900 transition-colors">
-                            2
-                        </button>
-                        <button className="w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center text-dark-400 hover:bg-dark-50 hover:text-dark-900 transition-colors">
-                            <ChevronRight size={14} />
-                        </button>
-                    </div>
+                    {paginationMeta.pages > 1 && (
+                        <div className="flex items-center gap-2">
+                            <button
+                                onClick={() => { if (paginationMeta.hasPrevPage) setCurrentPage(currentPage - 1) }}
+                                disabled={!paginationMeta.hasPrevPage}
+                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasPrevPage ? 'text-dark-400 hover:bg-dark-50 hover:text-dark-900 cursor-pointer' : 'text-dark-200 cursor-not-allowed'}`}
+                            >
+                                <ChevronLeft size={14} />
+                            </button>
+                            {Array.from({ length: paginationMeta.pages }, (_, i) => i + 1)
+                                .filter(p => p === 1 || p === paginationMeta.pages || Math.abs(p - currentPage) <= 1)
+                                .reduce((acc, p, idx, arr) => {
+                                    if (idx > 0 && p - arr[idx - 1] > 1) acc.push('...')
+                                    acc.push(p)
+                                    return acc
+                                }, [])
+                                .map((item, idx) =>
+                                    item === '...' ? (
+                                        <span key={`dots-${idx}`} className="text-dark-300 px-1">...</span>
+                                    ) : (
+                                        <button
+                                            key={item}
+                                            onClick={() => setCurrentPage(item)}
+                                            className={`w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-colors ${item === currentPage
+                                                    ? 'bg-[#396680] text-white shadow-sm'
+                                                    : 'bg-transparent text-dark-500 hover:bg-dark-50 hover:text-dark-900'
+                                                }`}
+                                        >
+                                            {item}
+                                        </button>
+                                    )
+                                )
+                            }
+                            <button
+                                onClick={() => { if (paginationMeta.hasNextPage) setCurrentPage(currentPage + 1) }}
+                                disabled={!paginationMeta.hasNextPage}
+                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasNextPage ? 'text-dark-400 hover:bg-dark-50 hover:text-dark-900 cursor-pointer' : 'text-dark-200 cursor-not-allowed'}`}
+                            >
+                                <ChevronRight size={14} />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {showModal && (
+            {showModal && createPortal(
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
                     <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
                         <div className="flex items-center justify-between p-6 border-b border-dark-100">
@@ -431,33 +477,47 @@ const ProjectManagement = () => {
                             <div>
                                 <label className="block text-sm font-medium text-dark-700 mb-1">Judul Proyek</label>
                                 <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                    className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:border-transparent" required />
+                                    minLength={5} className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:border-transparent" placeholder="Minimal 5 karakter" required />
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Nama Klien</label>
                                     <input type="text" value={formData.client} onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:border-transparent" required />
+                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:border-transparent" required />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-dark-700 mb-1">No. HP Klien</label>
+                                    <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                        pattern="[0-9]{10,15}" title="Nomor telepon harus 10-15 digit angka saja"
+                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:border-transparent" placeholder="08xxxxxxxxxx" required />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-dark-700 mb-1">Email Klien</label>
+                                    <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:border-transparent" placeholder="email@contoh.com" required />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Alamat Proyek</label>
                                     <input type="text" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:border-transparent" placeholder="Contoh: Jl. Kemang Raya No. 12" />
+                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:border-transparent" placeholder="Jl. Kemang Raya No. 12" />
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Kategori</label>
                                     <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797]">
+                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680]">
                                         <option value="Konstruksi">Konstruksi</option>
                                         <option value="Design and Build">Design and Build</option>
+                                        <option value="desain">Design</option>
                                     </select>
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Status Proyek</label>
                                     <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797]">
+                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680]">
                                         <option value="pending">MENUNGGU</option>
                                         <option value="in_progress">BERJALAN</option>
                                         <option value="completed">SELESAI</option>
@@ -465,26 +525,45 @@ const ProjectManagement = () => {
                                     </select>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-1 gap-4">
+                            <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-dark-700 mb-1">Total Progres ({formData.progress}%)</label>
-                                    <input type="range" min="0" max="100" value={formData.progress} onChange={(e) => setFormData({ ...formData, progress: parseInt(e.target.value) })}
-                                        className="w-full h-2 bg-dark-100 rounded-lg appearance-none cursor-pointer accent-[#658797]" />
+                                    <label className="block text-sm font-medium text-dark-700 mb-1">Tanggal Mulai</label>
+                                    <input type="date" value={formData.startDate} onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:border-transparent" required />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-dark-700 mb-1">Estimasi Selesai</label>
+                                    <input type="date" value={formData.estimatedEndDate} onChange={(e) => setFormData({ ...formData, estimatedEndDate: e.target.value })}
+                                        min={formData.startDate}
+                                        className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:border-transparent" required />
                                 </div>
                             </div>
+                            {editingProject && (
+                                <div className="grid grid-cols-1 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-dark-700 mb-1">Total Progres ({editingProject.progress || 0}%)</label>
+                                        <div className="w-full bg-dark-100 rounded-lg h-3 overflow-hidden">
+                                            <div className="h-full bg-[#396680] rounded-lg transition-all duration-500" style={{ width: `${editingProject.progress || 0}%` }} />
+                                        </div>
+                                        <p className="text-[10px] text-dark-400 mt-1.5 italic">Progres dihitung otomatis dari rata-rata seluruh tahapan.</p>
+                                    </div>
+                                </div>
+                            )}
 
-                            <div className="pt-4 border-t border-dark-100">
-                                <h4 className="text-sm font-bold text-dark-900 mb-3 flex items-center gap-2">Data Lanjutan (Terhubung ke Cek Progress di Halaman User)</h4>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <button type="button" onClick={() => openTimeline(editingProject)} className="w-full px-4 py-3 rounded-xl border border-dashed border-dark-300 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#658797] hover:text-[#658797] hover:bg-white transition-all text-center">
-                                        + Manajemen Timeline Tahapan
-                                    </button>
-                                    <button type="button" onClick={() => openGallery(editingProject)} className="w-full px-4 py-3 rounded-xl border border-dashed border-dark-300 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#658797] hover:text-[#658797] hover:bg-white transition-all text-center">
-                                        + Unggah Pembaruan Lapangan
-                                    </button>
+                            {editingProject && (
+                                <div className="pt-4 border-t border-dark-100">
+                                    <h4 className="text-sm font-bold text-dark-900 mb-3 flex items-center gap-2">Data Lanjutan (Terhubung ke Cek Progress di Halaman User)</h4>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <button type="button" onClick={() => openTimeline(editingProject)} className="w-full px-4 py-3 rounded-xl border border-dashed border-dark-300 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#396680] hover:text-[#396680] hover:bg-white transition-all text-center">
+                                            + Manajemen Timeline Tahapan
+                                        </button>
+                                        <button type="button" onClick={() => openGallery(editingProject)} className="w-full px-4 py-3 rounded-xl border border-dashed border-dark-300 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#396680] hover:text-[#396680] hover:bg-white transition-all text-center">
+                                            + Unggah Pembaruan Lapangan
+                                        </button>
+                                    </div>
+                                    <p className="text-[10px] text-dark-400 mt-2 italic"></p>
                                 </div>
-                                <p className="text-[10px] text-dark-400 mt-2 italic"></p>
-                            </div>
+                            )}
 
                             <div className="flex gap-3 pt-2">
                                 <button type="button" onClick={() => { setShowModal(false); resetForm() }} className="btn-secondary flex-1">Batal</button>
@@ -492,17 +571,18 @@ const ProjectManagement = () => {
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
-            {showTimelineModal && (
+            {showTimelineModal && createPortal(
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
                     <div className="bg-white rounded-[2rem] shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
 
-                        <div className="p-6 md:p-8 border-b border-[#527181] flex items-center justify-between bg-[#658797] text-white">
+                        <div className="p-6 md:p-8 border-b border-[#2d5166] flex items-center justify-between bg-[#396680] text-white">
                             <div>
                                 <div className="flex items-center gap-3 mb-1">
-                                    <span className="px-2 py-0.5 bg-white text-[#658797] rounded shadow-sm text-[10px] font-bold tracking-widest uppercase">Mockup Data</span>
+                                    <span className="px-2 py-0.5 bg-white text-[#396680] rounded shadow-sm text-[10px] font-bold tracking-widest uppercase">Mockup Data</span>
                                 </div>
                                 <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1">Manajemen Timeline</h2>
                                 <p className="text-white/80 text-sm">Menyusun urutan tahapan & checklist proyek</p>
@@ -525,7 +605,7 @@ const ProjectManagement = () => {
                                                 {stage.status === 'completed' ? (
                                                     <CheckCircle2 className="text-green-500 text-xl" />
                                                 ) : stage.status === 'in_progress' ? (
-                                                    <div className="w-5 h-5 rounded-full border-4 border-[#658797] bg-white"></div>
+                                                    <div className="w-5 h-5 rounded-full border-4 border-[#396680] bg-white"></div>
                                                 ) : (
                                                     <Circle className="text-dark-300 text-xl" />
                                                 )}
@@ -534,16 +614,16 @@ const ProjectManagement = () => {
                                                 <div className="flex items-center justify-between mb-1">
                                                     <div className="flex items-center gap-3">
                                                         <h4 className="font-bold text-dark-900 text-lg">{stage.title}</h4>
-                                                        {stage.status === 'in_progress' && <span className="text-[10px] px-2 py-0.5 bg-[#658797]/10 text-[#658797] font-bold uppercase rounded-sm">Sedang Berjalan</span>}
+                                                        {stage.status === 'in_progress' && <span className="text-[10px] px-2 py-0.5 bg-[#396680]/10 text-[#396680] font-bold uppercase rounded-sm">Sedang Berjalan</span>}
                                                     </div>
                                                     <div className="flex gap-2 text-dark-300">
-                                                        <button onClick={() => openEditMs(stage)} className="hover:text-[#658797] transition-colors"><Pencil size={14} /></button>
+                                                        <button onClick={() => openEditMs(stage)} className="hover:text-[#396680] transition-colors"><Pencil size={14} /></button>
                                                         <button onClick={() => handleDeleteMilestone(stage.id)} className="hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
                                                     </div>
                                                 </div>
                                                 <p className="text-dark-400 text-xs font-medium mb-1">{stage.description}</p>
                                                 <div className="flex items-center gap-3">
-                                                    <p className="text-[#658797] text-[10px] font-bold uppercase tracking-widest">{stage.status}</p>
+                                                    <p className="text-[#396680] text-[10px] font-bold uppercase tracking-widest">{stage.status}</p>
                                                     {stage.targetDate && (
                                                         <p className="text-dark-300 text-[10px] font-bold uppercase tracking-widest">
                                                             Target: {new Date(stage.targetDate).toLocaleDateString('id-ID')}
@@ -563,11 +643,11 @@ const ProjectManagement = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Judul Tahapan</label>
-                                        <input type="text" value={newMs.title} onChange={(e) => setNewMs({ ...newMs, title: e.target.value })} placeholder="Misal: Finishing Interior" className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium" />
+                                        <input type="text" value={newMs.title} onChange={(e) => setNewMs({ ...newMs, title: e.target.value })} placeholder="Misal: Finishing Interior" className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:outline-none text-sm font-medium" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Status</label>
-                                        <select value={newMs.status} onChange={(e) => setNewMs({ ...newMs, status: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium">
+                                        <select value={newMs.status} onChange={(e) => setNewMs({ ...newMs, status: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:outline-none text-sm font-medium">
                                             <option value="pending">MENUNGGU</option>
                                             <option value="in_progress">BERJALAN</option>
                                             <option value="completed">SELESAI</option>
@@ -575,15 +655,15 @@ const ProjectManagement = () => {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Target Selesai</label>
-                                        <input type="date" value={newMs.targetDate} onChange={(e) => setNewMs({ ...newMs, targetDate: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium" />
+                                        <input type="date" value={newMs.targetDate} onChange={(e) => setNewMs({ ...newMs, targetDate: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:outline-none text-sm font-medium" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Keterangan Singkat</label>
-                                        <input type="text" value={newMs.description} onChange={(e) => setNewMs({ ...newMs, description: e.target.value })} placeholder="Opsional..." className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#658797] focus:outline-none text-sm font-medium" />
+                                        <input type="text" value={newMs.description} onChange={(e) => setNewMs({ ...newMs, description: e.target.value })} placeholder="Opsional..." className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680] focus:outline-none text-sm font-medium" />
                                     </div>
                                 </div>
                                 <div className="flex gap-2">
-                                    <button type="button" onClick={handleAddMilestone} className="flex-1 py-3 bg-[#658797] hover:bg-[#527181] text-white text-sm font-bold rounded-xl transition-all shadow-md">
+                                    <button type="button" onClick={handleAddMilestone} className="flex-1 py-3 bg-[#396680] hover:bg-[#2d5166] text-white text-sm font-bold rounded-xl transition-all shadow-md">
                                         {editingMs ? 'Simpan Perubahan' : 'Tambah Tahapan'}
                                     </button>
                                     {editingMs && (
@@ -593,17 +673,18 @@ const ProjectManagement = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
-            {showGalleryModal && (
+            {showGalleryModal && createPortal(
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
                     <div className="bg-white rounded-[2rem] shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
 
-                        <div className="p-6 md:p-8 border-b border-[#527181] flex items-center justify-between bg-[#658797] text-white">
+                        <div className="p-6 md:p-8 border-b border-[#2d5166] flex items-center justify-between bg-[#396680] text-white">
                             <div>
                                 <div className="flex items-center gap-3 mb-1">
-                                    <span className="px-2 py-0.5 bg-white text-[#658797] rounded shadow-sm text-[10px] font-bold tracking-widest uppercase">Mockup Data</span>
+                                    <span className="px-2 py-0.5 bg-white text-[#396680] rounded shadow-sm text-[10px] font-bold tracking-widest uppercase">Mockup Data</span>
                                 </div>
                                 <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1">Pembaruan Lapangan</h2>
                                 <p className="text-white/80 text-sm">Unggah dan kelola dokumentasi visual progres proyek</p>
@@ -616,14 +697,14 @@ const ProjectManagement = () => {
                         <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#FAFAFA]">
 
                             <div className="bg-white p-6 md:p-8 rounded-2xl border-2 border-dashed border-dark-200 mb-8 flex flex-col items-center justify-center text-center hover:bg-dark-50/30 transition-colors">
-                                <div className="w-16 h-16 bg-[#F0F4F8] rounded-full flex items-center justify-center text-[#658797] mb-4 shadow-sm">
+                                <div className="w-16 h-16 bg-[#F0F4F8] rounded-full flex items-center justify-center text-[#396680] mb-4 shadow-sm">
                                     <Upload size={32} />
                                 </div>
                                 <h4 className="font-bold text-dark-900 text-lg mb-1">Unggah Foto Pembaruan Baru</h4>
                                 <p className="text-dark-400 text-sm mb-5">Mendukung format gambar JPG, PNG (Maks 5MB)</p>
                                 <div className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
-                                    <input type="file" onChange={(e) => setNewDoc({ ...newDoc, file: e.target.files[0] })} className="flex-1 px-4 py-3 rounded-xl border border-dark-200 text-sm outline-none focus:ring-2 focus:ring-[#658797]" />
-                                    <button type="button" onClick={handleUploadDoc} className="px-6 py-3 bg-[#658797] hover:bg-[#527181] text-white text-sm font-bold rounded-xl transition-all shadow-md">
+                                    <input type="file" onChange={(e) => setNewDoc({ ...newDoc, file: e.target.files[0] })} className="flex-1 px-4 py-3 rounded-xl border border-dark-200 text-sm outline-none focus:ring-2 focus:ring-[#396680]" />
+                                    <button type="button" onClick={handleUploadDoc} className="px-6 py-3 bg-[#396680] hover:bg-[#2d5166] text-white text-sm font-bold rounded-xl transition-all shadow-md">
                                         Unggah Foto
                                     </button>
                                 </div>
@@ -641,10 +722,10 @@ const ProjectManagement = () => {
                                     (showAllDocs ? documents : documents.slice(0, 4)).map((photo) => (
                                         <div key={photo.id} className="relative aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden group shadow-sm bg-white border border-dark-100 flex flex-col hover:shadow-md transition-shadow">
                                             <div className="h-[65%] sm:h-3/4 relative overflow-hidden bg-dark-50 cursor-pointer" onClick={() => setLightboxImage({ src: photo.fileUrl ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${photo.fileUrl.substring(photo.fileUrl.indexOf('/uploads/'))}` : '', alt: photo.name })}>
-                                                <img 
-                                                    src={photo.fileUrl ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${photo.fileUrl.substring(photo.fileUrl.indexOf('/uploads/'))}` : ''} 
-                                                    alt={photo.name} 
-                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                                                <img
+                                                    src={photo.fileUrl ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${photo.fileUrl.substring(photo.fileUrl.indexOf('/uploads/'))}` : ''}
+                                                    alt={photo.name}
+                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
 
                                                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -664,9 +745,9 @@ const ProjectManagement = () => {
 
                             {!showAllDocs && documents.length > 4 && (
                                 <div className="mt-6 text-center">
-                                    <button 
+                                    <button
                                         onClick={() => setShowAllDocs(true)}
-                                        className="px-6 py-2 bg-dark-50 hover:bg-dark-100 text-[#658797] font-bold rounded-full text-sm transition-all border border-dark-200"
+                                        className="px-6 py-2 bg-dark-50 hover:bg-dark-100 text-[#396680] font-bold rounded-full text-sm transition-all border border-dark-200"
                                     >
                                         Lihat Semua ({documents.length} Foto)
                                     </button>
@@ -675,7 +756,7 @@ const ProjectManagement = () => {
 
                             {showAllDocs && documents.length > 4 && (
                                 <div className="mt-6 text-center">
-                                    <button 
+                                    <button
                                         onClick={() => setShowAllDocs(false)}
                                         className="px-6 py-2 bg-dark-50 hover:bg-dark-100 text-dark-500 font-bold rounded-full text-sm transition-all border border-dark-200"
                                     >
@@ -685,31 +766,33 @@ const ProjectManagement = () => {
                             )}
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
 
-            {lightboxImage && (
-                <div 
+            {lightboxImage && createPortal(
+                <div
                     className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md animate-fadeIn cursor-zoom-out"
                     onClick={() => setLightboxImage(null)}
                     onKeyDown={(e) => e.key === 'Escape' && setLightboxImage(null)}
                     tabIndex={0}
                     ref={(el) => el && el.focus()}
                 >
-                    <button 
-                        onClick={() => setLightboxImage(null)} 
+                    <button
+                        onClick={() => setLightboxImage(null)}
                         className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xl transition-colors z-10"
                     >
                         <X size={24} />
                     </button>
-                    <img 
-                        src={lightboxImage.src} 
-                        alt={lightboxImage.alt} 
-                        className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl" 
+                    <img
+                        src={lightboxImage.src}
+                        alt={lightboxImage.alt}
+                        className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
                         onClick={(e) => e.stopPropagation()}
                     />
                     <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/40 px-4 py-2 rounded-full">{lightboxImage.alt}</p>
-                </div>
+                </div>,
+                document.body
             )}
         </div>
     )

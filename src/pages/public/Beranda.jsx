@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Home, Building2, Armchair, Search, CheckCircle2, Wrench, HardHat, Handshake, FileText } from 'lucide-react';
+import { ArrowRight, Home, Building2, Armchair, Search, CheckCircle2, Wrench, HardHat, Handshake, FileText, Compass } from 'lucide-react';
 import ContactSection from '../../components/ui/ContactSection';
 import ShinyText from '../../components/ui/ShinyText';
 import Typewriter from '../../components/ui/Typewriter';
 import Stepper, { Step } from '../../components/ui/Stepper';
+import ScrollReveal from '../../components/ui/ScrollReveal';
 
 const Beranda = () => {
     const [progressQuery, setProgressQuery] = useState('');
@@ -115,17 +116,17 @@ const Beranda = () => {
             <section className="section-padding section-container">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
 
-                    <div className="space-y-8">
+                    <ScrollReveal variant="fadeInLeft" className="space-y-8">
                         <div className="flex items-center gap-4 mb-4">
                             <div className="w-12 h-[2px] bg-dark-200"></div>
                             <span className="text-sm font-semibold tracking-wider text-dark-400 uppercase">TENTANG KAMI</span>
                         </div>
                         <h2 className="text-3xl sm:text-5xl font-bold text-dark-900 tracking-tight leading-tight">
                             Solusi Hunian <br />
-                            <span className="text-[#658797]">Kreatif & Terpercaya</span>
+                            <span className="text-[#396680]">Kreatif & Terpercaya</span>
                         </h2>
                         <p className="text-dark-500 text-lg leading-relaxed">
-                            Kami adalah Bangunanmu.id, tim berdedikasi yang menghadirkan solusi unggul di bidang konstruksi dan desain interior, khususnya untuk hunian. Berbekal pengalaman lebih dari empat tahun, kami memahami pentingnya menciptakan rumah yang nyaman, fungsional, dan dirancang secara khusus sesuai dengan visi Anda.
+                            Kami adalah Bangunanmu.id, tim berdedikasi yang menghadirkan solusi unggul di bidang konstruksi dan design interior, khususnya untuk hunian. Berbekal pengalaman lebih dari empat tahun, kami memahami pentingnya menciptakan rumah yang nyaman, fungsional, dan dirancang secara khusus sesuai dengan visi Anda.
                         </p>
 
                         <div className="p-8 bg-white rounded-3xl shadow-lg border border-dark-50 relative">
@@ -136,18 +137,17 @@ const Beranda = () => {
 
                         <div className="grid grid-cols-2 gap-8 pt-4">
                             <div>
-                                <p className="text-4xl font-bold text-dark-900 mb-2">10<span className="text-[#658797]">+</span></p>
+                                <p className="text-4xl font-bold text-dark-900 mb-2">10<span className="text-[#396680]">+</span></p>
                                 <p className="text-sm text-dark-500 font-medium">Proyek Selesai</p>
                             </div>
                             <div>
-                                <p className="text-4xl font-bold text-dark-900 mb-2">99<span className="text-[#658797]">%</span></p>
+                                <p className="text-4xl font-bold text-dark-900 mb-2">99<span className="text-[#396680]">%</span></p>
                                 <p className="text-sm text-dark-500 font-medium">Kepuasan Klien</p>
                             </div>
                         </div>
-                    </div>
+                    </ScrollReveal>
 
-                    <div className="w-full flex flex-col gap-4">
-
+                    <ScrollReveal variant="fadeInRight" delay={200} className="w-full flex flex-col gap-4">
                         <div className="flex gap-4 h-[280px] sm:h-[320px]">
 
                             <div className="flex-[1.4] rounded-[1.5rem] overflow-hidden shadow-lg">
@@ -160,7 +160,7 @@ const Beranda = () => {
                                     <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop" alt="Team Discussion" className="w-full h-full object-cover" />
                                 </div>
 
-                                <div className="bg-[#658797] text-white p-5 rounded-[1.5rem] shadow-lg flex flex-col items-center justify-center gap-2 h-[120px]">
+                                <div className="bg-[#396680] text-white p-5 rounded-[1.5rem] shadow-lg flex flex-col items-center justify-center gap-2 h-[120px]">
                                     <Armchair className="text-2xl" />
                                     <span className="text-sm font-semibold text-center leading-tight">Design and Build</span>
                                 </div>
@@ -170,7 +170,7 @@ const Beranda = () => {
                         <div className="h-[200px] sm:h-[240px] rounded-[1.5rem] overflow-hidden shadow-lg">
                             <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop" alt="Modern House Exterior" className="w-full h-full object-cover" />
                         </div>
-                    </div>
+                    </ScrollReveal>
                 </div>
             </section>
 
@@ -181,29 +181,26 @@ const Beranda = () => {
                             <h2 className="text-3xl sm:text-4xl font-bold text-dark-900 mb-4">Layanan Kami</h2>
                             <p className="text-dark-500 text-lg">Solusi lengkap untuk wujudkan bangunan idaman</p>
                         </div>
-                        <Link to="/layanan" className="inline-flex items-center gap-2 text-[#658797] font-semibold hover:text-[#527181] transition-colors group">
+                        <Link to="/layanan" className="inline-flex items-center gap-2 text-[#396680] font-semibold hover:text-[#2d5166] transition-colors group">
                             Lihat Detail Layanan
                             <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                        <div className="bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
+                        <ScrollReveal variant="fadeInUp" delay={0} className="bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
                             <div className="relative h-64 rounded-[1.5rem] overflow-hidden mb-8">
                                 <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop" alt="Konstruksi" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                                <div className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#658797] shadow-lg">
-                                    <Building2 size={24} />
-                                </div>
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
-                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Layanan Konstruksi</h3>
+                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Konstruksi</h3>
                                 <p className="text-dark-500 mb-8 line-clamp-2">Tujuan kami adalah menciptakan hunian yang tidak hanya indah secara estetika, tetapi juga kokoh dan fungsional.</p>
 
                                 <ul className="space-y-3 mb-10">
                                     {['Konstruksi Residensial/Perumahan', 'Konstruksi Komersial'].map((item, i) => (
                                         <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
-                                            <CheckCircle2 size={16} className="text-[#658797]" />
+                                            <CheckCircle2 size={16} className="text-[#396680]" />
                                             {item}
                                         </li>
                                     ))}
@@ -213,23 +210,20 @@ const Beranda = () => {
                                     Konsultasi Gratis
                                 </Link>
                             </div>
-                        </div>
+                        </ScrollReveal>
 
-                        <div className="bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
+                        <ScrollReveal variant="fadeInUp" delay={150} className="bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
                             <div className="relative h-64 rounded-[1.5rem] overflow-hidden mb-8">
                                 <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop" alt="Design and Build" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                                <div className="absolute top-4 right-4 w-12 h-12 bg-white rounded-full flex items-center justify-center text-[#658797] shadow-lg">
-                                    <Armchair size={24} />
-                                </div>
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
                                 <h3 className="text-2xl font-bold text-dark-900 mb-4">Design and Build</h3>
-                                <p className="text-dark-500 mb-8 line-clamp-2">Kustomisasi interior dan layout desain yang presisi untuk nuansa senada di setiap sudut ruangan.</p>
+                                <p className="text-dark-500 mb-8 line-clamp-2">Kustomisasi interior dan layout design yang presisi untuk nuansa senada di setiap sudut ruangan.</p>
 
                                 <ul className="space-y-3 mb-10">
                                     {['Interior Design', 'Outdoor Area Design'].map((item, i) => (
                                         <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
-                                            <CheckCircle2 size={16} className="text-[#658797]" />
+                                            <CheckCircle2 size={16} className="text-[#396680]" />
                                             {item}
                                         </li>
                                     ))}
@@ -239,14 +233,38 @@ const Beranda = () => {
                                     Lihat Katalog
                                 </Link>
                             </div>
-                        </div>
+                        </ScrollReveal>
+
+                        <ScrollReveal variant="fadeInUp" delay={300} className="bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
+                            <div className="relative h-64 rounded-[1.5rem] overflow-hidden mb-8">
+                                <img src="https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1000&auto=format&fit=crop" alt="Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                            </div>
+                            <div className="p-4 sm:p-6 pt-0">
+                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Design</h3>
+                                <p className="text-dark-500 mb-8 line-clamp-2">Visualisasikan hunian impian Anda dengan design arsitektur dan interior 3D yang detail serta realistis.</p>
+
+                                <ul className="space-y-3 mb-10">
+                                    {['Design Arsitektur (DED)', 'Design Interior & 3D'].map((item, i) => (
+                                        <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
+                                            <CheckCircle2 size={16} className="text-[#396680]" />
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+
+                                <Link to="/layanan?tab=desain" className="block w-full text-center py-4 rounded-xl border-2 border-dark-100 text-dark-700 font-semibold hover:bg-dark-50 hover:border-dark-200 transition-colors">
+                                    Lihat Portofolio
+                                </Link>
+                            </div>
+                        </ScrollReveal>
+
                     </div>
                 </div>
             </section>
 
             <section className="section-padding bg-white">
                 <div className="section-container">
-                    <div className="bg-[#527181] rounded-[3rem] p-8 sm:p-16 relative overflow-hidden shadow-2xl">
+                    <ScrollReveal variant="scaleUp" className="bg-[#396680] rounded-[3rem] p-8 sm:p-16 relative overflow-hidden shadow-2xl">
 
                         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white opacity-[0.03] rounded-full mix-blend-overlay filter blur-3xl transform translate-x-1/3 -translate-y-1/3"></div>
                         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-dark-900 opacity-10 rounded-full mix-blend-overlay filter blur-2xl transform -translate-x-1/3 translate-y-1/3"></div>
@@ -278,12 +296,12 @@ const Beranda = () => {
                                         onChange={(e) => setProgressQuery(e.target.value)}
                                     />
                                 </div>
-                                <Link to="/cek-progress" className="flex items-center justify-center px-8 py-4 bg-white text-[#527181] font-bold rounded-2xl hover:bg-gray-100 transition-colors shadow-lg">
+                                <Link to="/cek-progress" className="flex items-center justify-center px-8 py-4 bg-white text-[#396680] font-bold rounded-2xl hover:bg-gray-100 transition-colors shadow-lg">
                                     Cek Progress
                                 </Link>
                             </div>
                         </div>
-                    </div>
+                    </ScrollReveal>
                 </div>
             </section>
 
@@ -309,15 +327,15 @@ const Beranda = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12">
-                        {visiblePortfolio.map((item) => (
-                            <div key={item.id} className="group relative rounded-[2rem] overflow-hidden aspect-[4/3] shadow-lg">
+                        {visiblePortfolio.map((item, index) => (
+                            <ScrollReveal key={item.id} variant="fadeInUp" delay={index * 100} className="group relative rounded-[2rem] overflow-hidden aspect-[4/3] shadow-lg">
                                 <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-dark-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <div className="absolute bottom-0 left-0 w-full p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
                                     <h3 className="text-white text-2xl font-bold mb-2">{item.title}</h3>
                                     <p className="text-white/80">{item.location}</p>
                                 </div>
-                            </div>
+                            </ScrollReveal>
                         ))}
                     </div>
 
@@ -325,7 +343,7 @@ const Beranda = () => {
                         <div className="text-center">
                             <button
                                 onClick={() => setVisibleCount(prev => prev + 4)}
-                                className="inline-flex items-center justify-center px-8 py-3 bg-white border-2 border-dark-200 text-dark-700 font-semibold rounded-full hover:border-[#658797] hover:text-[#658797] transition-colors"
+                                className="inline-flex items-center justify-center px-8 py-3 bg-white border-2 border-dark-200 text-dark-700 font-semibold rounded-full hover:border-[#396680] hover:text-[#396680] transition-colors"
                             >
                                 Lihat Lebih Banyak
                             </button>
@@ -348,11 +366,11 @@ const Beranda = () => {
                         </div>
                         <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-2">
                             <span className="text-dark-900 drop-shadow-sm">Membangun Hunian</span><br />
-                            <span className="text-[#658797]">Masa Depan Anda</span>
+                            <span className="text-[#396680]">Masa Depan Anda</span>
                         </h2>
                     </div>
 
-                    <div className="w-full lg:max-w-6xl mx-auto">
+                    <ScrollReveal variant="fadeInUp" className="w-full lg:max-w-6xl mx-auto">
                         <Stepper
                             initialStep={1}
                             onStepChange={(step) => console.log('Step changed to:', step)}
@@ -368,7 +386,7 @@ const Beranda = () => {
                                 };
                                 const stepLabels = {
                                     1: "KONSULTASI & SURVEY",
-                                    2: "DESAIN & PENAWARAN",
+                                    2: "DESIGN & PENAWARAN",
                                     3: "PROSES PEMBANGUNAN",
                                     4: "SERAH TERIMA & GARANSI"
                                 };
@@ -408,7 +426,7 @@ const Beranda = () => {
                                         </p>
 
                                         <div className="flex flex-wrap gap-4 mb-10">
-                                            <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
+                                            <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                 Mulai Konsultasi
                                             </Link>
 
@@ -416,11 +434,11 @@ const Beranda = () => {
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <Search size={16} className="text-[#658797]" />
+                                                <Search size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Survey Lokasi</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <CheckCircle2 size={16} className="text-[#658797]" />
+                                                <CheckCircle2 size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Analisa Kebutuhan</span>
                                             </div>
                                         </div>
@@ -442,24 +460,24 @@ const Beranda = () => {
                                         </div>
                                     </div>
                                     <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
-                                        <h3 className="text-3xl font-bold text-dark-900 mb-4 tracking-tight">Desain & Penawaran</h3>
+                                        <h3 className="text-3xl font-bold text-dark-900 mb-4 tracking-tight">Design & Penawaran</h3>
                                         <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
                                             Masuk ke tahap visualisasi dengan pemodelan 3D realistis. Kami menyusun Rencana Anggaran Biaya (RAB) yang sepenuhnya transparan serta timeline pengerjaan yang terstruktur rapi.
                                         </p>
 
                                         <div className="flex flex-wrap gap-4 mb-10">
-                                            <a href="#layanan-kami" className="inline-flex items-center justify-center px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
+                                            <a href="#layanan-kami" className="inline-flex items-center justify-center px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                 Lihat Portofolio
                                             </a>
                                         </div>
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <Wrench size={16} className="text-[#658797]" />
+                                                <Wrench size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Visualisasi 3D</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <CheckCircle2 size={16} className="text-[#658797]" />
+                                                <CheckCircle2 size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Penyusunan RAB</span>
                                             </div>
                                         </div>
@@ -487,18 +505,18 @@ const Beranda = () => {
                                         </p>
 
                                         <div className="flex flex-wrap gap-4 mb-10">
-                                            <Link to="/cek-progress" className="inline-flex px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
+                                            <Link to="/cek-progress" className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                 Pantau Proyek
                                             </Link>
                                         </div>
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <HardHat size={16} className="text-[#658797]" />
+                                                <HardHat size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Kontrol Kualitas</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <CheckCircle2 size={16} className="text-[#658797]" />
+                                                <CheckCircle2 size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Laporan Harian</span>
                                             </div>
                                         </div>
@@ -526,18 +544,18 @@ const Beranda = () => {
                                         </p>
 
                                         <div className="flex flex-wrap gap-4 mb-10">
-                                            <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
+                                            <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                 Hubungi Kami
                                             </Link>
                                         </div>
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <Handshake size={16} className="text-[#658797]" />
+                                                <Handshake size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Inspeksi Akhir</span>
                                             </div>
                                             <div className="flex items-center gap-2 text-dark-500">
-                                                <CheckCircle2 size={16} className="text-[#658797]" />
+                                                <CheckCircle2 size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Garansi Retensi</span>
                                             </div>
                                         </div>
@@ -545,7 +563,7 @@ const Beranda = () => {
                                 </div>
                             </Step>
                         </Stepper>
-                    </div>
+                    </ScrollReveal>
                 </div>
             </section>
 

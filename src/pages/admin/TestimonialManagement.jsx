@@ -10,14 +10,21 @@ const TestimonialManagement = () => {
     const [filterCategory, setFilterCategory] = useState('Semua Kategori')
     const [filterStatus, setFilterStatus] = useState('Semua Status')
     const [appliedFilters, setAppliedFilters] = useState({ category: 'Semua Kategori', status: 'Semua Status' })
+    const [currentPage, setCurrentPage] = useState(1)
+    const [paginationMeta, setPaginationMeta] = useState({ page: 1, limit: 10, total: 0, pages: 1, hasNextPage: false, hasPrevPage: false })
 
-    const fetchTestimonials = async () => {
+    const fetchTestimonials = async (page = currentPage) => {
         setLoading(true)
         try {
-            const response = await getAllTestimonials()
+            let beStatus = 'all';
+            if (appliedFilters.status === 'Diterbitkan') beStatus = 'approved';
+            else if (appliedFilters.status === 'Menunggu' || appliedFilters.status === 'Disembunyikan') beStatus = 'pending';
+
+            const response = await getAllTestimonials({ page, limit: 10, status: beStatus })
 
             if (response.success && response.data && Array.isArray(response.data.data)) {
                 setTestimonials(response.data.data)
+                if (response.data.pagination) setPaginationMeta(response.data.pagination)
             } else if (Array.isArray(response.data)) {
                 setTestimonials(response.data)
             } else {
@@ -31,8 +38,8 @@ const TestimonialManagement = () => {
     }
 
     useEffect(() => {
-        fetchTestimonials()
-    }, [])
+        fetchTestimonials(currentPage)
+    }, [currentPage, appliedFilters])
 
     const handleToggleApproval = async (id, currentStatus) => {
         try {
@@ -53,6 +60,8 @@ const TestimonialManagement = () => {
         }
     }
 
+
+
     const renderStars = (rating) => {
         return Array.from({ length: 5 }, (_, i) => (
             <Star key={i} size={14} className={`${i < rating ? 'text-yellow-400 fill-yellow-400' : 'text-dark-100'}`} />
@@ -61,12 +70,13 @@ const TestimonialManagement = () => {
 
     const defaultDummyTestimonials = [
         { id: 1, name: 'Ahmad Subarjo', project: 'Proyek Modern Villa', rating: 5, review: 'Sangat puas dengan hasil renovasi villa kami. Tim Bangunanmu sangat profesional dan detail.', status: 'Diterbitkan' },
-        { id: 2, name: 'Siti Aminah', project: 'Kitchen Set Minimalis', rating: 5, review: 'Desain kitchen set-nya bagus sekali, hanya saja pengerjaan sedikit terlambat dari jadwal.', status: 'Menunggu' },
+        { id: 2, name: 'Siti Aminah', project: 'Kitchen Set Minimalis', rating: 5, review: 'Design kitchen set-nya bagus sekali, hanya saja pengerjaan sedikit terlambat dari jadwal.', status: 'Menunggu' },
         { id: 3, name: 'Budi Santoso', project: 'Office Interior', rating: 5, review: 'Transformasi kantor kami luar biasa. Rekan kerja sangat nyaman bekerja sekarang.', status: 'Disembunyikan' }
     ]
 
     const handleApplyFilters = () => {
         setAppliedFilters({ category: filterCategory, status: filterStatus })
+        setCurrentPage(1)
     }
 
     const rawDisplayData = testimonials.length > 0 ? testimonials : defaultDummyTestimonials;
@@ -74,7 +84,7 @@ const TestimonialManagement = () => {
     const displayData = rawDisplayData.filter(testi => {
         let matchCategory = true;
         if (appliedFilters.category !== 'Semua Kategori') {
-            const proj = (testi.project || '').toLowerCase();
+            const proj = (testi.project || testi.company || '').toLowerCase();
             if (appliedFilters.category === 'Konstruksi') {
                 if (proj.includes('desain') || proj.includes('design') || proj.includes('interior') || proj.includes('dapur') || proj.includes('kitchen')) matchCategory = false;
             } else if (appliedFilters.category === 'Design and Build') {
@@ -82,16 +92,7 @@ const TestimonialManagement = () => {
             }
         }
 
-        let statusStr = testimonials.length > 0 ? (testi.isApproved ? 'Diterbitkan' : 'Disembunyikan') : testi.status;
-        
-        let matchStatus = true;
-        if (appliedFilters.status !== 'Semua Status') {
-            if (appliedFilters.status === 'Diterbitkan' && statusStr !== 'Diterbitkan') matchStatus = false;
-            if (appliedFilters.status === 'Menunggu' && statusStr !== 'Menunggu') matchStatus = false;
-            if (appliedFilters.status === 'Disembunyikan' && statusStr !== 'Disembunyikan') matchStatus = false;
-        }
-
-        return matchCategory && matchStatus;
+        return matchCategory;
     });
 
     return (
@@ -106,7 +107,7 @@ const TestimonialManagement = () => {
                 <div className="bg-white rounded-full sm:rounded-[40px] px-8 py-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex items-center gap-6 min-w-max border border-dark-100/50">
                     <div className="pl-6 py-4 pr-12">
                         <p className="text-[9px] sm:text-[10px] font-extrabold text-dark-300 tracking-widest uppercase mb-1">Total Testimoni</p>
-                        <p className="text-3xl sm:text-4xl font-extrabold text-dark-900 leading-none">{(testimonials || []).length}</p>
+                        <p className="text-3xl sm:text-4xl font-extrabold text-dark-900 leading-none">{paginationMeta.total || (testimonials || []).length}</p>
                     </div>
                 </div>
             </div>
@@ -146,7 +147,7 @@ const TestimonialManagement = () => {
                 <div className="w-full sm:w-auto flex-shrink-0">
                     <button 
                         onClick={handleApplyFilters}
-                        className="w-full sm:w-auto px-8 py-3 bg-[#658797] hover:bg-[#527181] text-white font-bold text-sm rounded-xl shadow-md transition-all"
+                        className="w-full sm:w-auto px-8 py-3 bg-[#396680] hover:bg-[#2d5166] text-white font-bold text-sm rounded-xl shadow-md transition-all"
                     >
                         Terapkan Filter
                     </button>
@@ -194,11 +195,13 @@ const TestimonialManagement = () => {
                                             <td className="px-8 py-6 align-top">
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-12 h-12 rounded-full border-2 border-[#E2E8EC] shadow-sm overflow-hidden flex-shrink-0 bg-dark-50">
-                                                        <img src={`https://ui-avatars.com/api/?name=${testi.name}&background=658797&color=fff&size=100`} alt={testi.name} className="w-full h-full object-cover" />
+                                                        <img src={`https://ui-avatars.com/api/?name=${testi.name}&background=396680&color=fff&size=100`} alt={testi.name} className="w-full h-full object-cover" />
                                                     </div>
                                                     <div>
                                                         <p className="font-extrabold text-dark-900 text-[15px] mb-0.5">{testi.name}</p>
-                                                        <p className="text-[12px] text-[#658797] font-medium tracking-wide">{testi.project || `Proyek ${testi.name}`}</p>
+                                                        <p className="text-[12px] text-[#396680] font-medium tracking-wide">
+                                                            {testi.position && testi.company ? `${testi.position} di ${testi.company}` : testi.company || testi.position || testi.project || `Proyek ${testi.name}`}
+                                                        </p>
                                                     </div>
                                                 </div>
                                             </td>
@@ -222,7 +225,7 @@ const TestimonialManagement = () => {
                                                 <div className="flex items-center justify-end gap-3 opacity-80 group-hover:opacity-100 transition-opacity">
                                                     <button 
                                                         onClick={() => testimonials.length > 0 && handleToggleApproval(testi.id, testi.isApproved)} 
-                                                        className="w-8 h-8 rounded-full bg-[#F4F6F8] border border-[#EAECEE] flex items-center justify-center text-dark-400 hover:text-[#658797] hover:bg-[#EAECEE] transition-all" 
+                                                        className="w-8 h-8 rounded-full bg-[#F4F6F8] border border-[#EAECEE] flex items-center justify-center text-dark-400 hover:text-[#396680] hover:bg-[#EAECEE] transition-all" 
                                                         title="Sembunyikan/Tampilkan"
                                                     >
                                                         {isHidden ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -246,29 +249,51 @@ const TestimonialManagement = () => {
 
                 <div className="px-8 py-5 border-t border-dark-100/60 flex items-center justify-between bg-white text-sm mt-auto">
                     <span className="text-[11px] font-medium text-dark-400 tracking-wide">
-                        Menampilkan <strong className="text-dark-900 font-extrabold">{(testimonials || []).length > 0 ? `1-${(testimonials || []).length}` : '0'}</strong> dari <strong className="text-dark-900 font-extrabold">{(testimonials || []).length}</strong> testimoni
+                        Menampilkan <strong className="text-dark-900 font-extrabold">{displayData.length > 0 ? `${(paginationMeta.page - 1) * paginationMeta.limit + 1}-${Math.min(paginationMeta.page * paginationMeta.limit, paginationMeta.total)}` : '0'}</strong> dari <strong className="text-dark-900 font-extrabold">{paginationMeta.total}</strong> testimoni
                     </span>
-                    <div className="flex items-center gap-1.5">
-                        <button className="w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center text-dark-400 hover:bg-dark-50 hover:text-dark-900 transition-colors">
-                            <ChevronLeft size={14} />
-                        </button>
-                        <button className="w-8 h-8 rounded-full bg-[#658797] text-white font-bold text-xs flex items-center justify-center shadow-md">
-                            1
-                        </button>
-                        <button className="w-8 h-8 rounded-full bg-transparent text-dark-600 font-bold text-xs flex items-center justify-center hover:bg-dark-50 transition-colors">
-                            2
-                        </button>
-                        <button className="w-8 h-8 rounded-full bg-transparent text-dark-600 font-bold text-xs flex items-center justify-center hover:bg-dark-50 transition-colors">
-                            3
-                        </button>
-                        <span className="text-dark-300 px-1">...</span>
-                        <button className="w-8 h-8 rounded-full bg-transparent text-dark-600 font-bold text-xs flex items-center justify-center hover:bg-dark-50 transition-colors">
-                            16
-                        </button>
-                        <button className="w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center text-dark-400 hover:bg-dark-50 hover:text-dark-900 transition-colors">
-                            <ChevronRight size={14} />
-                        </button>
-                    </div>
+                    {paginationMeta.pages > 1 && (
+                        <div className="flex items-center gap-1.5">
+                            <button
+                                onClick={() => { if (paginationMeta.hasPrevPage) setCurrentPage(currentPage - 1) }}
+                                disabled={!paginationMeta.hasPrevPage}
+                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasPrevPage ? 'text-dark-400 hover:bg-dark-50 hover:text-dark-900 cursor-pointer' : 'text-dark-200 cursor-not-allowed'}`}
+                            >
+                                <ChevronLeft size={14} />
+                            </button>
+                            {Array.from({ length: paginationMeta.pages }, (_, i) => i + 1)
+                                .filter(p => p === 1 || p === paginationMeta.pages || Math.abs(p - currentPage) <= 1)
+                                .reduce((acc, p, idx, arr) => {
+                                    if (idx > 0 && p - arr[idx - 1] > 1) acc.push('...')
+                                    acc.push(p)
+                                    return acc
+                                }, [])
+                                .map((item, idx) =>
+                                    item === '...' ? (
+                                        <span key={`dots-${idx}`} className="text-dark-300 px-1">...</span>
+                                    ) : (
+                                        <button
+                                            key={item}
+                                            onClick={() => setCurrentPage(item)}
+                                            className={`w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-colors ${
+                                                item === currentPage
+                                                    ? 'bg-[#396680] text-white shadow-md'
+                                                    : 'bg-transparent text-dark-600 hover:bg-dark-50'
+                                            }`}
+                                        >
+                                            {item}
+                                        </button>
+                                    )
+                                )
+                            }
+                            <button
+                                onClick={() => { if (paginationMeta.hasNextPage) setCurrentPage(currentPage + 1) }}
+                                disabled={!paginationMeta.hasNextPage}
+                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasNextPage ? 'text-dark-400 hover:bg-dark-50 hover:text-dark-900 cursor-pointer' : 'text-dark-200 cursor-not-allowed'}`}
+                            >
+                                <ChevronRight size={14} />
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
