@@ -70,8 +70,8 @@ const Settings = () => {
             setSuccess('Kata sandi berhasil diubah! Silakan login kembali.')
             setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' })
 
-            setTimeout(() => {
-                logoutUser()
+            setTimeout(async () => {
+                await logoutUser()
                 window.location.href = '/admin/login'
             }, 2500)
         } catch (err) {

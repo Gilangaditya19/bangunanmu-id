@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Compass, CheckCircle2, MessageSquare, Globe, Star, ArrowRight, ExternalLink, Loader2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { getAllProjects } from '../../services/projectService'
+import { getDashboardStats } from '../../services/dashboardService'
 import { getAllTestimonials } from '../../services/testimonialService'
 
 const Dashboard = () => {
@@ -16,15 +16,12 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
+                const [dashboardRes, testiRes] = await Promise.all([
+                    getDashboardStats(),
+                    getAllTestimonials()
+                ])
 
-                const projectsRes = await getAllProjects()
-                const projects = projectsRes.data || []
-                
-                const active = projects.filter(p => p.status === 'in_progress' || p.status === 'pending')
-                const completed = projects.filter(p => p.status === 'completed')
-
-
-                const testiRes = await getAllTestimonials()
+                const dashboardData = dashboardRes.data || dashboardRes
                 let testiCount = 0;
                 if (testiRes.success && testiRes.data && Array.isArray(testiRes.data.data)) {
                     testiCount = testiRes.data.data.length
@@ -33,9 +30,9 @@ const Dashboard = () => {
                 }
 
                 setStats({
-                    totalProjects: projects.length,
-                    activeProjects: active.length,
-                    completedProjects: completed.length,
+                    totalProjects: dashboardData.totalProjects || 0,
+                    activeProjects: dashboardData.activeProjects || 0,
+                    completedProjects: dashboardData.completedProjects || 0,
                     totalTestimonials: testiCount,
                 })
             } catch (error) {

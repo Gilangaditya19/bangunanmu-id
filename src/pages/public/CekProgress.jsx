@@ -285,7 +285,7 @@ const CekProgress = () => {
                         </div>
                     )}
 
-                    {reviewSuccess && projectData.overallProgress === 100 && (
+                    {reviewSuccess && projectData.rawStatus === 'completed' && (
                         <div className="bg-green-50 rounded-[2rem] p-8 md:p-10 shadow-sm border border-green-200 mb-10 text-center animate-fadeIn flex flex-col items-center">
                             <CheckCircle2 size={48} className="text-green-500 mb-4" />
                             <h3 className="text-xl md:text-2xl font-bold text-dark-900 mb-2">Terima Kasih atas Ulasan Anda!</h3>

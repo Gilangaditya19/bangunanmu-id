@@ -24,7 +24,7 @@ const Login = () => {
 
         try {
             const response = await loginService({ email, password })
-            loginUser(response.data.user, response.data.token)
+            loginUser(response.data.user, response.data.token, response.data.refreshToken)
             navigate('/admin/dashboard')
         } catch (err) {
             setError(err.response?.data?.message || 'Login gagal. Periksa email dan password Anda.')

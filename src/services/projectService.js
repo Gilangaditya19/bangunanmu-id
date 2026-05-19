@@ -77,7 +77,6 @@ export const updateProject = async (id, data) => {
             customerPhone: data.phone,
             customerAddress: data.address || '-',
             description: data.description || '-',
-            status: data.status,
             startDate: data.startDate ? new Date(data.startDate).toISOString() : undefined,
             estimatedEndDate: data.estimatedEndDate ? new Date(data.estimatedEndDate).toISOString() : undefined
         }
@@ -89,6 +88,15 @@ export const updateProject = async (id, data) => {
     }
 }
 
+export const updateProjectStatus = async (projectCode, status) => {
+    try {
+        const response = await api.patch(`/projects/${projectCode}/status`, { status })
+        return response.data
+    } catch (error) {
+        console.error('Update Project Status Error:', error.response?.data || error)
+        throw error
+    }
+}
 export const deleteProject = async (id) => {
     try {
         const response = await api.delete(`/projects/${id}`)

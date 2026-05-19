@@ -9,8 +9,8 @@ const AdminLayout = () => {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const handleLogout = () => {
-        logoutUser()
+    const handleLogout = async () => {
+        await logoutUser()
         navigate('/admin/login')
     }
 

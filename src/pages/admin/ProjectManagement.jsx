@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import {
-    getAllProjects, createProject, updateProject, deleteProject,
+    getAllProjects, createProject, updateProject, updateProjectStatus, deleteProject,
     getMilestones, addMilestone, updateMilestone, deleteMilestone,
     getDocuments, uploadDocument, deleteDocument
 } from '../../services/projectService'
@@ -109,6 +109,9 @@ const ProjectManagement = () => {
         try {
             if (editingProject) {
                 await updateProject(editingProject.id, formData)
+                if (formData.status !== editingProject.status) {
+                    await updateProjectStatus(editingProject.id, formData.status)
+                }
             } else {
                 await createProject(formData)
             }
