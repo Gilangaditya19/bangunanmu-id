@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { getProfile, logout } from '../services/authService'
 
 const AuthContext = createContext(null)
 
@@ -11,19 +12,49 @@ export const AuthProvider = ({ children }) => {
             return null
         }
     })
+    const [loading, setLoading] = useState(() => !!localStorage.getItem('token'))
     const isAuthenticated = !!user && !!localStorage.getItem('token')
-    const [loading] = useState(false)
 
-    const loginUser = (userData, token) => {
+    useEffect(() => {
+        const loadProfile = async () => {
+            const token = localStorage.getItem('token')
+            if (!token) {
+                setLoading(false)
+                return
+            }
+
+            try {
+                const profile = await getProfile()
+                localStorage.setItem('user', JSON.stringify(profile))
+                setUser(profile)
+            } catch (error) {
+                localStorage.removeItem('token')
+                localStorage.removeItem('refreshToken')
+                localStorage.removeItem('user')
+                setUser(null)
+            } finally {
+                setLoading(false)
+            }
+        }
+
+        loadProfile()
+    }, [])
+
+    const loginUser = (userData, token, refreshToken) => {
         localStorage.setItem('token', token)
+        if (refreshToken) {
+            localStorage.setItem('refreshToken', refreshToken)
+        }
         localStorage.setItem('user', JSON.stringify(userData))
         setUser(userData)
     }
 
-    const logoutUser = () => {
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-        setUser(null)
+    const logoutUser = async () => {
+        try {
+            await logout()
+        } finally {
+            setUser(null)
+        }
     }
 
     return (
@@ -32,7 +63,6 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
-
 
 export const useAuth = () => {
     const context = useContext(AuthContext)

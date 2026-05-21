@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { getApprovedTestimonials } from '../../services/testimonialService'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Home, Wrench, Building2, ChevronRight, Quote, Armchair, Paintbrush, Search, Hammer, HardHat, Handshake, Compass, Box, ClipboardCheck, CheckCircle2, Star } from 'lucide-react'
+import { Home, Wrench, Building2, ChevronRight, ChevronLeft, Quote, Armchair, Paintbrush, Search, Hammer, HardHat, Handshake, Compass, Box, ClipboardCheck, CheckCircle2, Star } from 'lucide-react'
 import WhatsAppButton from '../../components/WhatsAppButton'
 import ShinyText from '../../components/ui/ShinyText'
 import Stepper, { Step } from '../../components/ui/Stepper'
+import ScrollReveal from '../../components/ui/ScrollReveal'
 
 import konstruksiHero from '../../assets/images/konstruksi_hero_1772961128913.png'
 import galleryArch1 from '../../assets/images/gallery_architecture_1_1772961143405.png'
@@ -15,6 +16,169 @@ import avatar1 from '../../assets/images/avatar_testi_1_1772961205686.png'
 import avatar2 from '../../assets/images/avatar_testi_2_1772961220122.png'
 import avatar3 from '../../assets/images/avatar_testi_3_1772961238354.png'
 import designBuildHero from '../../assets/images/design_build_hero_1772964545081.png'
+
+const TestimonialCarousel = ({ testimonials }) => {
+    const [currentIndex, setCurrentIndex] = useState(0)
+    const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+    const touchStartX = useRef(0)
+    const touchEndX = useRef(0)
+    const autoPlayRef = useRef(null)
+
+    // Cards visible: 1 on mobile, 3 on desktop
+    const getVisibleCount = () => {
+        if (typeof window === 'undefined') return 3
+        if (window.innerWidth < 768) return 1
+        return 3
+    }
+    const [visibleCount, setVisibleCount] = useState(getVisibleCount())
+
+    useEffect(() => {
+        const handleResize = () => setVisibleCount(getVisibleCount())
+        window.addEventListener('resize', handleResize)
+        return () => window.removeEventListener('resize', handleResize)
+    }, [])
+
+    const maxIndex = Math.max(0, testimonials.length - visibleCount)
+
+    const goTo = useCallback((index) => {
+        setCurrentIndex(Math.max(0, Math.min(index, maxIndex)))
+    }, [maxIndex])
+
+    const goNext = useCallback(() => {
+        setCurrentIndex(prev => prev >= maxIndex ? 0 : prev + 1)
+    }, [maxIndex])
+
+    const goPrev = useCallback(() => {
+        setCurrentIndex(prev => prev <= 0 ? maxIndex : prev - 1)
+    }, [maxIndex])
+
+    // Auto-play
+    useEffect(() => {
+        if (isAutoPlaying && testimonials.length > visibleCount) {
+            autoPlayRef.current = setInterval(goNext, 5000)
+        }
+        return () => { if (autoPlayRef.current) clearInterval(autoPlayRef.current) }
+    }, [isAutoPlaying, goNext, testimonials.length, visibleCount])
+
+    // Touch handlers for swipe
+    const handleTouchStart = (e) => {
+        touchStartX.current = e.touches[0].clientX
+        setIsAutoPlaying(false)
+    }
+    const handleTouchMove = (e) => {
+        touchEndX.current = e.touches[0].clientX
+    }
+    const handleTouchEnd = () => {
+        const diff = touchStartX.current - touchEndX.current
+        if (Math.abs(diff) > 50) {
+            diff > 0 ? goNext() : goPrev()
+        }
+        setTimeout(() => setIsAutoPlaying(true), 3000)
+    }
+
+    if (testimonials.length === 0) return null
+
+    // If <= visibleCount, just show grid, no carousel needed
+    if (testimonials.length <= visibleCount) {
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {testimonials.map((testi, i) => (
+                    <TestimonialCard key={i} testi={testi} />
+                ))}
+            </div>
+        )
+    }
+
+    const totalDots = maxIndex + 1
+
+    return (
+        <div
+            className="relative"
+            onMouseEnter={() => setIsAutoPlaying(false)}
+            onMouseLeave={() => setIsAutoPlaying(true)}
+        >
+            {/* Carousel track */}
+            <div
+                className="overflow-hidden py-12 -my-12 px-6 -mx-6"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+            >
+                <div
+                    className="flex transition-transform duration-500 ease-out"
+                    style={{
+                        transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
+                    }}
+                >
+                    {testimonials.map((testi, i) => (
+                        <div
+                            key={i}
+                            className="flex-shrink-0 px-4"
+                            style={{ width: `${100 / visibleCount}%` }}
+                        >
+                            <TestimonialCard testi={testi} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Navigation arrows */}
+            <button
+                onClick={() => { goPrev(); setIsAutoPlaying(false); setTimeout(() => setIsAutoPlaying(true), 3000) }}
+                className="absolute top-1/2 -translate-y-1/2 -left-4 md:-left-6 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border border-dark-100 shadow-lg flex items-center justify-center text-dark-500 hover:text-[#396680] hover:border-[#396680]/30 hover:shadow-xl transition-all z-10"
+            >
+                <ChevronLeft size={20} />
+            </button>
+            <button
+                onClick={() => { goNext(); setIsAutoPlaying(false); setTimeout(() => setIsAutoPlaying(true), 3000) }}
+                className="absolute top-1/2 -translate-y-1/2 -right-4 md:-right-6 w-10 h-10 md:w-12 md:h-12 rounded-full bg-white border border-dark-100 shadow-lg flex items-center justify-center text-dark-500 hover:text-[#396680] hover:border-[#396680]/30 hover:shadow-xl transition-all z-10"
+            >
+                <ChevronRight size={20} />
+            </button>
+
+            {/* Dot indicators */}
+            {totalDots > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-10">
+                    {Array.from({ length: totalDots }, (_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => { goTo(i); setIsAutoPlaying(false); setTimeout(() => setIsAutoPlaying(true), 3000) }}
+                            className={`rounded-full transition-all duration-300 ${
+                                i === currentIndex
+                                    ? 'w-8 h-2.5 bg-[#396680]'
+                                    : 'w-2.5 h-2.5 bg-dark-200 hover:bg-dark-300'
+                            }`}
+                        />
+                    ))}
+                </div>
+            )}
+        </div>
+    )
+}
+
+const TestimonialCard = ({ testi }) => (
+    <div className="bg-white p-10 rounded-[40px] border border-dark-100/60 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.08)] hover:shadow-[0_24px_60px_-10px_rgba(57,102,128,0.15)] hover:border-[#396680]/30 hover:-translate-y-1.5 transition-all duration-500 relative text-left h-full flex flex-col group">
+        <div className="flex items-center gap-4 mb-6">
+            <img
+                src={testi.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(testi.name)}&background=396680&color=fff&rounded=true&bold=true`}
+                alt={testi.name}
+                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-4 border-[#F0F4F8] shadow-sm"
+            />
+            <div>
+                <h4 className="font-bold text-dark-900 text-sm mb-1">{testi.name}</h4>
+                <div className="flex items-center gap-1 mb-1.5">
+                    {[...Array(5)].map((_, starIndex) => (
+                        <Star key={starIndex} size={12} fill={starIndex < (testi.rating || 5) ? "currentColor" : "none"} className={`${starIndex < (testi.rating || 5) ? 'text-yellow-400' : 'text-dark-100'}`} />
+                    ))}
+                </div>
+                <p className="text-dark-400 text-[10px] sm:text-[11px] font-medium leading-tight">{testi.project || testi.role || 'Klien Bangunanmu'}</p>
+            </div>
+        </div>
+        <p className="text-dark-600 text-sm italic leading-relaxed flex-1">
+            "{testi.testimonialText || testi.review || testi.text}"
+        </p>
+    </div>
+)
 
 const Layanan = () => {
     const [searchParams] = useSearchParams()
@@ -32,13 +196,13 @@ const Layanan = () => {
                 {
                     title: 'Konstruksi Residensial/Perumahan',
                     desc: 'Tujuan kami adalah menciptakan hunian yang tidak hanya indah secara estetika, tetapi juga kokoh dan fungsional, guna menjamin kenyamanan serta kepuasan bagi penghuninya dalam jangka panjang. Melalui layanan Konstruksi Residensial kami, Anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.',
-                    icon: <Home size={20} className="text-[#658797]" />,
+                    icon: <Home size={20} className="text-[#396680]" />,
                     link: '/kontak'
                 },
                 {
                     title: 'Konstruksi Komersial',
                     desc: 'Layanan Konstruksi Komersial kami berfokus pada penyediaan solusi bangunan yang berkualitas tinggi, efisien, dan berkelanjutan bagi berbagai bisnis dan ruang komersial. Kami memahami bahwa lingkungan komersial yang dirancang dengan baik sangat penting bagi efisiensi operasional, citra merek (brand image), serta kepuasan pelanggan.',
-                    icon: <Building2 size={20} className="text-[#658797]" />,
+                    icon: <Building2 size={20} className="text-[#396680]" />,
                     link: '/kontak'
                 }
             ],
@@ -51,35 +215,35 @@ const Layanan = () => {
                     image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 01 : INISIASI',
                     buttonText: 'Mulai Konsultasi',
-                    subIcon1: <Search size={16} className="text-[#658797]" />,
+                    subIcon1: <Search size={16} className="text-[#396680]" />,
                     subText1: 'Survey Lokasi',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
                     subText2: 'Analisa Awal'
                 },
                 {
                     step: 2,
-                    title: 'Desain Arsitektur',
-                    description: 'Pembuatan desain perancangan awal 3D dan Rencana Anggaran Biaya yang transparan secara menyeluruh.',
+                    title: 'Design Arsitektur',
+                    description: 'Pembuatan design perancangan awal 3D dan Rencana Anggaran Biaya yang transparan secara menyeluruh.',
                     icon: <Compass />,
                     image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'PHASE 02 : DESAIN',
-                    buttonText: 'Lihat Desain',
-                    subIcon1: <Compass size={16} className="text-[#658797]" />,
+                    badge: 'PHASE 02 : DESIGN',
+                    buttonText: 'Lihat Design',
+                    subIcon1: <Compass size={16} className="text-[#396680]" />,
                     subText1: 'Perancangan 3D',
-                    subIcon2: <ClipboardCheck size={16} className="text-[#658797]" />,
+                    subIcon2: <ClipboardCheck size={16} className="text-[#396680]" />,
                     subText2: 'Review RAB'
                 },
                 {
                     step: 3,
                     title: 'Penandatanganan',
-                    description: 'Kesepakatan final atas desain, timeline penyelesaian, dan biaya pekerjaan konstruksi secara tertulis hitam di atas putih.',
+                    description: 'Kesepakatan final atas design, timeline penyelesaian, dan biaya pekerjaan konstruksi secara tertulis hitam di atas putih.',
                     icon: <Handshake />,
                     image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 03 : KESEPAKATAN',
                     buttonText: 'Draft Kontrak',
-                    subIcon1: <Handshake size={16} className="text-[#658797]" />,
+                    subIcon1: <Handshake size={16} className="text-[#396680]" />,
                     subText1: 'Legalitas',
-                    subIcon2: <ClipboardCheck size={16} className="text-[#658797]" />,
+                    subIcon2: <ClipboardCheck size={16} className="text-[#396680]" />,
                     subText2: 'MOU Final'
                 },
                 {
@@ -90,9 +254,9 @@ const Layanan = () => {
                     image: 'https://images.unsplash.com/photo-1541888081622-152e00780f2d?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 04 : EKSEKUSI',
                     buttonText: 'Pantau Proyek',
-                    subIcon1: <HardHat size={16} className="text-[#658797]" />,
+                    subIcon1: <HardHat size={16} className="text-[#396680]" />,
                     subText1: 'Sipil Aktif',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
                     subText2: 'Laporan Berkala'
                 },
                 {
@@ -103,15 +267,15 @@ const Layanan = () => {
                     image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 05 : FINAL',
                     buttonText: 'Hubungi Kami',
-                    subIcon1: <Home size={16} className="text-[#658797]" />,
+                    subIcon1: <Home size={16} className="text-[#396680]" />,
                     subText1: 'Handover',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
                     subText2: 'Garansi Kualitas'
                 }
             ]
         },
         'design-build': {
-            badge: "DESAIN & INTERIOR EKSKLUSIF",
+            badge: "DESIGN & INTERIOR EKSKLUSIF",
             title: "Design and Build",
             desc: "Layanan Design and Build kami menyediakan solusi  terintegrasi bagi klien yang ingin mentransformasikan visi hunian mereka menjadi kenyataan tanpa kerumitan.",
             heroImage: designBuildHero,
@@ -121,13 +285,13 @@ const Layanan = () => {
                 {
                     title: 'Interior Design',
                     desc: 'Layanan ini berfokus pada pengoptimalan fungsi dan estetika ruang di dalam bangunan untuk meningkatkan kualitas hidup serta kenyamanan penghuninya.',
-                    icon: <Paintbrush size={20} className="text-[#658797]" />,
+                    icon: <Paintbrush size={20} className="text-[#396680]" />,
                     link: '/kontak'
                 },
                 {
                     title: 'Outdoor Area Design',
                     desc: 'Layanan ini berfokus pada transformasi area terbuka di sekitar bangunan agar menjadi ruang yang fungsional dan memiliki nilai tambah bagi properti.',
-                    icon: <Home size={20} className="text-[#658797]" />,
+                    icon: <Home size={20} className="text-[#396680]" />,
                     link: '/kontak'
                 }
             ],
@@ -135,27 +299,27 @@ const Layanan = () => {
                 {
                     step: 1,
                     title: 'Konsultasi Briefing',
-                    description: 'Penggalian ide secara detail, gaya desain yang diinginkan pelanggan, serta pengukuran ruang di awal secara spesifik.',
+                    description: 'Penggalian ide secara detail, gaya design yang diinginkan pelanggan, serta pengukuran ruang di awal secara spesifik.',
                     icon: <Search />,
                     image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 01 : PENGGALIAN',
                     buttonText: 'Jadwalkan Sesi',
-                    subIcon1: <Search size={16} className="text-[#658797]" />,
+                    subIcon1: <Search size={16} className="text-[#396680]" />,
                     subText1: 'Brainstorming',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
                     subText2: 'Pengukuran'
                 },
                 {
                     step: 2,
-                    title: 'Desain & Material',
+                    title: 'Design & Material',
                     description: 'Presentasi visualisasi 3D fotorealistik lengkap dengan referensi serta pemilihan sampel material fisik yang diaplikasikan.',
                     icon: <Box />,
                     image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 02 : VISUALISASI',
                     buttonText: 'Lihat Katalog',
-                    subIcon1: <Paintbrush size={16} className="text-[#658797]" />,
+                    subIcon1: <Paintbrush size={16} className="text-[#396680]" />,
                     subText1: 'Moodboard',
-                    subIcon2: <Box size={16} className="text-[#658797]" />,
+                    subIcon2: <Box size={16} className="text-[#396680]" />,
                     subText2: 'Sample Fisik'
                 },
                 {
@@ -166,9 +330,9 @@ const Layanan = () => {
                     image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 03 : KESEPAKATAN',
                     buttonText: 'Atur Anggaran',
-                    subIcon1: <Hammer size={16} className="text-[#658797]" />,
+                    subIcon1: <Hammer size={16} className="text-[#396680]" />,
                     subText1: 'Optimasi Biaya',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#658797]" />,
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
                     subText2: 'Approval'
                 },
                 {
@@ -179,9 +343,9 @@ const Layanan = () => {
                     image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 04 : PRODUKSI',
                     buttonText: 'Pantau Proyek',
-                    subIcon1: <Wrench size={16} className="text-[#658797]" />,
+                    subIcon1: <Wrench size={16} className="text-[#396680]" />,
                     subText1: 'Workshop',
-                    subIcon2: <HardHat size={16} className="text-[#658797]" />,
+                    subIcon2: <HardHat size={16} className="text-[#396680]" />,
                     subText2: 'Fitting Akhir'
                 },
                 {
@@ -192,10 +356,99 @@ const Layanan = () => {
                     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 05 : SERAH TERIMA',
                     buttonText: 'Cek Lokasi',
-                    subIcon1: <ClipboardCheck size={16} className="text-[#658797]" />,
+                    subIcon1: <ClipboardCheck size={16} className="text-[#396680]" />,
                     subText1: 'Defect Audit',
-                    subIcon2: <Home size={16} className="text-[#658797]" />,
+                    subIcon2: <Home size={16} className="text-[#396680]" />,
                     subText2: 'Masa Pemeliharaan'
+                }
+            ]
+        },
+        'desain': {
+            badge: "DESIGN ARSITEKTUR & INTERIOR",
+            title: "Design",
+            desc: "Wujudkan konsep bangunan impian Anda melalui visualisasi 3D yang realistis dan perencanaan detail arsitektur maupun interior sebelum proses konstruksi dimulai.",
+            heroImage: galleryArch2,
+            heroTitle: "Modern Minimalist Blueprint",
+            heroSub: "Perencanaan Design, 2024",
+            services: [
+                {
+                    title: 'Design Arsitektur',
+                    desc: 'Layanan ini berfokus pada perencanaan struktur, fasad, dan tata letak ruang secara komprehensif, menghasilkan gambar kerja (DED) yang siap diaplikasikan di lapangan.',
+                    icon: <Compass size={20} className="text-[#396680]" />,
+                    link: '/kontak'
+                },
+                {
+                    title: 'Design Interior',
+                    desc: 'Layanan yang merancang estetika dan fungsionalitas ruang dalam, dari pemilihan palet warna hingga penentuan furnitur, untuk menciptakan harmoni visual.',
+                    icon: <Paintbrush size={20} className="text-[#396680]" />,
+                    link: '/kontak'
+                }
+            ],
+            roadmap: [
+                {
+                    step: 1,
+                    title: 'Konsultasi & Konsep',
+                    description: 'Diskusi awal untuk memahami kebutuhan spesifik, preferensi gaya, dan penentuan konsep design yang sesuai dengan anggaran Anda.',
+                    icon: <Search />,
+                    image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
+                    badge: 'TAHAP 01 : KONSEPTUAL',
+                    buttonText: 'Mulai Konsultasi',
+                    subIcon1: <Search size={16} className="text-[#396680]" />,
+                    subText1: 'Brainstorming',
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
+                    subText2: 'Moodboard'
+                },
+                {
+                    step: 2,
+                    title: 'Pengembangan Denah',
+                    description: 'Pembuatan layout 2D untuk memastikan alur sirkulasi yang optimal dan pembagian zona ruang yang efisien.',
+                    icon: <Compass />,
+                    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop',
+                    badge: 'TAHAP 02 : LAYOUTING',
+                    buttonText: 'Lihat Detail',
+                    subIcon1: <Compass size={16} className="text-[#396680]" />,
+                    subText1: 'Zonasi',
+                    subIcon2: <Box size={16} className="text-[#396680]" />,
+                    subText2: 'Denah 2D'
+                },
+                {
+                    step: 3,
+                    title: 'Visualisasi 3D',
+                    description: 'Presentasi hasil render 3D fotorealistik yang memberikan gambaran jelas tentang bentuk, warna, dan material bangunan Anda.',
+                    icon: <Box />,
+                    image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1200&auto=format&fit=crop',
+                    badge: 'TAHAP 03 : VISUALISASI',
+                    buttonText: 'Cek Portofolio',
+                    subIcon1: <Paintbrush size={16} className="text-[#396680]" />,
+                    subText1: 'Modeling 3D',
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
+                    subText2: 'Rendering'
+                },
+                {
+                    step: 4,
+                    title: 'Penyusunan RAB',
+                    description: 'Pembuatan Rencana Anggaran Biaya (RAB) yang terperinci dan transparan berdasarkan design yang telah disetujui.',
+                    icon: <ClipboardCheck />,
+                    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=1200&auto=format&fit=crop',
+                    badge: 'TAHAP 04 : ESTIMASI',
+                    buttonText: 'Atur Anggaran',
+                    subIcon1: <ClipboardCheck size={16} className="text-[#396680]" />,
+                    subText1: 'Perhitungan',
+                    subIcon2: <Handshake size={16} className="text-[#396680]" />,
+                    subText2: 'Optimasi Biaya'
+                },
+                {
+                    step: 5,
+                    title: 'Gambar Kerja Final',
+                    description: 'Penyerahan dokumen Detail Engineering Design (DED) lengkap yang siap digunakan sebagai panduan pelaksanaan konstruksi.',
+                    icon: <Wrench />,
+                    image: 'https://images.unsplash.com/photo-1541888081622-152e00780f2d?q=80&w=1200&auto=format&fit=crop',
+                    badge: 'TAHAP 05 : HANDOVER',
+                    buttonText: 'Siap Bangun',
+                    subIcon1: <Wrench size={16} className="text-[#396680]" />,
+                    subText1: 'Dokumen DED',
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
+                    subText2: 'Cetak Biru'
                 }
             ]
         }
@@ -216,10 +469,10 @@ const Layanan = () => {
         },
         {
             name: 'Siti Aminah',
-            project: 'Desain & Build Dapur, Bekasi',
+            project: 'Design & Build Dapur, Bekasi',
             image: avatar2,
             rating: 5,
-            testimonialText: '"Awalnya ragu renovasi total, tapi tim Bangunanmu meyakinkan dengan desain 3D yang detail. Hasil akhirnya persis seperti di gambar!"'
+            testimonialText: '"Awalnya ragu renovasi total, tapi tim Bangunanmu meyakinkan dengan design 3D yang detail. Hasil akhirnya persis seperti di gambar!"'
         },
         {
             name: 'Raka Adhitama',
@@ -257,11 +510,11 @@ const Layanan = () => {
             <section className="pt-16 pb-12">
                 <div className="section-container text-center">
                     <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full bg-white border border-dark-100 shadow-sm">
-                        <ShinyText 
-                            text={currentContent.badge} 
+                        <ShinyText
+                            text={currentContent.badge}
                             theme="dark"
-                            speed={3} 
-                            className="text-[10px] font-bold uppercase tracking-widest" 
+                            speed={3}
+                            className="text-[10px] font-bold uppercase tracking-widest"
                         />
                     </div>
                     <h1 className="text-4xl md:text-5xl font-bold text-dark-900 mb-6 tracking-tight">{currentContent.title}</h1>
@@ -275,7 +528,7 @@ const Layanan = () => {
 
                 <div className="space-y-24">
 
-                    <div className="relative h-[450px] md:h-[550px] w-full rounded-[40px] overflow-hidden shadow-2xl group">
+                    <ScrollReveal variant="scaleUp" className="relative h-[450px] md:h-[550px] w-full rounded-[40px] overflow-hidden shadow-2xl group">
                         <img
                             src={currentContent.heroImage}
                             alt={currentContent.heroTitle}
@@ -286,11 +539,11 @@ const Layanan = () => {
                             <h3 className="text-2xl font-bold mb-1">{currentContent.heroTitle}</h3>
                             <p className="text-white/80 text-sm">{currentContent.heroSub}</p>
                         </div>
-                    </div>
+                    </ScrollReveal>
 
                     <div className={`grid grid-cols-1 ${currentContent.services.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'} gap-8`}>
                         {currentContent.services.map((card, i) => (
-                            <div key={i} className="bg-white p-10 rounded-[40px] border border-dark-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
+                            <ScrollReveal key={i} variant="fadeInUp" delay={i * 150} className="bg-white p-10 rounded-[40px] border border-dark-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
                                 <div className="w-14 h-14 bg-dark-50 rounded-2xl flex items-center justify-center mb-8">
                                     {card.icon}
                                 </div>
@@ -304,7 +557,7 @@ const Layanan = () => {
                                 >
                                     Lihat Detail <ChevronRight size={14} />
                                 </Link>
-                            </div>
+                            </ScrollReveal>
                         ))}
                     </div>
 
@@ -320,11 +573,13 @@ const Layanan = () => {
                             </div>
                             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-2">
                                 <span className="text-dark-900 drop-shadow-sm">Tahapan Kerja</span><br />
-                                <span className="text-[#658797]">{activeTab === 'konstruksi' ? 'Konstruksi & Sipil' : 'Interior & Furnitur'}</span>
+                                <span className="text-[#396680]">
+                                    {activeTab === 'konstruksi' ? 'Konstruksi & Sipil' : activeTab === 'desain' ? 'Design Arsitektur & Interior' : 'Interior & Furnitur'}
+                                </span>
                             </h2>
                         </div>
 
-                        <div className="w-full lg:max-w-6xl mx-auto">
+                        <ScrollReveal variant="fadeInUp" className="w-full lg:max-w-6xl mx-auto">
                             <Stepper
                                 initialStep={1}
                                 onStepChange={(step) => { console.log(step); }}
@@ -369,11 +624,11 @@ const Layanan = () => {
 
                                                 <div className="flex flex-wrap gap-4 mb-10">
                                                     {item.buttonText === 'Lihat Katalog' ? (
-                                                        <a href="#galeri-proyek" className="inline-flex px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
+                                                        <a href="#galeri-proyek" className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                             {item.buttonText}
                                                         </a>
                                                     ) : (
-                                                        <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#658797] text-white font-bold rounded-full shadow-md hover:bg-[#527181] transition-all transform hover:-translate-y-0.5">
+                                                        <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                             {item.buttonText}
                                                         </Link>
                                                     )}
@@ -394,10 +649,10 @@ const Layanan = () => {
                                     </Step>
                                 ))}
                             </Stepper>
-                        </div>
+                        </ScrollReveal>
                     </section>
 
-                    <section id="galeri-proyek" className="pt-12 scroll-mt-24">
+                    <ScrollReveal variant="fadeInUp" id="galeri-proyek" className="pt-12 scroll-mt-24">
                         <h2 className="text-3xl font-bold text-dark-900 mb-12">Galeri Proyek</h2>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-auto lg:h-[800px]">
 
@@ -422,48 +677,29 @@ const Layanan = () => {
                                 </div>
                             </div>
                         </div>
-                    </section>
+                    </ScrollReveal>
 
-                    <section className="pt-12 text-center">
+                    <ScrollReveal variant="fadeInUp" className="pt-12 text-center">
                         <h2 className="text-3xl font-bold text-dark-900 mb-2">Kata Mereka</h2>
                         <p className="text-dark-500 mb-16 text-sm">Pengalaman klien membangun bersama kami</p>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                            {loadingTesti ? (
-                                <p className="text-center col-span-1 md:col-span-3 py-8 text-dark-400">Memuat testimoni...</p>
-                            ) : testimonials.slice(0, 3).map((testi, i) => (
-                                <div key={i} className="bg-white p-10 rounded-[40px] border border-dark-100 shadow-sm relative text-left h-full flex flex-col">
-                                    <Quote size={30} className="absolute top-10 right-10 text-dark-100 rotate-180" />
-                                    <div className="flex items-center gap-4 mb-6">
-                                        <img src={testi.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(testi.name)}&background=658797&color=fff&rounded=true&bold=true`} alt={testi.name} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-4 border-[#F0F4F8] shadow-sm" />
-                                        <div>
-                                            <h4 className="font-bold text-dark-900 text-sm mb-1">{testi.name}</h4>
-                                            <div className="flex items-center gap-1 mb-1.5">
-                                                {[...Array(5)].map((_, starIndex) => (
-                                                    <Star key={starIndex} size={12} fill={starIndex < (testi.rating || 5) ? "currentColor" : "none"} className={`${starIndex < (testi.rating || 5) ? 'text-yellow-400' : 'text-dark-100'}`} />
-                                                ))}
-                                            </div>
-                                            <p className="text-dark-400 text-[10px] sm:text-[11px] font-medium leading-tight">{testi.project || testi.role || 'Klien Bangunanmu'}</p>
-                                        </div>
-                                    </div>
-                                    <p className="text-dark-600 text-sm italic leading-relaxed flex-1">
-                                        "{testi.testimonialText || testi.review || testi.text}"
-                                    </p>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
+                        {loadingTesti ? (
+                            <p className="text-center py-8 text-dark-400">Memuat testimoni...</p>
+                        ) : (
+                            <TestimonialCarousel testimonials={testimonials} />
+                        )}
+                    </ScrollReveal>
 
-                    <div className="bg-[#658797] rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-[#658797]/20 transition-all duration-500 hover:scale-[1.01]">
+                    <ScrollReveal variant="scaleUp" className="bg-[#396680] rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-[#396680]/20 transition-all duration-500 hover:scale-[1.01]">
                         <div className="absolute inset-0 bg-white/5 pointer-events-none" />
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative tracking-tight">Mulai Bangun Mimpimu Sekarang</h2>
                         <p className="text-white/80 mb-10 max-w-xl mx-auto text-lg relative leading-relaxed">
-                            Konsultasikan rencana {activeTab === 'konstruksi' ? 'pembangunan atau renovasi' : 'desain interior atau furnitur kustom'} Anda dengan tim ahli kami secara gratis.
+                            Konsultasikan rencana {activeTab === 'konstruksi' ? 'pembangunan atau renovasi' : activeTab === 'desain' ? 'design arsitektur atau interior' : 'design interior atau furnitur kustom'} Anda dengan tim ahli kami secara gratis.
                         </p>
                         <div className="relative">
                             <WhatsAppButton label="Konsultasi Gratis via WhatsApp" size="lg" variant="white" />
                         </div>
-                    </div>
+                    </ScrollReveal>
                 </div>
             </div>
         </div>

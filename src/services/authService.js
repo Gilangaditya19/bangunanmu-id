@@ -8,12 +8,14 @@ export const login = async (credentials) => {
 
         const token = response.data.data.token;
         const user = response.data.data.user;
+        const refreshToken = response.data.data.refreshToken;
 
 
         return {
             data: {
                 token: token,
-                user: user
+                user: user,
+                refreshToken: refreshToken
             }
         };
     } catch (error) {
@@ -22,9 +24,23 @@ export const login = async (credentials) => {
     }
 }
 
-export const logout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
+export const getProfile = async () => {
+    try {
+        const response = await api.get('/auth/profile')
+        return response.data.data.user
+    } catch (error) {
+        throw error
+    }
+}
+export const logout = async () => {
+    try {
+        const refreshToken = localStorage.getItem('refreshToken')
+        await api.post('/auth/logout', { refreshToken })
+    } finally {
+        localStorage.removeItem('token')
+        localStorage.removeItem('refreshToken')
+        localStorage.removeItem('user')
+    }
 }
 
 export const getCurrentUser = () => {

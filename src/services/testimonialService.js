@@ -3,7 +3,9 @@ import api from './api'
 
 export const getApprovedTestimonials = async () => {
     try {
-        const response = await api.get('/testimonials')
+        const response = await api.get('/testimonials', {
+            params: { page: 1, limit: 50 }
+        })
         return response.data
     } catch (error) {
         console.error('Error fetching approved testimonials:', error)
@@ -11,9 +13,12 @@ export const getApprovedTestimonials = async () => {
     }
 }
 
-export const getAllTestimonials = async () => {
+export const getAllTestimonials = async ({ page = 1, limit = 10, status } = {}) => {
     try {
-        const response = await api.get('/testimonials/admin/all')
+        const params = { page, limit }
+        if (status) params.status = status
+
+        const response = await api.get('/testimonials/admin/all', { params })
         return response.data
     } catch (error) {
         console.error('Error fetching all testimonials:', error)

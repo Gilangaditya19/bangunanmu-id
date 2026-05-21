@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Search, CheckCircle2, Circle, Building2, Compass, Box, Wrench, MapPin, ArrowRight, User, Star, X, Loader2, HardHat, Layers, Home, Plug2, PaintRoller, Key, Hammer } from 'lucide-react';
+import { Search, CheckCircle2, Circle, Building2, Compass, Box, Wrench, MapPin, ArrowRight, User, Star, X, Loader2, HardHat, Layers, Home, Plug2, PaintRoller, Key, Hammer, Calendar } from 'lucide-react';
 import api from '../../services/api';
+import ScrollReveal from '../../components/ui/ScrollReveal';
 
 import siteUpdate1 from '../../assets/images/gallery_architecture_1_1772961143405.png';
 import siteUpdate2 from '../../assets/images/gallery_architecture_2_1772961174580.png';
@@ -86,10 +87,12 @@ const CekProgress = () => {
                 rawStatus: data.status,
                 title: data.projectName,
                 client: data.customerName,
-                category: data.projectType === 'konstruksi' ? 'Konstruksi' : 'Design and Build',
+                category: data.projectType === 'konstruksi' ? 'Konstruksi' : data.projectType === 'desain' ? 'Design Arsitektur' : 'Design and Build',
                 address: data.customerAddress || 'Alamat tidak ditampilkan demi privasi',
                 overallProgress: data.progress,
                 customerEmail: data.customerEmail,
+                startDate: data.startDate,
+                estimatedEndDate: data.estimatedEndDate,
                 timeline: data.milestones.map((ms, index) => {
                     const icon = getMilestoneIcon(ms.title || ms.name);
                     
@@ -160,11 +163,11 @@ const CekProgress = () => {
     return (
         <div className="bg-[#FAFAFA] min-h-screen pb-24 font-sans">
             
-            <section className="bg-[#658797] pt-24 pb-20 px-4 relative overflow-hidden border-b border-dark-100">
+            <section className="bg-[#396680] pt-24 pb-20 px-4 relative overflow-hidden border-b border-dark-100">
                 
                 <div className="absolute inset-0 opacity-[0.1] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
                 
-                <div className="max-w-3xl mx-auto text-center relative z-10">
+                <ScrollReveal variant="scaleUp" className="max-w-3xl mx-auto text-center relative z-10">
                     <h1 className="text-4xl md:text-5xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">
                         Lacak Proyek Impian Anda
                     </h1>
@@ -173,7 +176,7 @@ const CekProgress = () => {
                     </p>
 
                     <form onSubmit={handleSearch} className="max-w-xl mx-auto relative group">
-                        <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-dark-400 group-focus-within:text-[#658797] transition-colors z-20">
+                        <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-dark-400 group-focus-within:text-[#396680] transition-colors z-20">
                             <Search size={18} />
                         </div>
                         <input
@@ -189,7 +192,7 @@ const CekProgress = () => {
                         <button
                             type="submit"
                             disabled={loading}
-                            className={`absolute inset-y-2 right-2 px-8 font-bold rounded-full transition-colors shadow-md z-20 flex items-center justify-center gap-2 ${loading ? 'bg-[#527181] text-white/70 cursor-not-allowed' : 'bg-[#658797] hover:bg-[#527181] text-white'}`}
+                            className={`absolute inset-y-2 right-2 px-8 font-bold rounded-full transition-colors shadow-md z-20 flex items-center justify-center gap-2 ${loading ? 'bg-[#2d5166] text-white/70 cursor-not-allowed' : 'bg-[#396680] hover:bg-[#2d5166] text-white'}`}
                         >
                             {loading && <Loader2 size={18} className="animate-spin" />}
                             Lacak
@@ -201,19 +204,19 @@ const CekProgress = () => {
                             {error}
                         </div>
                     )}
-                </div>
+                </ScrollReveal>
             </section>
 
             {isTracking && projectData && (
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 animate-fadeInUp">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
 
-                    <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-dark-100 mb-10 flex flex-col md:flex-row md:items-center justify-between gap-8 h-auto">
+                    <ScrollReveal variant="fadeInUp" className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-dark-100 mb-10 flex flex-col md:flex-row md:items-center justify-between gap-8 h-auto">
                         <div>
                             <div className="flex flex-wrap items-center gap-3 mb-4">
                                 <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${projectData.rawStatus === 'completed' ? 'bg-green-100 text-green-700' : projectData.rawStatus === 'in_progress' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>
                                     {projectData.status}
                                 </span>
-                                <span className="px-3 py-1 text-xs font-bold rounded-full bg-[#658797]/10 text-[#658797] uppercase tracking-wider">
+                                <span className="px-3 py-1 text-xs font-bold rounded-full bg-[#396680]/10 text-[#396680] uppercase tracking-wider">
                                     {projectData.category}
                                 </span>
                                 <span className="text-dark-400 text-sm font-medium">ID: {projectData.id}</span>
@@ -221,34 +224,54 @@ const CekProgress = () => {
                             <h2 className="text-2xl md:text-3xl font-bold text-dark-900 mb-3">{projectData.title}</h2>
                             <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-dark-500 font-medium">
                                 <p className="flex items-center gap-2">
-                                    <User size={16} className="text-[#658797] opacity-80" />
+                                    <User size={16} className="text-[#396680] opacity-80" />
                                     {projectData.client}
                                 </p>
                                 <div className="hidden sm:block w-px h-4 bg-dark-200"></div>
                                 <p className="flex items-center gap-2">
-                                    <MapPin size={16} className="text-[#658797] opacity-80" />
+                                    <MapPin size={16} className="text-[#396680] opacity-80" />
                                     {projectData.address}
                                 </p>
                             </div>
+                            
+                            {(projectData.startDate || projectData.estimatedEndDate) && (
+                                <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-4 text-xs font-semibold text-dark-500 bg-dark-50 px-4 py-3 rounded-xl border border-dark-100/50 w-fit max-w-full">
+                                    {projectData.startDate && (
+                                        <p className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
+                                            <Calendar size={14} className="text-[#396680] opacity-85 flex-shrink-0" />
+                                            <span>Mulai: <strong className="text-dark-800 whitespace-nowrap">{new Date(projectData.startDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</strong></span>
+                                        </p>
+                                    )}
+                                    {projectData.startDate && projectData.estimatedEndDate && (
+                                        <span className="text-dark-300 hidden sm:inline">|</span>
+                                    )}
+                                    {projectData.estimatedEndDate && (
+                                        <p className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
+                                            <Calendar size={14} className="text-[#396680] opacity-85 flex-shrink-0" />
+                                            <span>Estimasi Selesai: <strong className="text-dark-800 whitespace-nowrap">{new Date(projectData.estimatedEndDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</strong></span>
+                                        </p>
+                                    )}
+                                </div>
+                            )}
                         </div>
                         <div className="md:text-right flex flex-col items-start md:items-end">
                             <p className="text-dark-500 text-sm font-medium mb-2">Total Progres</p>
                             <div className="flex items-end gap-2 mb-3">
-                                <span className="text-5xl font-extrabold text-[#658797] leading-none tracking-tighter">
+                                <span className="text-5xl font-extrabold text-[#396680] leading-none tracking-tighter">
                                     {projectData.overallProgress}%
                                 </span>
                             </div>
                             <div className="w-full md:w-48 h-2.5 bg-dark-100 rounded-full overflow-hidden">
                                 <div 
-                                    className="h-full bg-[#658797] rounded-full transition-all duration-1000 ease-out"
+                                    className="h-full bg-[#396680] rounded-full transition-all duration-1000 ease-out"
                                     style={{ width: `${projectData.overallProgress}%` }}
                                 ></div>
                             </div>
                         </div>
-                    </div>
+                    </ScrollReveal>
 
                     {projectData.rawStatus === 'completed' && !reviewSuccess && (
-                        <div className="bg-[#658797] rounded-[2rem] p-8 md:p-10 shadow-lg border border-[#527181] mb-10 flex flex-col md:flex-row items-center justify-between gap-6 transform transition-all hover:-translate-y-1">
+                        <div className="bg-[#396680] rounded-[2rem] p-8 md:p-10 shadow-lg border border-[#2d5166] mb-10 flex flex-col md:flex-row items-center justify-between gap-6 transform transition-all hover:-translate-y-1">
                             <div>
                                 <div className="flex items-center gap-2 text-yellow-400 mb-2 text-xl drop-shadow-sm">
                                     <Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" /><Star size={20} fill="currentColor" />
@@ -256,13 +279,13 @@ const CekProgress = () => {
                                 <h3 className="text-xl md:text-2xl font-bold text-white mb-2">Proyek Telah Selesai!</h3>
                                 <p className="text-white/80 font-medium">Bagaimana pengalaman Anda membangun bersama tim Bangunanmu.id?</p>
                             </div>
-                            <button onClick={() => setShowReviewModal(true)} className="px-8 py-4 bg-white hover:bg-gray-100 text-[#658797] font-bold rounded-xl transition-all shadow-lg flex-shrink-0">
+                            <button onClick={() => setShowReviewModal(true)} className="px-8 py-4 bg-white hover:bg-gray-100 text-[#396680] font-bold rounded-xl transition-all shadow-lg flex-shrink-0">
                                 Berikan Ulasan Proyek
                             </button>
                         </div>
                     )}
 
-                    {reviewSuccess && projectData.overallProgress === 100 && (
+                    {reviewSuccess && projectData.rawStatus === 'completed' && (
                         <div className="bg-green-50 rounded-[2rem] p-8 md:p-10 shadow-sm border border-green-200 mb-10 text-center animate-fadeIn flex flex-col items-center">
                             <CheckCircle2 size={48} className="text-green-500 mb-4" />
                             <h3 className="text-xl md:text-2xl font-bold text-dark-900 mb-2">Terima Kasih atas Ulasan Anda!</h3>
@@ -270,7 +293,7 @@ const CekProgress = () => {
                         </div>
                     )}
 
-                    <div className="mb-10 lg:mb-16 w-full">
+                    <ScrollReveal variant="fadeInUp" className="mb-10 lg:mb-16 w-full">
                         
                         <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-dark-100">
                             <h3 className="text-xl md:text-2xl font-bold text-dark-900 mb-8 px-2">Status Saat Ini</h3>
@@ -289,8 +312,8 @@ const CekProgress = () => {
                                                 
                                                 <div className="relative z-10 flex-shrink-0 flex flex-col items-center">
                                                     <div className={`w-14 h-14 rounded-full flex items-center justify-center text-xl shadow-sm border-4 border-white transition-colors duration-500 relative z-20
-                                                        ${isCompleted ? 'bg-[#658797] text-white' : ''}
-                                                        ${isInProgress ? 'bg-white border-2 border-[#658797] text-[#658797] shadow-md' : ''}
+                                                        ${isCompleted ? 'bg-[#396680] text-white' : ''}
+                                                        ${isInProgress ? 'bg-white border-2 border-[#396680] text-[#396680] shadow-md' : ''}
                                                         ${isUpcoming ? 'bg-dark-50 border-dark-100 text-dark-300' : ''}
                                                     `}>
                                                         {stage.icon}
@@ -298,7 +321,7 @@ const CekProgress = () => {
                                                     
                                                     {!isLast && (
                                                         <div className="absolute top-14 -bottom-12 w-0.5 bg-dark-100 z-10">
-                                                            <div className={`w-full bg-[#658797] transition-all duration-1000 ${isCompleted ? 'h-full' : 'h-0'}`}></div>
+                                                            <div className={`w-full bg-[#396680] transition-all duration-1000 ${isCompleted ? 'h-full' : 'h-0'}`}></div>
                                                         </div>
                                                     )}
                                                 </div>
@@ -312,7 +335,7 @@ const CekProgress = () => {
                                                             {stage.statusLabel}
                                                         </span>
                                                     </div>
-                                                    <p className={`text-xs font-medium mb-3 ${isUpcoming ? 'text-dark-400' : 'text-[#658797]'}`}>{stage.date}</p>
+                                                    <p className={`text-xs font-medium mb-3 ${isUpcoming ? 'text-dark-400' : 'text-[#396680]'}`}>{stage.date}</p>
 
                                                     
                                                     {stage.description && (
@@ -344,9 +367,9 @@ const CekProgress = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </ScrollReveal>
 
-                    <div>
+                    <ScrollReveal variant="fadeInUp">
                         <div className="flex items-center justify-between mb-6 px-2">
                             <h3 className="text-xl font-bold text-dark-900">Pembaruan Lapangan</h3>
                             {projectData.siteUpdates.length > 4 && (
@@ -380,9 +403,9 @@ const CekProgress = () => {
                             {projectData.siteUpdates.length > 4 && (
                                 <div 
                                     onClick={() => setShowGallery(true)}
-                                    className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden bg-dark-50 border-2 border-dashed border-dark-200 hover:border-[#658797] flex flex-col items-center justify-center cursor-pointer transition-colors group shadow-sm"
+                                    className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden bg-dark-50 border-2 border-dashed border-dark-200 hover:border-[#396680] flex flex-col items-center justify-center cursor-pointer transition-colors group shadow-sm"
                                 >
-                                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-dark-400 group-hover:text-[#658797] group-hover:scale-110 transition-all mb-3 text-xl">
+                                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-dark-400 group-hover:text-[#396680] group-hover:scale-110 transition-all mb-3 text-xl">
                                         <Search size={18} />
                                     </div>
                                     <span className="font-bold text-dark-900 text-sm">Lihat Galeri</span>
@@ -390,7 +413,7 @@ const CekProgress = () => {
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </ScrollReveal>
 
                 </div>
             )}
@@ -398,7 +421,7 @@ const CekProgress = () => {
             {showReviewModal && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
                     <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden border border-dark-100">
-                        <div className="p-6 border-b border-[#527181] flex items-center justify-between bg-[#658797] text-white">
+                        <div className="p-6 border-b border-[#2d5166] flex items-center justify-between bg-[#396680] text-white">
                             <h2 className="text-xl font-bold tracking-tight">Kirimkan Ulasan</h2>
                             <button onClick={() => setShowReviewModal(false)} className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                                 <X size={20} />
@@ -406,7 +429,7 @@ const CekProgress = () => {
                         </div>
                         <div className="p-8 bg-[#FAFAFA]">
                             <div className="text-center mb-8 bg-white p-6 rounded-2xl border border-dark-100 shadow-sm">
-                                <p className="text-dark-500 font-bold mb-4 uppercase tracking-widest text-[#658797] text-xs">Rating Kepuasan</p>
+                                <p className="text-dark-500 font-bold mb-4 uppercase tracking-widest text-[#396680] text-xs">Rating Kepuasan</p>
                                 <div className="flex justify-center gap-3 cursor-pointer">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <div key={star} onClick={() => setRating(star)} className={`text-4xl transition-all duration-300 hover:scale-125 ${rating >= star ? 'text-yellow-400 drop-shadow-md' : 'text-dark-100'}`}>
@@ -417,23 +440,23 @@ const CekProgress = () => {
                             </div>
                             
                             <div className="mb-6 bg-white p-6 rounded-2xl border border-dark-100 shadow-sm">
-                                <label className="block text-xs font-bold text-dark-500 mb-3 uppercase tracking-widest text-[#658797]">Ceritakan Pengalaman Anda</label>
+                                <label className="block text-xs font-bold text-dark-500 mb-3 uppercase tracking-widest text-[#396680]">Ceritakan Pengalaman Anda</label>
                                 <textarea 
                                     rows="4" 
                                     placeholder="Kualitas pekerjaannya sangat rapi, timnya profesional, dan selesai tepat waktu..." 
-                                    className="w-full px-5 py-4 rounded-xl border border-dark-200 bg-dark-50 focus:bg-white focus:ring-2 focus:ring-[#658797] focus:outline-none resize-none transition-colors text-dark-900"
+                                    className="w-full px-5 py-4 rounded-xl border border-dark-200 bg-dark-50 focus:bg-white focus:ring-2 focus:ring-[#396680] focus:outline-none resize-none transition-colors text-dark-900"
                                     value={reviewComment}
                                     onChange={(e) => setReviewComment(e.target.value)}
                                 ></textarea>
                             </div>
                             
                             <div className="mb-8">
-                                <label className="flex items-start gap-4 cursor-pointer group bg-white p-5 rounded-2xl border border-dark-100 shadow-sm hover:border-[#658797] transition-colors">
+                                <label className="flex items-start gap-4 cursor-pointer group bg-white p-5 rounded-2xl border border-dark-100 shadow-sm hover:border-[#396680] transition-colors">
                                     <div className="mt-0.5">
-                                        <input type="checkbox" defaultChecked className="w-5 h-5 text-[#658797] rounded-md border-dark-300 focus:ring-[#658797] cursor-pointer" />
+                                        <input type="checkbox" defaultChecked className="w-5 h-5 text-[#396680] rounded-md border-dark-300 focus:ring-[#396680] cursor-pointer" />
                                     </div>
                                     <div>
-                                        <p className="text-sm font-bold text-dark-900 mb-0.5 group-hover:text-[#658797] transition-colors">Izinkan kami menampilkannya</p>
+                                        <p className="text-sm font-bold text-dark-900 mb-0.5 group-hover:text-[#396680] transition-colors">Izinkan kami menampilkannya</p>
                                         <p className="text-xs text-dark-500">Gunakan nama <strong>"{projectData.client}"</strong> sebagai identitas ulasan yang mungkin ditampilkan di beranda situs kami.</p>
                                     </div>
                                 </label>
@@ -444,7 +467,7 @@ const CekProgress = () => {
                                 <button 
                                     onClick={handleReviewSubmit} 
                                     disabled={isSubmittingReview}
-                                    className="flex-1 py-4 bg-[#658797] hover:bg-[#527181] text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 disabled:opacity-50 disabled:translate-y-0"
+                                    className="flex-1 py-4 bg-[#396680] hover:bg-[#2d5166] text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 disabled:opacity-50 disabled:translate-y-0"
                                 >
                                     {isSubmittingReview ? <Loader2 size={18} className="animate-spin mx-auto" /> : 'Kirim Ulasan'}
                                 </button>
@@ -457,7 +480,7 @@ const CekProgress = () => {
             {showGallery && (
                 <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
                     <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col border border-dark-100">
-                        <div className="p-6 border-b border-[#527181] flex items-center justify-between bg-[#658797] text-white">
+                        <div className="p-6 border-b border-[#2d5166] flex items-center justify-between bg-[#396680] text-white">
                             <div>
                                 <h2 className="text-xl font-bold tracking-tight">Galeri Proyek</h2>
                             </div>

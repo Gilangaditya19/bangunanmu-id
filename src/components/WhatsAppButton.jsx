@@ -17,7 +17,7 @@ const WhatsAppButton = ({
 
     const variantClasses = {
         green: 'bg-green-500 text-white hover:bg-green-600 active:bg-green-700 focus:ring-green-400',
-        white: 'bg-white text-[#658797] hover:bg-white/90 active:bg-white/80 focus:ring-white/50',
+        white: 'bg-white text-[#396680] hover:bg-white/90 active:bg-white/80 focus:ring-white/50',
     }
 
     const handleClick = () => {

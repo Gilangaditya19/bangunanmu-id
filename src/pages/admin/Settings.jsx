@@ -70,8 +70,8 @@ const Settings = () => {
             setSuccess('Kata sandi berhasil diubah! Silakan login kembali.')
             setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' })
 
-            setTimeout(() => {
-                logoutUser()
+            setTimeout(async () => {
+                await logoutUser()
                 window.location.href = '/admin/login'
             }, 2500)
         } catch (err) {
@@ -123,7 +123,7 @@ const Settings = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Masukkan kata sandi saat ini"
-                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#658797]/30 focus:border-[#658797] transition-all text-dark-900 placeholder:text-dark-300"
+                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#396680]/30 focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
                                 />
                                 <button
                                     type="button"
@@ -151,7 +151,7 @@ const Settings = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Masukkan kata sandi baru"
-                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#658797]/30 focus:border-[#658797] transition-all text-dark-900 placeholder:text-dark-300"
+                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#396680]/30 focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
                                 />
                                 <button
                                     type="button"
@@ -180,7 +180,7 @@ const Settings = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Ulangi kata sandi baru"
-                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#658797]/30 focus:border-[#658797] transition-all text-dark-900 placeholder:text-dark-300"
+                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#396680]/30 focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
                                 />
                                 <button
                                     type="button"
@@ -204,7 +204,7 @@ const Settings = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-white transition-all shadow-md ${loading ? 'bg-[#658797]/70 cursor-not-allowed' : 'bg-[#658797] hover:bg-[#527181] hover:-translate-y-0.5'}`}
+                                className={`flex items-center gap-2 px-6 py-3 rounded-full font-bold text-white transition-all shadow-md ${loading ? 'bg-[#396680]/70 cursor-not-allowed' : 'bg-[#396680] hover:bg-[#2d5166] hover:-translate-y-0.5'}`}
                             >
                                 <Save size={18} />
                                 {loading ? 'Menyimpan...' : 'Simpan Perubahan'}

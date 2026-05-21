@@ -24,7 +24,7 @@ const Login = () => {
 
         try {
             const response = await loginService({ email, password })
-            loginUser(response.data.user, response.data.token)
+            loginUser(response.data.user, response.data.token, response.data.refreshToken)
             navigate('/admin/dashboard')
         } catch (err) {
             setError(err.response?.data?.message || 'Login gagal. Periksa email dan password Anda.')
@@ -35,7 +35,7 @@ const Login = () => {
 
     return (
         <div className="min-h-screen bg-[#E5E9EC] flex items-center justify-center p-4 sm:p-8 font-sans">
-            <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col md:flex-row w-full max-w-[1000px] min-h-[600px]">
+            <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col md:flex-row w-full max-w-[1000px] min-h-[600px] animate-fade-in-up">
 
                 <div className="w-full md:w-1/2 relative bg-dark-900 min-h-[250px] md:min-h-auto flex-shrink-0">
                     <img
@@ -44,7 +44,7 @@ const Login = () => {
                         className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-overlay"
                     />
                     
-                    <div className="absolute inset-0 bg-gradient-to-b from-[#2a4e5d]/60 to-[#1b3642]/90"></div>
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#396680]/60 to-[#2d5166]/90"></div>
 
                     <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
                         <div className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-md border border-white/20 rounded-full mb-4 md:mb-6 w-max">
@@ -84,7 +84,7 @@ const Login = () => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="user@example.com"
-                                        className="w-full px-6 py-3.5 rounded-full border border-dark-200 focus:outline-none focus:ring-4 focus:ring-[#658797]/20 focus:border-[#658797] transition-all text-dark-900 placeholder-dark-300 font-medium pr-12 shadow-sm"
+                                        className="w-full px-6 py-3.5 rounded-full border border-dark-200 focus:outline-none focus:ring-4 focus:ring-[#396680]/20 focus:border-[#396680] transition-all text-dark-900 placeholder-dark-300 font-medium pr-12 shadow-sm"
                                         required
                                     />
                                     <div className="absolute right-5 top-1/2 -translate-y-1/2 text-dark-300 pointer-events-none">
@@ -101,13 +101,13 @@ const Login = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="••••••••"
-                                        className="w-full px-6 py-3.5 rounded-full border border-dark-200 focus:outline-none focus:ring-4 focus:ring-[#658797]/20 focus:border-[#658797] transition-all text-dark-900 placeholder-dark-400 font-medium pr-12 tracking-widest shadow-sm"
+                                        className="w-full px-6 py-3.5 rounded-full border border-dark-200 focus:outline-none focus:ring-4 focus:ring-[#396680]/20 focus:border-[#396680] transition-all text-dark-900 placeholder-dark-400 font-medium pr-12 tracking-widest shadow-sm"
                                         required
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-5 top-1/2 -translate-y-1/2 text-dark-400 hover:text-[#658797] focus:outline-none transition-colors"
+                                        className="absolute right-5 top-1/2 -translate-y-1/2 text-dark-400 hover:text-[#396680] focus:outline-none transition-colors"
                                     >
                                         {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                                     </button>
@@ -118,7 +118,7 @@ const Login = () => {
                                 <button
                                     type="submit"
                                     disabled={loading}
-                                    className="w-full py-4 bg-[#658797] hover:bg-[#527181] text-white font-bold rounded-full shadow-lg shadow-[#658797]/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0"
+                                    className="w-full py-4 bg-[#396680] hover:bg-[#2d5166] text-white font-bold rounded-full shadow-lg shadow-[#396680]/30 transition-all disabled:opacity-70 disabled:cursor-not-allowed transform hover:-translate-y-0.5 active:translate-y-0"
                                 >
                                     {loading ? 'Memproses...' : 'Masuk'}
                                 </button>

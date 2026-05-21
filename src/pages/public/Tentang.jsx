@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Play, Lightbulb, Palette, Shield, ArrowRight } from 'lucide-react';
 import ShinyText from '../../components/ui/ShinyText';
+import ScrollReveal from '../../components/ui/ScrollReveal';
 
 const Tentang = () => {
     return (
@@ -10,9 +11,9 @@ const Tentang = () => {
             <section className="relative px-4 sm:px-6 lg:px-8 mt-4 sm:mt-12 mb-16 sm:mb-24 overflow-hidden">
                 <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
-                    <div className="space-y-8 z-10 relative">
+                    <ScrollReveal variant="fadeInLeft" className="space-y-8 z-10 relative">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-dark-100 shadow-sm max-w-max">
-                            <span className="w-2 h-2 rounded-full bg-[#658797] animate-pulse"></span>
+                            <span className="w-2 h-2 rounded-full bg-[#396680] animate-pulse"></span>
                             <ShinyText 
                                 text="OVER 4 YEARS OF EXPERIENCE" 
                                 theme="dark"
@@ -23,22 +24,22 @@ const Tentang = () => {
 
                         <h1 className="text-5xl sm:text-7xl font-bold text-dark-900 tracking-tight leading-[1.1]">
                             Siapa <br />
-                            <span className="text-[#658797]">Kami?</span>
+                            <span className="text-[#396680]">Kami?</span>
                         </h1>
 
                         <p className="text-lg text-dark-500 max-w-lg leading-relaxed">
-                            Kami adalah Bangunanmu.id, sebuah tim berdedikasi yang menyediakan solusi unggulan di bidang konstruksi dan desain interior. Dengan pengalaman lebih dari empat tahun, kami memahami betapa pentingnya menciptakan hunian yang nyaman, fungsional, serta dirancang secara unik sesuai dengan visi Anda. Melalui layanan kami, Anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.
+                            Kami adalah Bangunanmu.id, sebuah tim berdedikasi yang menyediakan solusi unggulan di bidang konstruksi dan design interior. Dengan pengalaman lebih dari empat tahun, kami memahami betapa pentingnya menciptakan hunian yang nyaman, fungsional, serta dirancang secara unik sesuai dengan visi Anda. Melalui layanan kami, Anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.
                         </p>
 
                         <div className="flex flex-wrap gap-4 pt-4">
-                            <Link to="/layanan" className="inline-flex items-center justify-center px-8 py-4 bg-[#658797] text-white font-semibold rounded-full hover:bg-[#527181] transition-colors shadow-lg shadow-[#658797]/30 group">
+                            <Link to="/layanan" className="inline-flex items-center justify-center px-8 py-4 bg-[#396680] text-white font-semibold rounded-full hover:bg-[#2d5166] transition-colors shadow-lg shadow-[#396680]/30 group">
                                 Lihat Portfolio
                                 <ArrowRight size={18} className="ml-2 group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </div>
-                    </div>
+                    </ScrollReveal>
 
-                    <div className="relative h-[550px] sm:h-[650px] lg:h-[600px] w-full mt-12 lg:mt-0">
+                    <ScrollReveal variant="fadeInRight" delay={200} className="relative h-[550px] sm:h-[650px] lg:h-[600px] w-full mt-12 lg:mt-0">
 
                         <div className="absolute top-[40%] left-[5%] w-[300px] h-[300px] bg-yellow-100/50 rounded-full mix-blend-multiply filter blur-[80px] z-0 transform -translate-y-1/2"></div>
 
@@ -57,16 +58,16 @@ const Tentang = () => {
                         <div className="absolute bottom-[15%] right-[5%] w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] lg:w-[150px] lg:h-[150px] rounded-full overflow-hidden shadow-xl z-40 ring-[6px] ring-white bg-white hover:-translate-y-1 transition-transform duration-500">
                             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop" alt="Architect Portrait" className="w-full h-full object-cover" />
                         </div>
-                    </div>
+                    </ScrollReveal>
                 </div>
             </section>
 
             <section className="py-24 bg-[#FAFAFA]">
                 <div className="section-container">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16 items-start">
+                    <ScrollReveal variant="fadeInUp" className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-16 items-start">
                         <div className="lg:col-span-7">
                             <div className="flex items-center gap-4 mb-6">
-                                <span className="text-xs font-bold tracking-widest text-[#658797] uppercase">VISI & MISI</span>
+                                <span className="text-xs font-bold tracking-widest text-[#396680] uppercase">VISI & MISI</span>
                             </div>
                             <h2 className="text-4xl sm:text-5xl font-bold text-dark-900 tracking-tight leading-tight">
                                 Bukan Sekadar Kontraktor, <br />
@@ -78,46 +79,46 @@ const Tentang = () => {
                                 Kami hadir sebagai penyedia solusi konstruksi dan interior berbasis teknologi, serta dikenal atas komitmen kami terhadap kualitas, transparansi, dan kepuasan klien. Kami bertekad untuk menetapkan standar baru dalam konstruksi dengan mengintegrasikan teknologi mutakhir seperti Building Information Modeling (BIM) dan Augmented Reality (AR), guna menciptakan ruang luar biasa yang membangun kepercayaan serta melampaui harapan klien.
                             </p>
                         </div>
-                    </div>
+                    </ScrollReveal>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                        <div className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
+                        <ScrollReveal variant="fadeInUp" delay={0} className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
-                                <Lightbulb size={24} className="text-[#658797]" />
+                                <Lightbulb size={24} className="text-[#396680]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Inovasi Tanpa Batas</h3>
                             <p className="text-dark-500 text-sm leading-relaxed">
                                 Pemanfaatan teknologi terkini, termasuk Building Information Modeling (BIM) dan Augmented Reality (AR), guna menjamin proses yang terintegrasi serta transparan dari awal hingga akhir.
                             </p>
-                        </div>
+                        </ScrollReveal>
 
-                        <div className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
+                        <ScrollReveal variant="fadeInUp" delay={150} className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
-                                <Palette size={24} className="text-[#658797]" />
+                                <Palette size={24} className="text-[#396680]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Transparansi</h3>
                             <p className="text-dark-500 text-sm leading-relaxed">
                                 Membangun kepercayaan melalui komunikasi yang jelas, praktik kerja yang etis, serta komitmen terhadap kualitas.
                             </p>
-                        </div>
+                        </ScrollReveal>
 
-                        <div className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
+                        <ScrollReveal variant="fadeInUp" delay={300} className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
-                                <Shield size={24} className="text-[#658797]" />
+                                <Shield size={24} className="text-[#396680]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Kolaborasi</h3>
                             <p className="text-dark-500 text-sm leading-relaxed">
                                 Bekerja sama secara erat dengan klien untuk mewujudkan visi mereka, serta memadukan ide-ide klien dengan keahlian yang kami miliki.
                             </p>
-                        </div>
+                        </ScrollReveal>
                     </div>
                 </div>
             </section>
 
             <section className="py-12 bg-white">
                 <div className="section-container">
-                    <div className="bg-[#658797] rounded-[3rem] p-12 sm:p-16 text-white shadow-2xl shadow-[#658797]/30 relative overflow-hidden">
+                    <ScrollReveal variant="scaleUp" className="bg-[#396680] rounded-[3rem] p-12 sm:p-16 text-white shadow-2xl shadow-[#396680]/30 relative overflow-hidden">
 
                         <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-white/10 to-transparent rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2"></div>
 
@@ -143,12 +144,12 @@ const Tentang = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </ScrollReveal>
                 </div>
             </section>
 
             <section className="py-32 bg-[#FAFAFA] text-center">
-                <div className="section-container max-w-4xl">
+                <ScrollReveal variant="fadeInUp" className="section-container max-w-4xl">
                     <h2 className="text-4xl sm:text-5xl font-bold text-dark-900 mb-6 tracking-tight leading-tight">
                         Siap Mewujudkan Ruang Impian <br className="hidden sm:block" />
                         Anda?
@@ -156,10 +157,10 @@ const Tentang = () => {
                     <p className="text-lg text-dark-500 mb-12 max-w-2xl mx-auto leading-relaxed">
                         Jangan biarkan ide Anda hanya menjadi angan-angan. Mari berdiskusi dan mulai membangun masa depan hari ini.
                     </p>
-                    <Link to="/kontak" className="inline-flex items-center justify-center px-10 py-5 bg-[#658797] text-white font-bold rounded-full hover:bg-[#527181] hover:scale-105 transition-all duration-300 shadow-xl shadow-[#658797]/20 text-lg">
+                    <Link to="/kontak" className="inline-flex items-center justify-center px-10 py-5 bg-[#396680] text-white font-bold rounded-full hover:bg-[#2d5166] hover:scale-105 transition-all duration-300 shadow-xl shadow-[#396680]/20 text-lg">
                         Mulai Konsultasi Gratis
                     </Link>
-                </div>
+                </ScrollReveal>
             </section>
         </div>
     );
