@@ -4,7 +4,7 @@ export const login = async (credentials) => {
     try {
 
         const response = await api.post('/auth/login', credentials);
-        
+
 
         const token = response.data.data.token;
         const user = response.data.data.user;
