@@ -7,6 +7,19 @@ import {
 } from '../../services/projectService'
 import { Plus, Pencil, Trash2, X, Building2, TrendingUp, ChevronDown, ChevronLeft, ChevronRight, CheckCircle2, Circle, Upload, Image } from 'lucide-react'
 
+const getPhotoUrl = (fileUrl) => {
+    if (!fileUrl) return ''
+    // Jika sudah URL lengkap (http/https), gunakan langsung
+    if (fileUrl.startsWith('http')) return fileUrl
+    // Jika mengandung /uploads/, extract dari situ
+    if (fileUrl.includes('/uploads/')) {
+        return `${import.meta.env.VITE_API_URL.replace('/api', '')}${fileUrl.substring(fileUrl.indexOf('/uploads/'))}`
+    }
+    // Jika path relatif, gabungkan dengan base URL
+    const base = import.meta.env.VITE_API_URL.replace('/api', '')
+    return `${base}${fileUrl.startsWith('/') ? '' : '/'}${fileUrl}`
+}
+
 const ProjectManagement = () => {
     const [projects, setProjects] = useState([])
     const [loading, setLoading] = useState(true)
@@ -514,7 +527,7 @@ const ProjectManagement = () => {
                                         className="w-full px-4 py-2.5 rounded-lg border border-dark-200 focus:ring-2 focus:ring-[#396680]">
                                         <option value="Konstruksi">Konstruksi</option>
                                         <option value="Design and Build">Design and Build</option>
-                                        <option value="desain">Design</option>
+                                        <option value="Design">Design</option>
                                     </select>
                                 </div>
                                 <div>
@@ -724,15 +737,15 @@ const ProjectManagement = () => {
                                 ) : (
                                     (showAllDocs ? documents : documents.slice(0, 4)).map((photo) => (
                                         <div key={photo.id} className="relative aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden group shadow-sm bg-white border border-dark-100 flex flex-col hover:shadow-md transition-shadow">
-                                            <div className="h-[65%] sm:h-3/4 relative overflow-hidden bg-dark-50 cursor-pointer" onClick={() => setLightboxImage({ src: photo.fileUrl ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${photo.fileUrl.substring(photo.fileUrl.indexOf('/uploads/'))}` : '', alt: photo.name })}>
+                                            <div className="h-[65%] sm:h-3/4 relative overflow-hidden bg-dark-50 cursor-pointer" onClick={() => setLightboxImage({ src: getPhotoUrl(photo.fileUrl), alt: photo.name })}>
                                                 <img
-                                                    src={photo.fileUrl ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${photo.fileUrl.substring(photo.fileUrl.indexOf('/uploads/'))}` : ''}
+                                                    src={getPhotoUrl(photo.fileUrl)}
                                                     alt={photo.name}
                                                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                                                 />
 
                                                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                    <button onClick={() => handleDeleteDoc(photo.id)} className="w-8 h-8 rounded-full bg-red-500/90 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transform hover:scale-110 transition-all">
+                                                    <button onClick={() => handleDeleteDoc(photo.fileUrl)} className="w-8 h-8 rounded-full bg-red-500/90 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transform hover:scale-110 transition-all">
                                                         <Trash2 size={14} />
                                                     </button>
                                                 </div>

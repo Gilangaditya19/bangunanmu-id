@@ -171,11 +171,11 @@ const TestimonialCard = ({ testi }) => (
                         <Star key={starIndex} size={12} fill={starIndex < (testi.rating || 5) ? "currentColor" : "none"} className={`${starIndex < (testi.rating || 5) ? 'text-yellow-400' : 'text-dark-100'}`} />
                     ))}
                 </div>
-                <p className="text-dark-400 text-[10px] sm:text-[11px] font-medium leading-tight">{testi.project || testi.role || 'Klien Bangunanmu'}</p>
+                <p className="text-dark-400 text-[10px] sm:text-[11px] font-medium leading-tight">{testi.company || testi.project || testi.role || 'Klien Bangunanmu'}</p>
             </div>
         </div>
-        <p className="text-dark-600 text-sm italic leading-relaxed flex-1">
-            "{testi.testimonialText || testi.review || testi.text}"
+        <p className="text-dark-600 text-sm leading-relaxed flex-1">
+            {testi.testimonialText || testi.review || testi.text}
         </p>
     </div>
 )

@@ -63,7 +63,8 @@ const Settings = () => {
                 throw new Error('Kata sandi saat ini salah.')
             }
 
-            await api.put(`/users/${user.id}`, {
+            const userId = user._id?.$oid || user._id || user.id
+            await api.put(`/users/${userId}`, {
                 password: formData.newPassword
             })
 

@@ -7,6 +7,16 @@ import siteUpdate1 from '../../assets/images/gallery_architecture_1_177296114340
 import siteUpdate2 from '../../assets/images/gallery_architecture_2_1772961174580.png';
 import siteUpdate3 from '../../assets/images/gallery_interior_1_1772961158421.png';
 
+const getPhotoUrl = (fileUrl) => {
+    if (!fileUrl) return ''
+    if (fileUrl.startsWith('http')) return fileUrl
+    if (fileUrl.includes('/uploads/')) {
+        return `${import.meta.env.VITE_API_URL.replace('/api', '')}${fileUrl.substring(fileUrl.indexOf('/uploads/'))}`
+    }
+    const base = import.meta.env.VITE_API_URL.replace('/api', '')
+    return `${base}${fileUrl.startsWith('/') ? '' : '/'}${fileUrl}`
+}
+
 const CekProgress = () => {
     const [searchId, setSearchId] = useState('');
     const [isTracking, setIsTracking] = useState(false);
@@ -46,15 +56,20 @@ const CekProgress = () => {
 
     const handleReviewSubmit = async () => {
         if (!projectData) return;
+        if (!reviewComment.trim()) {
+            alert('Silakan tulis ulasan Anda terlebih dahulu.');
+            return;
+        }
         
         setIsSubmittingReview(true);
         try {
-            await api.post('/reviews', {
-                projectCode: projectData.id,
-                customerName: projectData.client,
-                customerEmail: projectData.customerEmail || 'client@bangunanmu.id',
-                rating: rating,
-                comment: reviewComment
+            await api.post('/testimonials', {
+                name: projectData.client,
+                email: projectData.customerEmail || 'client@bangunanmu.id',
+                company: projectData.title,
+                position: 'Klien',
+                testimonialText: reviewComment,
+                rating: rating
             });
             setReviewSuccess(true);
             setShowReviewModal(false);
@@ -130,12 +145,25 @@ const CekProgress = () => {
                         progress: ms.progress || 0
                     };
                 }),
-                siteUpdates: (data.documentFiles || []).map(doc => ({
-                    id: doc.id,
-                    image: doc.fileUrl,
-                    date: new Date(doc.uploadedAt || Date.now()).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'}),
-                    title: doc.name
-                }))
+                siteUpdates: (() => {
+                    const photoList = (data.documentFiles && data.documentFiles.length > 0) ? data.documentFiles : (data.photos || []);
+                    return photoList.map((doc, index) => {
+                        if (typeof doc === 'string') {
+                            return {
+                                id: `photo-${index}`,
+                                image: doc,
+                                date: new Date().toLocaleDateString('id-ID', {day: 'numeric', month: 'short'}),
+                                title: 'Foto progress'
+                            }
+                        }
+                        return {
+                            id: doc.id || `photo-${index}`,
+                            image: doc.fileUrl || doc.photoUrl || doc.url || '',
+                            date: new Date(doc.uploadedAt || Date.now()).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'}),
+                            title: doc.name || 'Foto progress'
+                        }
+                    });
+                })()
             };
 
             setProjectData(mappedData);
@@ -143,14 +171,16 @@ const CekProgress = () => {
 
 
             try {
-                const reviewResponse = await api.get(`/reviews/${searchId}`);
-                if (reviewResponse.data && reviewResponse.data.success && reviewResponse.data.data) {
-                    setReviewSuccess(true);
-                } else {
-                    setReviewSuccess(false);
-                }
+                const reviewResponse = await api.get('/testimonials', {
+                    params: { page: 1, limit: 1 }
+                });
+                const reviewList = reviewResponse.data?.data?.data;
+                // Filter berdasarkan email atau nama klien untuk cek apakah sudah pernah submit
+                const hasReview = Array.isArray(reviewList) && reviewList.some(
+                    t => t.email === (data.customerEmail || '') || t.name === data.customerName
+                );
+                setReviewSuccess(hasReview);
             } catch (revError) {
-
                 setReviewSuccess(false);
             }
         } catch (err) {
@@ -385,10 +415,10 @@ const CekProgress = () => {
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                             {projectData.siteUpdates.slice(0, 4).map((update) => (
                                 <div key={update.id} className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden group cursor-pointer shadow-sm"
-                                    onClick={() => setLightboxImage({ src: update.image ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${update.image.substring(update.image.indexOf('/uploads/'))}` : '', alt: update.title })}
+                                    onClick={() => setLightboxImage({ src: getPhotoUrl(update.image), alt: update.title })}
                                 >
                                     <img 
-                                        src={update.image ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${update.image.substring(update.image.indexOf('/uploads/'))}` : ''} 
+                                        src={getPhotoUrl(update.image)} 
                                         alt={update.title} 
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                                     />
@@ -492,10 +522,10 @@ const CekProgress = () => {
                             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
                                 {projectData.siteUpdates.map((update) => (
                                     <div key={update.id} className="relative aspect-square rounded-2xl overflow-hidden group cursor-pointer shadow-sm border border-dark-100 bg-white"
-                                        onClick={() => setLightboxImage({ src: update.image ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${update.image.substring(update.image.indexOf('/uploads/'))}` : '', alt: update.title })}
+                                        onClick={() => setLightboxImage({ src: getPhotoUrl(update.image), alt: update.title })}
                                     >
                                         <img 
-                                            src={update.image ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${update.image.substring(update.image.indexOf('/uploads/'))}` : ''} 
+                                            src={getPhotoUrl(update.image)} 
                                             alt={update.title} 
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                                         />

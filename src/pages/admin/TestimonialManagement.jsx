@@ -7,31 +7,39 @@ const TestimonialManagement = () => {
     const [loading, setLoading] = useState(true)
 
 
-    const [filterCategory, setFilterCategory] = useState('Semua Kategori')
     const [filterStatus, setFilterStatus] = useState('Semua Status')
-    const [appliedFilters, setAppliedFilters] = useState({ category: 'Semua Kategori', status: 'Semua Status' })
+    const [appliedFilters, setAppliedFilters] = useState({ status: 'Semua Status' })
     const [currentPage, setCurrentPage] = useState(1)
     const [paginationMeta, setPaginationMeta] = useState({ page: 1, limit: 10, total: 0, pages: 1, hasNextPage: false, hasPrevPage: false })
 
     const fetchTestimonials = async (page = currentPage) => {
         setLoading(true)
         try {
-            let beStatus = 'all';
-            if (appliedFilters.status === 'Diterbitkan') beStatus = 'approved';
-            else if (appliedFilters.status === 'Menunggu' || appliedFilters.status === 'Disembunyikan') beStatus = 'pending';
+            const params = { page, limit: 10 }
+            
+            // Filter status: kirim ke backend jika bukan 'Semua Status'
+            if (appliedFilters.status === 'Diterbitkan') {
+                params.status = 'approved'
+            } else if (appliedFilters.status === 'Menunggu' || appliedFilters.status === 'Disembunyikan') {
+                params.status = 'pending'
+            }
+            // 'Semua Status' = tidak kirim param status (ambil semua)
 
-            const response = await getAllTestimonials({ page, limit: 10, status: beStatus })
+            const response = await getAllTestimonials(params)
 
             if (response.success && response.data && Array.isArray(response.data.data)) {
                 setTestimonials(response.data.data)
                 if (response.data.pagination) setPaginationMeta(response.data.pagination)
             } else if (Array.isArray(response.data)) {
                 setTestimonials(response.data)
+                setPaginationMeta({ page: 1, limit: 10, total: response.data.length, pages: 1, hasNextPage: false, hasPrevPage: false })
             } else {
                 setTestimonials([])
+                setPaginationMeta({ page: 1, limit: 10, total: 0, pages: 1, hasNextPage: false, hasPrevPage: false })
             }
         } catch (error) {
             console.error('Error fetching testimonials:', error)
+            setTestimonials([])
         } finally {
             setLoading(false)
         }
@@ -68,32 +76,12 @@ const TestimonialManagement = () => {
         ))
     }
 
-    const defaultDummyTestimonials = [
-        { id: 1, name: 'Ahmad Subarjo', project: 'Proyek Modern Villa', rating: 5, review: 'Sangat puas dengan hasil renovasi villa kami. Tim Bangunanmu sangat profesional dan detail.', status: 'Diterbitkan' },
-        { id: 2, name: 'Siti Aminah', project: 'Kitchen Set Minimalis', rating: 5, review: 'Design kitchen set-nya bagus sekali, hanya saja pengerjaan sedikit terlambat dari jadwal.', status: 'Menunggu' },
-        { id: 3, name: 'Budi Santoso', project: 'Office Interior', rating: 5, review: 'Transformasi kantor kami luar biasa. Rekan kerja sangat nyaman bekerja sekarang.', status: 'Disembunyikan' }
-    ]
-
     const handleApplyFilters = () => {
-        setAppliedFilters({ category: filterCategory, status: filterStatus })
+        setAppliedFilters({ status: filterStatus })
         setCurrentPage(1)
     }
 
-    const rawDisplayData = testimonials.length > 0 ? testimonials : defaultDummyTestimonials;
-    
-    const displayData = rawDisplayData.filter(testi => {
-        let matchCategory = true;
-        if (appliedFilters.category !== 'Semua Kategori') {
-            const proj = (testi.project || testi.company || '').toLowerCase();
-            if (appliedFilters.category === 'Konstruksi') {
-                if (proj.includes('desain') || proj.includes('design') || proj.includes('interior') || proj.includes('dapur') || proj.includes('kitchen')) matchCategory = false;
-            } else if (appliedFilters.category === 'Design and Build') {
-                if (!proj.includes('desain') && !proj.includes('design') && !proj.includes('interior') && !proj.includes('dapur') && !proj.includes('kitchen')) matchCategory = false;
-            }
-        }
-
-        return matchCategory;
-    });
+    const displayData = testimonials;
 
     return (
         <div className="pb-12 max-w-7xl mx-auto w-full font-sans">
@@ -114,21 +102,6 @@ const TestimonialManagement = () => {
 
             <div className="bg-white rounded-[2rem] p-6 shadow-md border border-dark-100/30 hover:shadow-lg transition-shadow flex flex-col sm:flex-row items-end gap-4 lg:gap-6 w-full mb-8">
                 <div className="flex-1 w-full relative">
-                    <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Kategori</label>
-                    <select 
-                        value={filterCategory}
-                        onChange={(e) => setFilterCategory(e.target.value)}
-                        className="w-full px-5 py-3 rounded-xl border border-dark-100/80 bg-[#F9F9FB] text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer"
-                    >
-                        <option value="Semua Kategori">Semua Kategori</option>
-                        <option value="Konstruksi">Konstruksi</option>
-                        <option value="Design and Build">Design and Build</option>
-                    </select>
-                    <div className="absolute right-4 bottom-3.5 text-dark-400 pointer-events-none">
-                        <ChevronDown size={14} />
-                    </div>
-                </div>
-                <div className="flex-1 w-full relative">
                     <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Status</label>
                     <select 
                         value={filterStatus}
@@ -137,7 +110,6 @@ const TestimonialManagement = () => {
                     >
                         <option value="Semua Status">Semua Status</option>
                         <option value="Diterbitkan">Diterbitkan</option>
-                        <option value="Menunggu">Menunggu</option>
                         <option value="Disembunyikan">Disembunyikan</option>
                     </select>
                     <div className="absolute right-4 bottom-3.5 text-dark-400 pointer-events-none">
@@ -177,14 +149,12 @@ const TestimonialManagement = () => {
                             ) : (
                                 displayData.map((testi, idx) => {
 
-                                    let statusStr = testimonials.length > 0 ? (testi.isApproved ? 'Diterbitkan' : 'Disembunyikan') : testi.status;
+                                    let statusStr = testi.isApproved ? 'Diterbitkan' : 'Disembunyikan';
                                     let statusClasses = 'bg-dark-100 text-dark-600';
-                                    let isHidden = statusStr === 'Disembunyikan';
+                                    let isHidden = !testi.isApproved;
                                     
-                                    if (statusStr.toLowerCase() === 'diterbitkan') {
+                                    if (testi.isApproved) {
                                         statusClasses = 'bg-green-100 text-green-700';
-                                    } else if (statusStr.toLowerCase() === 'menunggu') {
-                                        statusClasses = 'bg-amber-100 text-amber-700';
                                     } else {
                                         statusClasses = 'bg-dark-100 text-dark-600';
                                     }
@@ -200,7 +170,7 @@ const TestimonialManagement = () => {
                                                     <div>
                                                         <p className="font-extrabold text-dark-900 text-[15px] mb-0.5">{testi.name}</p>
                                                         <p className="text-[12px] text-[#396680] font-medium tracking-wide">
-                                                            {testi.position && testi.company ? `${testi.position} di ${testi.company}` : testi.company || testi.position || testi.project || `Proyek ${testi.name}`}
+                                                            {testi.company || testi.project || `Proyek ${testi.name}`}
                                                         </p>
                                                     </div>
                                                 </div>
@@ -211,7 +181,7 @@ const TestimonialManagement = () => {
                                                     {renderStars(testi.rating || 5)}
                                                 </div>
                                                 <p className="text-dark-500 font-medium italic text-sm leading-relaxed pr-4">
-                                                    "{testi.review}"
+                                                    "{testi.testimonialText || testi.review || 'Tidak ada ulasan'}"
                                                 </p>
                                             </td>
 
@@ -224,14 +194,14 @@ const TestimonialManagement = () => {
                                             <td className="px-8 py-6 align-top pt-7">
                                                 <div className="flex items-center justify-end gap-3 opacity-80 group-hover:opacity-100 transition-opacity">
                                                     <button 
-                                                        onClick={() => testimonials.length > 0 && handleToggleApproval(testi.id, testi.isApproved)} 
+                                                        onClick={() => handleToggleApproval(testi._id || testi.id, testi.isApproved)} 
                                                         className="w-8 h-8 rounded-full bg-[#F4F6F8] border border-[#EAECEE] flex items-center justify-center text-dark-400 hover:text-[#396680] hover:bg-[#EAECEE] transition-all" 
                                                         title="Sembunyikan/Tampilkan"
                                                     >
                                                         {isHidden ? <EyeOff size={16} /> : <Eye size={16} />}
                                                     </button>
                                                     <button 
-                                                        onClick={() => testimonials.length > 0 && handleDelete(testi.id)}
+                                                        onClick={() => handleDelete(testi._id || testi.id)}
                                                         className="w-8 h-8 rounded-full bg-[#fce8e8] border border-[#facaca] flex items-center justify-center text-red-500 hover:text-white hover:bg-red-500 transition-all shadow-sm" 
                                                         title="Hapus"
                                                     >
