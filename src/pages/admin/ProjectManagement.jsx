@@ -168,12 +168,14 @@ const ProjectManagement = () => {
 
     const handleAddMilestone = async () => {
         if (!newMs.title) return
+        const statusMap = { pending: 'PENDING', in_progress: 'ON_PROGRESS', completed: 'COMPLETED' }
+        const beStatus = statusMap[newMs.status] || newMs.status.toUpperCase()
         try {
             if (editingMs) {
                 await updateMilestone(activeProject.id, editingMs.id, {
                     title: newMs.title,
                     name: newMs.title,
-                    status: newMs.status,
+                    status: beStatus,
                     description: newMs.description,
                     targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : null,
                     progress: newMs.status === 'completed' ? 100 : 0
@@ -183,18 +185,24 @@ const ProjectManagement = () => {
                 await addMilestone(activeProject.id, {
                     title: newMs.title,
                     name: newMs.title,
-                    status: newMs.status,
+                    status: beStatus,
                     description: newMs.description,
                     targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : null,
                     progress: newMs.status === 'completed' ? 100 : 0
                 })
             }
             setNewMs({ title: '', status: 'pending', targetDate: '', description: '' })
+        } catch (error) {
+            alert('Gagal menyimpan tahapan.')
+            return
+        }
+        // Refresh data terpisah - jangan masuk catch utama
+        try {
             const response = await getMilestones(activeProject.id)
             setMilestones(response.data)
             fetchProjects()
-        } catch (error) {
-            alert('Gagal menyimpan tahapan.')
+        } catch (e) {
+            // Refresh gagal tapi data sudah tersimpan, tidak perlu alert
         }
     }
 

@@ -206,7 +206,7 @@ export const uploadDocument = async (projectCode, file, description) => {
 export const deleteDocument = async (projectCode, photoUrl) => {
     try {
         const response = await api.delete(`/projects/${projectCode}/photos`, {
-            data: { photoUrl }
+            data: { url: photoUrl }
         })
         return response.data
     } catch (error) {
