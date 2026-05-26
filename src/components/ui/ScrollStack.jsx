@@ -54,17 +54,13 @@ export default function ScrollStack({
 }
 
 function StepIndicators({ steps, scrollYProgress, totalItems }) {
-    // Setiap step punya lebar 1/totalItems dari container.
-    // Center icon ada di tengah masing-masing kolom = (idx + 0.5) / totalItems
-    // Garis dimulai dari tepi kanan icon pertama dan berakhir di tepi kiri icon terakhir
-    // Tepi icon = center ± 24px (radius icon 48px)
-    const firstCenterPercent = 50 / totalItems; // (0.5 / totalItems) * 100
+    const firstCenterPercent = 50 / totalItems;
     const lineLeft = `calc(${firstCenterPercent}% + 24px)`;
     const lineRight = `calc(${firstCenterPercent}% + 24px)`;
     const totalLineWidth = `calc(100% - ${firstCenterPercent * 2}% - 48px)`;
 
     return (
-        <div className="relative flex items-start justify-between mb-8 px-4">
+        <div className="relative flex items-start justify-between mb-8 px-2 sm:px-4">
             {/* Garis background */}
             <div
                 className="absolute top-6 h-[2px] bg-gray-200 z-0"

@@ -387,10 +387,10 @@ const Beranda = () => {
                     <ScrollReveal variant="fadeInUp" className="w-full lg:max-w-6xl mx-auto">
                         <ScrollStack itemDistance={500}
                             stepLabels={[
-                                { icon: <Search size={20} />, label: 'KONSULTASI & SURVEY' },
-                                { icon: <Compass size={20} />, label: 'DESIGN ARSITEKTUR' },
-                                { icon: <Wrench size={20} />, label: 'PROSES KONSTRUKSI' },
-                                { icon: <Handshake size={20} />, label: 'SERAH TERIMA KUNCI' },
+                                { icon: <Search size={20} />, label: 'KONSULTASI' },
+                                { icon: <Compass size={20} />, label: 'DESAIN' },
+                                { icon: <Wrench size={20} />, label: 'KONSTRUKSI' },
+                                { icon: <Handshake size={20} />, label: 'SERAH TERIMA' },
                             ]}
                         >
                             <ScrollStackItem>

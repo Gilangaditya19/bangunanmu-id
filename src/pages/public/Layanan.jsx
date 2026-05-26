@@ -210,6 +210,7 @@ const Layanan = () => {
                 {
                     step: 1,
                     title: 'Konsultasi & Survey',
+                    shortTitle: 'Konsultasi',
                     description: 'Diskusi awal kebutuhan Anda dan survey lokasi untuk pemetaan awal yang sangat presisi sesuai regulasi.',
                     icon: <Search />,
                     image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
@@ -223,6 +224,7 @@ const Layanan = () => {
                 {
                     step: 2,
                     title: 'Desain Arsitektur',
+                    shortTitle: 'Desain',
                     description: 'Pembuatan desain perancangan awal 3D dan Rencana Anggaran Biaya yang transparan secara menyeluruh.',
                     icon: <Compass />,
                     image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop',
@@ -236,6 +238,7 @@ const Layanan = () => {
                 {
                     step: 3,
                     title: 'Penandatanganan',
+                    shortTitle: 'Kontrak',
                     description: 'Kesepakatan final atas design, timeline penyelesaian, dan biaya pekerjaan konstruksi secara tertulis hitam di atas putih.',
                     icon: <Handshake />,
                     image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
@@ -249,6 +252,7 @@ const Layanan = () => {
                 {
                     step: 4,
                     title: 'Proses Konstruksi',
+                    shortTitle: 'Konstruksi',
                     description: 'Eksekusi fisik pembangunan di lapangan dengan pengawasan ketat dan laporan progres berkala melalui sistem yang transparan.',
                     icon: <HardHat />,
                     image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
@@ -262,6 +266,7 @@ const Layanan = () => {
                 {
                     step: 5,
                     title: 'Serah Terima Kunci',
+                    shortTitle: 'Serah Terima',
                     description: 'Inspeksi final bersama dan penyerahan bangunan siap huni beserta dokumen retensi dan garansi pemeliharaan struktur.',
                     icon: <Home />,
                     image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=1200&auto=format&fit=crop',
@@ -325,6 +330,7 @@ const Layanan = () => {
                 {
                     step: 3,
                     title: 'Tinjau Anggaran',
+                    shortTitle: 'Anggaran',
                     description: 'Finalisasi ruang lingkup pekerjaan interior agar tetap linear dengan bujet Anda, yang selanjutnya diakhiri kontrak.',
                     icon: <Handshake />,
                     image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
@@ -351,6 +357,7 @@ const Layanan = () => {
                 {
                     step: 5,
                     title: 'Final Inspection',
+                    shortTitle: 'Final',
                     description: 'Pengecekan dan finishing setiap detail akhir sebelum kami melaksanakan serah terima kepemilikan hasil karya.',
                     icon: <ClipboardCheck />,
                     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
@@ -414,6 +421,7 @@ const Layanan = () => {
                 {
                     step: 3,
                     title: 'Visualisasi 3D',
+                    shortTitle: '3D Render',
                     description: 'Presentasi hasil render 3D fotorealistik yang memberikan gambaran jelas tentang bentuk, warna, dan material bangunan Anda.',
                     icon: <Box />,
                     image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1200&auto=format&fit=crop',
@@ -427,6 +435,7 @@ const Layanan = () => {
                 {
                     step: 4,
                     title: 'Penyusunan RAB',
+                    shortTitle: 'RAB',
                     description: 'Pembuatan Rencana Anggaran Biaya (RAB) yang terperinci dan transparan berdasarkan design yang telah disetujui.',
                     icon: <ClipboardCheck />,
                     image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
@@ -440,6 +449,7 @@ const Layanan = () => {
                 {
                     step: 5,
                     title: 'Gambar Kerja Final',
+                    shortTitle: 'DED Final',
                     description: 'Penyerahan dokumen Detail Engineering Design (DED) lengkap yang siap digunakan sebagai panduan pelaksanaan konstruksi.',
                     icon: <Wrench />,
                     image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
@@ -584,7 +594,7 @@ const Layanan = () => {
                                 itemDistance={500}
                                 stepLabels={currentContent.roadmap.map(item => ({
                                     icon: item.icon,
-                                    label: item.title
+                                    label: item.shortTitle || item.title
                                 }))}
                             >
                                 {currentContent.roadmap.map((item, index) => (

@@ -322,6 +322,37 @@ const ProjectManagement = () => {
         }
     }
 
+    const handleFileSelect = async (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+
+        const isHeic = /\.(heic|heif)$/i.test(file.name) || file.type === 'image/heic' || file.type === 'image/heif'
+        
+        if (isHeic) {
+            const loadingToast = toast.loading('Mengkonversi foto HEIC ke JPG...')
+            try {
+                const heic2any = (await import('heic2any')).default
+                const convertedBlob = await heic2any({
+                    blob: file,
+                    toType: 'image/jpeg',
+                    quality: 0.85
+                })
+                const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob
+                const newName = file.name.replace(/\.(heic|heif)$/i, '.jpg')
+                const convertedFile = new File([blob], newName, { type: 'image/jpeg' })
+                setNewDoc({ ...newDoc, file: convertedFile })
+                toast.dismiss(loadingToast)
+                toast.success('Foto berhasil dikonversi')
+            } catch (err) {
+                console.error('HEIC conversion error:', err)
+                toast.dismiss(loadingToast)
+                toast.error('Gagal mengkonversi foto HEIC. Coba foto lain.')
+            }
+        } else {
+            setNewDoc({ ...newDoc, file })
+        }
+    }
+
     const handleDeleteDoc = (docId) => {
         setConfirmDialog({
             isOpen: true,
@@ -574,7 +605,7 @@ const ProjectManagement = () => {
                                 <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                                     minLength={5} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" placeholder="Minimal 5 karakter" required />
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Nama Klien</label>
                                     <input type="text" value={formData.client} onChange={(e) => setFormData({ ...formData, client: e.target.value })}
@@ -587,7 +618,7 @@ const ProjectManagement = () => {
                                         className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" placeholder="087712314562 (10-15 digit angka)" required />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Email Klien</label>
                                     <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
@@ -599,7 +630,7 @@ const ProjectManagement = () => {
                                         className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" placeholder="Minimal 10 Karakter" />
                                 </div>
                             </div>
-                            <div className={`grid ${editingProject ? 'grid-cols-2' : 'grid-cols-1'} gap-4`}>
+                            <div className={`grid ${editingProject ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'} gap-4`}>
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Kategori</label>
                                     <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}
@@ -622,7 +653,7 @@ const ProjectManagement = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Tanggal Mulai</label>
                                     <input type="date" value={formData.startDate} onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
@@ -715,7 +746,7 @@ const ProjectManagement = () => {
                                                         {(stage.status === 'completed' || stage.status === 'COMPLETED') && <span className="text-[10px] px-2 py-0.5 bg-green-50 text-green-600 font-bold uppercase rounded-sm">Selesai</span>}
                                                         {(stage.status === 'pending' || stage.status === 'PENDING') && <span className="text-[10px] px-2 py-0.5 bg-amber-50 text-amber-600 font-bold uppercase rounded-sm">Menunggu</span>}
                                                     </div>
-                                                    <div className="flex gap-2 text-dark-300">
+                                                    <div className="flex gap-2 text-dark-300 flex-shrink-0 ml-2">
                                                         <button onClick={() => openEditMs(stage)} className="hover:text-[#396680] transition-colors"><Pencil size={14} /></button>
                                                         <button onClick={() => handleDeleteMilestone(stage.id)} className="hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
                                                     </div>
@@ -735,7 +766,7 @@ const ProjectManagement = () => {
                                 )}
                             </div>
 
-                            <div className="bg-white p-5 md:p-6 rounded-2xl border-2 border-[#396680]/40">
+                            <div className="bg-white p-5 md:p-6 rounded-2xl border-2 border-[#396680]/40 overflow-hidden">
                                 <h4 className="font-bold text-dark-900 mb-4 flex items-center gap-2">
                                     {editingMs ? <Pencil size={18} className="text-dark-400" /> : <Plus size={18} className="text-dark-400" />} {editingMs ? 'Edit Tahapan' : 'Tambah Tahap Baru'}
                                 </h4>
@@ -754,7 +785,7 @@ const ProjectManagement = () => {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Target Selesai</label>
-                                        <input type="date" value={newMs.targetDate} onChange={(e) => setNewMs({ ...newMs, targetDate: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium" />
+                                        <input type="date" value={newMs.targetDate} onChange={(e) => setNewMs({ ...newMs, targetDate: e.target.value })} className="w-full max-w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium box-border" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Keterangan Singkat</label>
@@ -806,7 +837,7 @@ const ProjectManagement = () => {
                                         <label className="flex-1 px-4 py-3 rounded-xl border-2 border-[#396680]/40 text-sm cursor-pointer hover:bg-dark-50 transition-colors flex items-center gap-2">
                                             <span className="px-3 py-1 bg-[#396680]/10 text-[#396680] font-bold text-xs rounded-lg">Pilih File</span>
                                             <span className="text-dark-500 truncate">{newDoc.file ? newDoc.file.name : 'Belum ada file dipilih'}</span>
-                                            <input type="file" onChange={(e) => setNewDoc({ ...newDoc, file: e.target.files[0] })} className="hidden" accept="image/jpeg,image/png" />
+                                            <input type="file" onChange={handleFileSelect} className="hidden" accept="image/jpeg,image/png,image/heic,image/heif,.heic,.heif" />
                                         </label>
                                         <button type="button" onClick={handleUploadDoc} disabled={uploadingDoc} className="px-6 py-3 bg-[#396680] hover:bg-[#2d5166] text-white text-sm font-bold rounded-xl transition-all shadow-md whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2">
                                             {uploadingDoc ? <><Loader2 size={16} className="animate-spin" /> Mengunggah...</> : 'Unggah Foto'}
