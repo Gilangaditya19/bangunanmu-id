@@ -33,7 +33,7 @@ const AdminLayout = () => {
                             Bangunanmu<span className="font-medium text-dark-500">.id</span>
                         </span>
                         <span className="text-[8px] font-bold text-[#396680] tracking-widest uppercase mt-0.5">
-                            Konstruksi & Design and Build
+                            Konstruksi & Desain & Bangun
                         </span>
                     </div>
                     <button onClick={() => setSidebarOpen(false)} className="lg:hidden ml-auto text-dark-400">

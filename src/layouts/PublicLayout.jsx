@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Outlet, NavLink, Link, useLocation } from 'react-router-dom'
-import { Menu, X, ChevronDown } from 'lucide-react'
+import { Menu, X, ChevronDown, Mail, MessageCircle } from 'lucide-react'
 
 const Instagram = ({ size = 24, ...props }) => (
   <svg 
@@ -35,8 +35,8 @@ const PublicLayout = () => {
             dropdown: true,
             children: [
                 { to: '/layanan?tab=konstruksi', label: 'Konstruksi' },
-                { to: '/layanan?tab=design-build', label: 'Design and Build' },
-                { to: '/layanan?tab=desain', label: 'Design' },
+                { to: '/layanan?tab=design-build', label: 'Desain & Bangun' },
+                { to: '/layanan?tab=desain', label: 'Desain Arsitektur' },
             ],
         },
         { to: '/cek-progress', label: 'Cek Progress' },
@@ -190,6 +190,14 @@ const PublicLayout = () => {
                                     <span className="sr-only">Instagram</span>
                                     <Instagram size={18} />
                                 </a>
+                                <a href="https://wa.me/6281368227031" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white text-white hover:text-[#396680] transition-all focus:ring-4 focus:ring-white/20">
+                                    <span className="sr-only">WhatsApp</span>
+                                    <MessageCircle size={18} />
+                                </a>
+                                <a href="https://mail.google.com/mail/?view=cm&to=bangunanmu.id@gmail.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white text-white hover:text-[#396680] transition-all focus:ring-4 focus:ring-white/20">
+                                    <span className="sr-only">Email</span>
+                                    <Mail size={18} />
+                                </a>
                             </div>
                         </div>
 
@@ -198,17 +206,17 @@ const PublicLayout = () => {
                             <ul className="space-y-3">
                                 <li>
                                     <Link to="/layanan?tab=konstruksi" className="text-white/80 hover:text-white transition-colors text-sm">
-                                        Konstruksi Bangunan
+                                        Konstruksi
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/layanan?tab=design-build" className="text-white/80 hover:text-white transition-colors text-sm">
-                                        Design and Build
+                                        Desain & Bangun
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/layanan?tab=desain" className="text-white/80 hover:text-white transition-colors text-sm">
-                                        Design
+                                        Desain Arsitektur
                                     </Link>
                                 </li>
                             </ul>

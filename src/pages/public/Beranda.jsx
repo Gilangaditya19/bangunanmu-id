@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Home, Building2, Armchair, Search, CheckCircle2, Wrench, HardHat, Handshake, FileText, Compass } from 'lucide-react';
+import { ArrowRight, Home, Building2, Armchair, Search, CheckCircle2, Wrench, HardHat, Handshake, Compass } from 'lucide-react';
 import ContactSection from '../../components/ui/ContactSection';
 import ShinyText from '../../components/ui/ShinyText';
 import Typewriter from '../../components/ui/Typewriter';
-import Stepper, { Step } from '../../components/ui/Stepper';
+import ScrollStack, { ScrollStackItem } from '../../components/ui/ScrollStack';
 import ScrollReveal from '../../components/ui/ScrollReveal';
+import StickerPeel from '../../components/ui/StickerPeel';
 
 const Beranda = () => {
     const [progressQuery, setProgressQuery] = useState('');
@@ -81,9 +82,22 @@ const Beranda = () => {
                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/60 to-transparent"></div>
                     </div>
 
+                    <div className="absolute top-4 right-4 sm:top-8 sm:right-8 z-20">
+                        <StickerPeel
+                            imageSrc="/logo.png"
+                            width={typeof window !== 'undefined' && window.innerWidth < 640 ? 80 : 140}
+                            rotate={15}
+                            peelBackHoverPct={25}
+                            peelBackActivePct={45}
+                            peelDirection={-10}
+                            shadowIntensity={0.7}
+                            lightingIntensity={0.15}
+                            initialPosition="top-right"
+                        />
+                    </div>
+
                     <div className="relative z-10 w-full px-6 sm:px-12 lg:px-20 text-center flex flex-col items-center">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8 max-w-max">
-                            <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
                             <ShinyText text="Rekomendasi Jasa Konstruksi No.1" disabled={false} speed={3} className="text-sm font-medium text-white/90" />
                         </div>
 
@@ -162,7 +176,7 @@ const Beranda = () => {
 
                                 <div className="bg-[#396680] text-white p-5 rounded-[1.5rem] shadow-lg flex flex-col items-center justify-center gap-2 h-[120px]">
                                     <Armchair className="text-2xl" />
-                                    <span className="text-sm font-semibold text-center leading-tight">Design and Build</span>
+                                    <span className="text-sm font-semibold text-center leading-tight">Desain & Bangun</span>
                                 </div>
                             </div>
                         </div>
@@ -217,7 +231,7 @@ const Beranda = () => {
                                 <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop" alt="Design and Build" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
-                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Design and Build</h3>
+                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain & Bangun</h3>
                                 <p className="text-dark-500 mb-8 line-clamp-2">Kustomisasi interior dan layout design yang presisi untuk nuansa senada di setiap sudut ruangan.</p>
 
                                 <ul className="space-y-3 mb-10">
@@ -240,7 +254,7 @@ const Beranda = () => {
                                 <img src="https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1000&auto=format&fit=crop" alt="Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
-                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Design</h3>
+                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain Arsitektur</h3>
                                 <p className="text-dark-500 mb-8 line-clamp-2">Visualisasikan hunian impian Anda dengan design arsitektur dan interior 3D yang detail serta realistis.</p>
 
                                 <ul className="space-y-3 mb-10">
@@ -296,7 +310,7 @@ const Beranda = () => {
                                         onChange={(e) => setProgressQuery(e.target.value)}
                                     />
                                 </div>
-                                <Link to="/cek-progress" className="flex items-center justify-center px-8 py-4 bg-white text-[#396680] font-bold rounded-2xl hover:bg-gray-100 transition-colors shadow-lg">
+                                <Link to={`/cek-progress${progressQuery.trim() ? `?id=${encodeURIComponent(progressQuery.trim())}` : ''}`} className="flex items-center justify-center px-8 py-4 bg-white text-[#396680] font-bold rounded-2xl hover:bg-gray-100 transition-colors shadow-lg">
                                     Cek Progress
                                 </Link>
                             </div>
@@ -356,10 +370,10 @@ const Beranda = () => {
                 <div className="section-container">
 
                     <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
-                        <div className="inline-flex items-center justify-center px-4 py-1.5 bg-white backdrop-blur-sm border border-dark-100 shadow-sm rounded-full mb-6 relative">
+                        <div className="inline-flex items-center justify-center px-4 py-1.5 bg-[#396680]/10 backdrop-blur-sm border border-[#396680]/20 shadow-sm rounded-full mb-6 relative">
                             <ShinyText
                                 text="Roadmap Kolaborasi"
-                                theme="dark"
+                                theme="brand"
                                 speed={3}
                                 className="text-[10px] sm:text-xs font-extrabold tracking-widest uppercase"
                             />
@@ -371,57 +385,29 @@ const Beranda = () => {
                     </div>
 
                     <ScrollReveal variant="fadeInUp" className="w-full lg:max-w-6xl mx-auto">
-                        <Stepper
-                            initialStep={1}
-                            onStepChange={(step) => console.log('Step changed to:', step)}
-                            onFinalStepCompleted={() => console.log('All steps completed!')}
-                            stepCircleContainerClassName="scale-90 md:scale-100"
-                            contentClassName="mt-4"
-                            renderStepIndicator={({ step, isActive, isCompleted }) => {
-                                const stepIcons = {
-                                    1: <Search />,
-                                    2: <FileText />,
-                                    3: <Wrench />,
-                                    4: <CheckCircle2 />
-                                };
-                                const stepLabels = {
-                                    1: "KONSULTASI & SURVEY",
-                                    2: "DESIGN & PENAWARAN",
-                                    3: "PROSES PEMBANGUNAN",
-                                    4: "SERAH TERIMA & GARANSI"
-                                };
-                                return (
-                                    <div className="flex flex-col items-center justify-center relative">
-                                        <div className="text-sm md:text-base">
-                                            {stepIcons[step]}
-                                        </div>
-
-                                        <div className={`absolute top-full mt-4 md:mt-5 w-[55px] sm:w-[80px] md:w-max text-center ${isActive || isCompleted ? 'text-dark-900 font-bold' : 'text-dark-300 font-medium md:font-bold'} text-[6.5px] sm:text-[8px] md:text-[10px] uppercase tracking-wider md:tracking-widest leading-[1.2] break-words`}>
-                                            {stepLabels[step]}
-                                        </div>
-                                    </div>
-                                );
-                            }}
+                        <ScrollStack itemDistance={500}
+                            stepLabels={[
+                                { icon: <Search size={20} />, label: 'KONSULTASI & SURVEY' },
+                                { icon: <Compass size={20} />, label: 'DESIGN ARSITEKTUR' },
+                                { icon: <Wrench size={20} />, label: 'PROSES KONSTRUKSI' },
+                                { icon: <Handshake size={20} />, label: 'SERAH TERIMA KUNCI' },
+                            ]}
                         >
+                            <ScrollStackItem>
+                                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row">
 
-                            <Step>
-                                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
-
-                                    <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
+                                    <div className="w-full md:w-1/2 relative min-h-[200px] md:min-h-[450px]">
                                         <img
                                             src="https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop"
                                             alt="Konsultasi"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
-                                        <div className="absolute bottom-6 left-6 inline-block px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                                            <ShinyText text="PHASE 01 : INISIASI" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
-                                        </div>
                                     </div>
 
-                                    <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
-                                        <h3 className="text-3xl font-bold text-dark-900 mb-4 tracking-tight">Konsultasi & Survey</h3>
-                                        <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
+                                    <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
+                                        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Konsultasi & Survey</h3>
+                                        <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                             Diskusi mendalam mengenai visi hunian Anda, kebutuhan ruang, hingga tinjauan lokasi langsung untuk memastikan fondasi yang tepat. Kami percaya setiap struktur dimulai dari pemahaman yang kuat akan karakter penghuninya.
                                         </p>
 
@@ -429,7 +415,6 @@ const Beranda = () => {
                                             <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                 Mulai Konsultasi
                                             </Link>
-
                                         </div>
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
@@ -444,24 +429,21 @@ const Beranda = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </Step>
+                            </ScrollStackItem>
 
-                            <Step>
-                                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
-                                    <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
+                            <ScrollStackItem>
+                                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row">
+                                    <div className="w-full md:w-1/2 relative min-h-[200px] md:min-h-[450px]">
                                         <img
                                             src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop"
                                             alt="Perencanaan"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
-                                        <div className="absolute bottom-6 left-6 inline-block px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                                            <ShinyText text="PHASE 02 : PERENCANAAN" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
-                                        </div>
                                     </div>
-                                    <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
-                                        <h3 className="text-3xl font-bold text-dark-900 mb-4 tracking-tight">Design & Penawaran</h3>
-                                        <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
+                                    <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
+                                        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Design & Penawaran</h3>
+                                        <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                             Masuk ke tahap visualisasi dengan pemodelan 3D realistis. Kami menyusun Rencana Anggaran Biaya (RAB) yang sepenuhnya transparan serta timeline pengerjaan yang terstruktur rapi.
                                         </p>
 
@@ -483,24 +465,21 @@ const Beranda = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </Step>
+                            </ScrollStackItem>
 
-                            <Step>
-                                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
-                                    <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
+                            <ScrollStackItem>
+                                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row">
+                                    <div className="w-full md:w-1/2 relative min-h-[200px] md:min-h-[450px]">
                                         <img
-                                            src="https://images.unsplash.com/photo-1541888081622-152e00780f2d?q=80&w=1200&auto=format&fit=crop"
+                                            src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop"
                                             alt="Pembangunan"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
-                                        <div className="absolute bottom-6 left-6 inline-block px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                                            <ShinyText text="PHASE 03 : EKSEKUSI" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
-                                        </div>
                                     </div>
-                                    <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
-                                        <h3 className="text-3xl font-bold text-dark-900 mb-4 tracking-tight">Proses Pembangunan</h3>
-                                        <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
+                                    <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
+                                        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Proses Pembangunan</h3>
+                                        <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                             Eksekusi pembangunan di lapangan dilakukan secara profesional oleh tukang dan teknisi bersertifikasi. Anda akan mendapatkan laporan progress berkala secara real-time dari sistem kami.
                                         </p>
 
@@ -522,24 +501,21 @@ const Beranda = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </Step>
+                            </ScrollStackItem>
 
-                            <Step>
-                                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
-                                    <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
+                            <ScrollStackItem>
+                                <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row">
+                                    <div className="w-full md:w-1/2 relative min-h-[200px] md:min-h-[450px]">
                                         <img
                                             src="https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=1200&auto=format&fit=crop"
                                             alt="Serah Terima"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
-                                        <div className="absolute bottom-6 left-6 inline-block px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                                            <ShinyText text="PHASE 04 : FINAL" speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
-                                        </div>
                                     </div>
-                                    <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
-                                        <h3 className="text-3xl font-bold text-dark-900 mb-4 tracking-tight">Serah Terima & Garansi</h3>
-                                        <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
+                                    <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
+                                        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Serah Terima & Garansi</h3>
+                                        <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                             Inspeksi akhir bersama untuk memastikan setiap detailnya sempurna. Penyerahan kunci dilakukan bersama dengan penyerahan dokumen garansi retensi bangunan sebagai jaminan kualitas final.
                                         </p>
 
@@ -561,8 +537,8 @@ const Beranda = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </Step>
-                        </Stepper>
+                            </ScrollStackItem>
+                        </ScrollStack>
                     </ScrollReveal>
                 </div>
             </section>

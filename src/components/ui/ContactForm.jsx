@@ -37,7 +37,7 @@ const ContactForm = () => {
                     onChange={handleChange}
                     required
                     placeholder="Masukkan nama Anda"
-                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#396680]/30 transition-all text-dark-900 placeholder-dark-400 font-medium text-sm truncate"
+                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border-2 border-[#396680] rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder-dark-400 font-medium text-sm truncate"
                 />
             </div>
 
@@ -50,7 +50,7 @@ const ContactForm = () => {
                     onChange={handleChange}
                     required
                     placeholder="halo@contoh.com"
-                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#396680]/30 transition-all text-dark-900 placeholder-dark-400 font-medium text-sm truncate"
+                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border-2 border-[#396680] rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder-dark-400 font-medium text-sm truncate"
                 />
             </div>
 
@@ -61,10 +61,10 @@ const ContactForm = () => {
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}
-                        className="w-full pl-4 sm:pl-5 pr-10 sm:pr-12 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#396680]/30 transition-all text-dark-900 font-medium text-sm appearance-none truncate"
+                        className="w-full pl-4 sm:pl-5 pr-10 sm:pr-12 py-3 sm:py-3.5 bg-[#F8F9FA] border-2 border-[#396680] rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 font-medium text-sm appearance-none truncate"
                     >
                         <option value="Konsultasi bangunan/renovasi">Konsultasi bangunan/renovasi</option>
-                        <option value="Layanan design and build">Layanan design and build</option>
+                        <option value="Layanan design and build">Layanan Desain & Bangun</option>
                         <option value="Permintaan RAB">Permintaan RAB</option>
                         <option value="Kemitraan vendor/supplier">Kemitraan vendor/supplier</option>
                     </select>
@@ -83,7 +83,7 @@ const ContactForm = () => {
                     required
                     rows="4"
                     placeholder="Ceritakan tentang proyek Anda..."
-                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border border-transparent rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#396680]/30 transition-all text-dark-900 placeholder-dark-400 font-medium text-sm resize-none"
+                    className="w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-[#F8F9FA] border-2 border-[#396680] rounded-xl sm:rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder-dark-400 font-medium text-sm resize-none"
                 ></textarea>
             </div>
 

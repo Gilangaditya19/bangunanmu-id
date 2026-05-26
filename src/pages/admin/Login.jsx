@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { login as loginService } from '../../services/authService'
 import { Mail, Eye, EyeOff } from 'lucide-react'
 import ShinyText from '../../components/ui/ShinyText'
+import ImageTrail from '../../components/ui/ImageTrail'
 
 import loginBg from '../../assets/images/gallery_architecture_1_1772961143405.png'
 
@@ -46,7 +47,9 @@ const Login = () => {
                     
                     <div className="absolute inset-0 bg-gradient-to-b from-[#396680]/60 to-[#2d5166]/90"></div>
 
-                    <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end">
+                    <ImageTrail items={['/logo.png', '/logo.png', '/logo.png', '/logo.png', '/logo.png', '/logo.png', '/logo.png', '/logo.png']} variant={1} />
+
+                    <div className="absolute inset-0 p-8 md:p-12 flex flex-col justify-end pointer-events-none z-10">
                         <div className="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-md border border-white/20 rounded-full mb-4 md:mb-6 w-max">
                             <ShinyText
                                 text="Bangunanmu.id"
@@ -84,7 +87,7 @@ const Login = () => {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         placeholder="user@example.com"
-                                        className="w-full px-6 py-3.5 rounded-full border border-dark-200 focus:outline-none focus:ring-4 focus:ring-[#396680]/20 focus:border-[#396680] transition-all text-dark-900 placeholder-dark-300 font-medium pr-12 shadow-sm"
+                                        className="w-full px-5 py-3.5 rounded-2xl bg-[#F8F9FA] border-2 border-[#396680] focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder-dark-400 font-medium pr-12"
                                         required
                                     />
                                     <div className="absolute right-5 top-1/2 -translate-y-1/2 text-dark-300 pointer-events-none">
@@ -101,7 +104,7 @@ const Login = () => {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         placeholder="••••••••"
-                                        className="w-full px-6 py-3.5 rounded-full border border-dark-200 focus:outline-none focus:ring-4 focus:ring-[#396680]/20 focus:border-[#396680] transition-all text-dark-900 placeholder-dark-400 font-medium pr-12 tracking-widest shadow-sm"
+                                        className="w-full px-5 py-3.5 rounded-2xl bg-[#F8F9FA] border-2 border-[#396680] focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder-dark-400 font-medium pr-12 tracking-widest"
                                         required
                                     />
                                     <button

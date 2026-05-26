@@ -11,7 +11,9 @@ const ScrollReveal = ({
     variant = 'fadeInUp', 
     delay = 0, 
     duration = 800,
-    threshold = 0.1
+    threshold = 0.1,
+    id,
+    ...rest
 }) => {
     const [isVisible, setIsVisible] = useState(false);
     const ref = useRef(null);
@@ -59,12 +61,14 @@ const ScrollReveal = ({
     return (
         <div
             ref={ref}
+            id={id}
             className={`transition-all ease-[cubic-bezier(0.25,1,0.5,1)] ${activeClass} ${className}`}
             style={{
                 transitionDuration: `${duration}ms`,
                 transitionDelay: `${delay}ms`,
                 willChange: 'transform, opacity'
             }}
+            {...rest}
         >
             {children}
         </div>

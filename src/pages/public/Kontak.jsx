@@ -42,23 +42,25 @@ const Kontak = () => {
 
                         <div className="space-y-4 mb-14">
                             
-                            <a href="mailto:bangunanmu.id@gmail.com" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
+
+                             <a href="https://wa.me/6281368227031" target="_blank" rel="noopener noreferrer" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
+                                <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#396680] shrink-0">
+                                    <Phone size={20} />
+                                </div>
+                                <div>
+                                    <p className="text-xs font-semibold text-dark-400 mb-1">Telepon/Whatsapp</p>
+                                    <p className="font-bold text-dark-900">0813 - 6822 - 7031</p>
+                                </div>
+                            </a>
+
+
+                            <a href="https://mail.google.com/mail/?view=cm&to=bangunanmu.id@gmail.com" target="_blank" rel="noopener noreferrer" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
                                 <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#396680] shrink-0">
                                     <Mail size={20} />
                                 </div>
                                 <div>
                                     <p className="text-xs font-semibold text-dark-400 mb-1">Email</p>
                                     <p className="font-bold text-dark-900">bangunanmu.id@gmail.com</p>
-                                </div>
-                            </a>
-                            
-                            <a href="https://wa.me/6287765823731" target="_blank" rel="noopener noreferrer" className="bg-white px-6 py-5 rounded-2xl shadow-sm flex items-center gap-5 transition-all hover:shadow-md hover:-translate-y-0.5">
-                                <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-[#396680] shrink-0">
-                                    <Phone size={20} />
-                                </div>
-                                <div>
-                                    <p className="text-xs font-semibold text-dark-400 mb-1">Telepon</p>
-                                    <p className="font-bold text-dark-900">0877 - 6582 - 3731</p>
                                 </div>
                             </a>
                             
@@ -77,7 +79,7 @@ const Kontak = () => {
 
                     <ScrollReveal variant="fadeInRight" delay={200} className="flex-1 lg:max-w-2xl">
 
-                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-lg mb-8">
+                        <div className="bg-white p-8 sm:p-10 rounded-[2rem] shadow-lg mb-8 border-2 border-[#396680]">
                             <h2 className="text-2xl font-bold text-dark-900 mb-8">Kirim pesan kepada kami</h2>
                             <ContactForm />
                         </div>

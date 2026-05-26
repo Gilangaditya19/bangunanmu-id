@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { getAllTestimonials, updateTestimonialStatus, deleteTestimonial } from '../../services/testimonialService'
 import { Star, Eye, EyeOff, Trash2, Pencil, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
+import ConfirmDialog from '../../components/ui/ConfirmDialog'
 
 const TestimonialManagement = () => {
     const [testimonials, setTestimonials] = useState([])
@@ -11,6 +13,7 @@ const TestimonialManagement = () => {
     const [appliedFilters, setAppliedFilters] = useState({ status: 'Semua Status' })
     const [currentPage, setCurrentPage] = useState(1)
     const [paginationMeta, setPaginationMeta] = useState({ page: 1, limit: 10, total: 0, pages: 1, hasNextPage: false, hasPrevPage: false })
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', message: '', onConfirm: () => {}, confirmText: 'Hapus' })
 
     const fetchTestimonials = async (page = currentPage) => {
         setLoading(true)
@@ -53,19 +56,30 @@ const TestimonialManagement = () => {
         try {
             await updateTestimonialStatus(id, !currentStatus)
             fetchTestimonials()
+            toast.success(currentStatus ? 'Testimoni disembunyikan' : 'Testimoni diterbitkan')
         } catch (error) {
             console.error('Error updating testimonial:', error)
+            toast.error('Gagal mengubah status testimoni')
         }
     }
 
-    const handleDelete = async (id) => {
-        if (!window.confirm('Yakin ingin menghapus testimoni ini?')) return
-        try {
-            await deleteTestimonial(id)
-            fetchTestimonials()
-        } catch (error) {
-            console.error('Error deleting testimonial:', error)
-        }
+    const handleDelete = (id) => {
+        setConfirmDialog({
+            isOpen: true,
+            title: 'Hapus Testimoni',
+            message: 'Testimoni ini akan dihapus permanen. Tindakan ini tidak dapat dibatalkan.',
+            confirmText: 'Hapus Testimoni',
+            onConfirm: async () => {
+                try {
+                    await deleteTestimonial(id)
+                    fetchTestimonials()
+                    toast.success('Testimoni berhasil dihapus')
+                } catch (error) {
+                    console.error('Error deleting testimonial:', error)
+                    toast.error('Gagal menghapus testimoni')
+                }
+            }
+        })
     }
 
 
@@ -106,7 +120,7 @@ const TestimonialManagement = () => {
                     <select 
                         value={filterStatus}
                         onChange={(e) => setFilterStatus(e.target.value)}
-                        className="w-full px-5 py-3 rounded-xl border border-dark-100/80 bg-[#F9F9FB] text-dark-900 font-bold text-sm focus:outline-none appearance-none cursor-pointer"
+                        className="w-full px-5 py-3 rounded-xl border-2 border-[#396680]/40 bg-[#F9F9FB] text-dark-900 font-bold text-sm focus:outline-none focus:border-[#396680] appearance-none cursor-pointer"
                     >
                         <option value="Semua Status">Semua Status</option>
                         <option value="Diterbitkan">Diterbitkan</option>
@@ -266,6 +280,15 @@ const TestimonialManagement = () => {
                     )}
                 </div>
             </div>
+
+            <ConfirmDialog
+                isOpen={confirmDialog.isOpen}
+                onClose={() => setConfirmDialog({ ...confirmDialog, isOpen: false })}
+                onConfirm={confirmDialog.onConfirm}
+                title={confirmDialog.title}
+                message={confirmDialog.message}
+                confirmText={confirmDialog.confirmText}
+            />
         </div>
     )
 }

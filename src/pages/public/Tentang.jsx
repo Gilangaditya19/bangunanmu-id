@@ -12,11 +12,10 @@ const Tentang = () => {
                 <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
                     <ScrollReveal variant="fadeInLeft" className="space-y-8 z-10 relative">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-dark-100 shadow-sm max-w-max">
-                            <span className="w-2 h-2 rounded-full bg-[#396680] animate-pulse"></span>
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#396680]/10 border border-[#396680]/20 shadow-sm max-w-max">
                             <ShinyText 
                                 text="OVER 4 YEARS OF EXPERIENCE" 
-                                theme="dark"
+                                theme="brand"
                                 speed={3} 
                                 className="text-[10px] font-bold tracking-widest uppercase" 
                             />

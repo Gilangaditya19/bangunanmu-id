@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Compass, CheckCircle2, MessageSquare, Globe, Star, ArrowRight, ExternalLink, Loader2 } from 'lucide-react'
+import { Compass, CheckCircle2, MessageSquare, Globe, Star, ArrowRight, ExternalLink, Loader2, TrendingUp } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { getDashboardStats } from '../../services/dashboardService'
 import { getAllTestimonials } from '../../services/testimonialService'
@@ -62,15 +62,15 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="bg-[#396680] rounded-[1.5rem] p-6 shadow-md flex flex-col justify-between min-h-[140px] xl:min-h-[180px] text-white overflow-hidden relative">
-                    <div className="relative z-10">
-                        <p className="text-[10px] sm:text-xs font-bold text-white/80 tracking-widest uppercase mb-1">Proyek Aktif</p>
-                        <p className="text-4xl sm:text-5xl font-extrabold leading-none tracking-tight">
+                <div className="bg-white rounded-[1.5rem] p-6 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex flex-col justify-between min-h-[140px] xl:min-h-[180px]">
+                    <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-[#396680]">
+                        <TrendingUp size={20} />
+                    </div>
+                    <div className="mt-8 xl:mt-auto">
+                        <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Proyek Aktif</p>
+                        <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
                             {loading ? <Loader2 className="animate-spin" size={24} /> : stats.activeProjects}
                         </p>
-                    </div>
-                    <div className="mt-8 xl:mt-auto relative z-10">
-                        <p className="text-xs font-medium text-white/90">Sedang Berjalan</p>
                     </div>
                 </div>
 
@@ -150,9 +150,9 @@ const Dashboard = () => {
                             Buka tampilan website publik untuk melihat perubahan secara real-time.
                         </p>
                         <div className="mt-auto">
-                            <Link to="/" target="_blank" className="inline-flex items-center gap-2 text-sm font-bold text-[#E5E9EC] hover:text-white transition-colors">
-                                Kunjungi Situs <ExternalLink size={12} />
-                            </Link>
+                            <a href="/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm font-bold text-[#E5E9EC] hover:text-white transition-colors">
+                                Kunjungi Situs <ArrowRight size={12} />
+                            </a>
                         </div>
                     </div>
                 </div>

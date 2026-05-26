@@ -18,4 +18,28 @@ export const openWhatsApp = (serviceName = '', customMessage = '') => {
     window.open(url, '_blank', 'noopener,noreferrer')
 }
 
-export default { generateWhatsAppUrl, openWhatsApp, WHATSAPP_NUMBER }
+// Format nomor HP ke format internasional (628xxx)
+export const formatPhoneNumber = (phone) => {
+    if (!phone) return ''
+    let cleaned = phone.replace(/\D/g, '')
+    if (cleaned.startsWith('0')) {
+        cleaned = '62' + cleaned.substring(1)
+    } else if (cleaned.startsWith('8')) {
+        cleaned = '62' + cleaned
+    }
+    return cleaned
+}
+
+// Buka WhatsApp ke nomor klien dengan pesan ID proyek
+export const sendProjectIdToClient = ({ phone, clientName, projectCode, projectName }) => {
+    const formattedPhone = formatPhoneNumber(phone)
+    if (!formattedPhone) return
+
+    const message = `Halo ${clientName},\n\nTerima kasih telah mempercayakan proyek *${projectName}* kepada Bangunanmu.id.\n\nBerikut adalah ID Proyek Anda:\n*${projectCode}*\n\nGunakan ID ini untuk melacak progres proyek Anda di halaman *Cek Progress* di website kami.\n\nTim Bangunanmu.id`
+
+    const encodedMessage = encodeURIComponent(message)
+    const url = `https://api.whatsapp.com/send?phone=${formattedPhone}&text=${encodedMessage}`
+    window.open(url, '_blank', 'noopener,noreferrer')
+}
+
+export default { generateWhatsAppUrl, openWhatsApp, sendProjectIdToClient, formatPhoneNumber, WHATSAPP_NUMBER }

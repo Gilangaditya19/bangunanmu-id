@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import { Search, CheckCircle2, Circle, Building2, Compass, Box, Wrench, MapPin, ArrowRight, User, Star, X, Loader2, HardHat, Layers, Home, Plug2, PaintRoller, Key, Hammer, Calendar } from 'lucide-react';
 import api from '../../services/api';
 import ScrollReveal from '../../components/ui/ScrollReveal';
@@ -18,6 +20,7 @@ const getPhotoUrl = (fileUrl) => {
 }
 
 const CekProgress = () => {
+    const [searchParams] = useSearchParams();
     const [searchId, setSearchId] = useState('');
     const [isTracking, setIsTracking] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -30,6 +33,21 @@ const CekProgress = () => {
     const [reviewSuccess, setReviewSuccess] = useState(false);
     const [lightboxImage, setLightboxImage] = useState(null);
     const [showGallery, setShowGallery] = useState(false);
+    const autoSearchDone = useRef(false);
+
+    // Auto-search jika ada query param ?id=xxx
+    useEffect(() => {
+        const idParam = searchParams.get('id');
+        if (idParam && !autoSearchDone.current) {
+            autoSearchDone.current = true;
+            setSearchId(idParam);
+            // Trigger search otomatis
+            const fakeEvent = { preventDefault: () => {} };
+            setTimeout(() => {
+                document.getElementById('cek-progress-form')?.requestSubmit();
+            }, 100);
+        }
+    }, [searchParams]);
 
     const getStatusBadge = (status) => {
         const statuses = {
@@ -57,7 +75,7 @@ const CekProgress = () => {
     const handleReviewSubmit = async () => {
         if (!projectData) return;
         if (!reviewComment.trim()) {
-            alert('Silakan tulis ulasan Anda terlebih dahulu.');
+            toast.error('Silakan tulis ulasan Anda terlebih dahulu.');
             return;
         }
         
@@ -73,9 +91,10 @@ const CekProgress = () => {
             });
             setReviewSuccess(true);
             setShowReviewModal(false);
+            toast.success('Terima kasih! Ulasan Anda berhasil dikirim.');
         } catch (error) {
             console.error('Failed to submit review:', error);
-            alert('Gagal mengirimkan ulasan. Silakan coba lagi nanti.');
+            toast.error('Gagal mengirimkan ulasan.');
         } finally {
             setIsSubmittingReview(false);
         }
@@ -102,7 +121,7 @@ const CekProgress = () => {
                 rawStatus: data.status,
                 title: data.projectName,
                 client: data.customerName,
-                category: data.projectType === 'konstruksi' ? 'Konstruksi' : data.projectType === 'desain' ? 'Design Arsitektur' : 'Design and Build',
+                category: data.projectType === 'konstruksi' ? 'Konstruksi' : data.projectType === 'design' ? 'Desain Arsitektur' : 'Desain & Bangun',
                 address: data.customerAddress || 'Alamat tidak ditampilkan demi privasi',
                 overallProgress: data.progress,
                 customerEmail: data.customerEmail,
@@ -147,20 +166,42 @@ const CekProgress = () => {
                 }),
                 siteUpdates: (() => {
                     const photoList = (data.documentFiles && data.documentFiles.length > 0) ? data.documentFiles : (data.photos || []);
+                    
+                    // Extract tanggal & waktu dari URL Cloudinary (format: 20260525_054029_xxx.png)
+                    // Waktu di Cloudinary adalah UTC, konversi ke WIB (+7)
+                    const parsePhotoDate = (url) => {
+                        if (!url) return null;
+                        const filename = url.split('/').pop() || '';
+                        const match = filename.match(/(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})/);
+                        if (!match) return null;
+                        const [, year, month, day, hour, minute] = match;
+                        const date = new Date(`${year}-${month}-${day}T${hour}:${minute}:00Z`); // UTC
+                        return isNaN(date.getTime()) ? null : date;
+                    };
+
+                    const formatDate = (date) => date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
+                    const formatTitle = (date) => date.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) + ' • ' + date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+
                     return photoList.map((doc, index) => {
                         if (typeof doc === 'string') {
+                            const parsed = parsePhotoDate(doc);
+                            const fallback = new Date();
+                            const dateObj = parsed || fallback;
                             return {
                                 id: `photo-${index}`,
                                 image: doc,
-                                date: new Date().toLocaleDateString('id-ID', {day: 'numeric', month: 'short'}),
-                                title: 'Foto progress'
+                                date: formatDate(dateObj),
+                                title: parsed ? formatTitle(dateObj) : `Pembaruan #${index + 1}`
                             }
                         }
+                        const url = doc.fileUrl || doc.photoUrl || doc.url || '';
+                        const parsed = parsePhotoDate(url);
+                        const dateObj = doc.uploadedAt ? new Date(doc.uploadedAt) : (parsed || new Date());
                         return {
                             id: doc.id || `photo-${index}`,
-                            image: doc.fileUrl || doc.photoUrl || doc.url || '',
-                            date: new Date(doc.uploadedAt || Date.now()).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'}),
-                            title: doc.name || 'Foto progress'
+                            image: url,
+                            date: formatDate(dateObj),
+                            title: doc.name || formatTitle(dateObj)
                         }
                     });
                 })()
@@ -205,7 +246,7 @@ const CekProgress = () => {
                         Pembaruan real-time pada proyek konstruksi atau interior Anda. Masukkan ID Proyek unik Anda di bawah ini untuk memulai.
                     </p>
 
-                    <form onSubmit={handleSearch} className="max-w-xl mx-auto relative group">
+                    <form id="cek-progress-form" onSubmit={handleSearch} className="max-w-xl mx-auto relative group">
                         <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none text-dark-400 group-focus-within:text-[#396680] transition-colors z-20">
                             <Search size={18} />
                         </div>
@@ -252,37 +293,38 @@ const CekProgress = () => {
                                 <span className="text-dark-400 text-sm font-medium">ID: {projectData.id}</span>
                             </div>
                             <h2 className="text-2xl md:text-3xl font-bold text-dark-900 mb-3">{projectData.title}</h2>
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-dark-500 font-medium">
-                                <p className="flex items-center gap-2">
-                                    <User size={16} className="text-[#396680] opacity-80" />
-                                    {projectData.client}
-                                </p>
-                                <div className="hidden sm:block w-px h-4 bg-dark-200"></div>
-                                <p className="flex items-center gap-2">
-                                    <MapPin size={16} className="text-[#396680] opacity-80" />
-                                    {projectData.address}
-                                </p>
-                            </div>
-                            
-                            {(projectData.startDate || projectData.estimatedEndDate) && (
-                                <div className="mt-4 flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-4 text-xs font-semibold text-dark-500 bg-dark-50 px-4 py-3 rounded-xl border border-dark-100/50 w-fit max-w-full">
-                                    {projectData.startDate && (
-                                        <p className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
-                                            <Calendar size={14} className="text-[#396680] opacity-85 flex-shrink-0" />
-                                            <span>Mulai: <strong className="text-dark-800 whitespace-nowrap">{new Date(projectData.startDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</strong></span>
-                                        </p>
-                                    )}
-                                    {projectData.startDate && projectData.estimatedEndDate && (
-                                        <span className="text-dark-300 hidden sm:inline">|</span>
-                                    )}
-                                    {projectData.estimatedEndDate && (
-                                        <p className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
-                                            <Calendar size={14} className="text-[#396680] opacity-85 flex-shrink-0" />
-                                            <span>Estimasi Selesai: <strong className="text-dark-800 whitespace-nowrap">{new Date(projectData.estimatedEndDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</strong></span>
-                                        </p>
-                                    )}
+                            <div className="flex flex-col gap-2 text-dark-500 font-medium">
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
+                                    <p className="flex items-center gap-2">
+                                        <User size={16} className="text-[#396680] opacity-80" />
+                                        {projectData.client}
+                                    </p>
+                                    <div className="hidden sm:block w-px h-4 bg-dark-200"></div>
+                                    <p className="flex items-center gap-2">
+                                        <MapPin size={16} className="text-[#396680] opacity-80" />
+                                        {projectData.address}
+                                    </p>
                                 </div>
-                            )}
+                                {(projectData.startDate || projectData.estimatedEndDate) && (
+                                    <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 text-sm">
+                                        {projectData.startDate && (
+                                            <p className="flex items-center gap-2">
+                                                <Calendar size={16} className="text-[#396680] opacity-80" />
+                                                <span>Mulai: <strong className="text-dark-800">{new Date(projectData.startDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</strong></span>
+                                            </p>
+                                        )}
+                                        {projectData.startDate && projectData.estimatedEndDate && (
+                                            <div className="hidden sm:block w-px h-4 bg-dark-200"></div>
+                                        )}
+                                        {projectData.estimatedEndDate && (
+                                            <p className="flex items-center gap-2">
+                                                <Calendar size={16} className="text-[#396680] opacity-80" />
+                                                <span>Estimasi Selesai: <strong className="text-dark-800">{new Date(projectData.estimatedEndDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</strong></span>
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                         <div className="md:text-right flex flex-col items-start md:items-end">
                             <p className="text-dark-500 text-sm font-medium mb-2">Total Progres</p>
@@ -473,7 +515,7 @@ const CekProgress = () => {
                                 <label className="block text-xs font-bold text-dark-500 mb-3 uppercase tracking-widest text-[#396680]">Ceritakan Pengalaman Anda</label>
                                 <textarea 
                                     rows="4" 
-                                    placeholder="Kualitas pekerjaannya sangat rapi, timnya profesional, dan selesai tepat waktu..." 
+                                    placeholder="Testimoni minimal 10 karakter" 
                                     className="w-full px-5 py-4 rounded-xl border border-dark-200 bg-dark-50 focus:bg-white focus:ring-2 focus:ring-[#396680] focus:outline-none resize-none transition-colors text-dark-900"
                                     value={reviewComment}
                                     onChange={(e) => setReviewComment(e.target.value)}

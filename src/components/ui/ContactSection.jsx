@@ -40,17 +40,17 @@ const ContactSection = () => {
                             </p>
 
                             <div className="space-y-6 sm:space-y-8">
-                                <a href="https://wa.me/6287765823731" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
+                                <a href="https://wa.me/6281368227031" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
                                     <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#396680] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
                                         <MessageCircle size={24} />
                                     </div>
                                     <div className="min-w-0 flex-1">
                                         <p className="text-xs sm:text-sm text-dark-400 font-medium mb-0.5 sm:mb-1">Telepon / WhatsApp</p>
-                                        <p className="text-base sm:text-xl text-dark-900 font-bold tracking-wide truncate">0877 - 6582 - 3731</p>
+                                        <p className="text-base sm:text-xl text-dark-900 font-bold tracking-wide truncate">0813 - 6822 - 7031</p>
                                     </div>
                                 </a>
 
-                                <a href="mailto:bangunanmu.id@gmail.com" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
+                                <a href="https://mail.google.com/mail/?view=cm&to=bangunanmu.id@gmail.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 sm:gap-6 bg-white p-4 rounded-2xl shadow-sm lg:bg-transparent lg:p-0 lg:rounded-none lg:shadow-none transition-all hover:opacity-80">
                                     <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 bg-[#EBEFEF] text-[#396680] rounded-full flex items-center justify-center text-lg sm:text-xl shadow-sm">
                                         <Mail size={24} />
                                     </div>
@@ -72,7 +72,7 @@ const ContactSection = () => {
                             </div>
                         </div>
 
-                        <div className="bg-white p-8 sm:p-10 flex flex-col justify-center shadow-[0_20px_50px_rgba(0,0,0,0.06)] rounded-[2rem] border border-dark-100/20 w-full h-full">
+                        <div className="bg-white p-8 sm:p-10 flex flex-col justify-center shadow-[0_20px_50px_rgba(0,0,0,0.06)] rounded-[2rem] border-2 border-[#396680] w-full h-full">
                             <ContactForm />
                         </div>
                     </div>

@@ -4,7 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { Home, Wrench, Building2, ChevronRight, ChevronLeft, Quote, Armchair, Paintbrush, Search, Hammer, HardHat, Handshake, Compass, Box, ClipboardCheck, CheckCircle2, Star } from 'lucide-react'
 import WhatsAppButton from '../../components/WhatsAppButton'
 import ShinyText from '../../components/ui/ShinyText'
-import Stepper, { Step } from '../../components/ui/Stepper'
+import ScrollStack, { ScrollStackItem } from '../../components/ui/ScrollStack'
 import ScrollReveal from '../../components/ui/ScrollReveal'
 
 import konstruksiHero from '../../assets/images/konstruksi_hero_1772961128913.png'
@@ -157,7 +157,7 @@ const TestimonialCarousel = ({ testimonials }) => {
 }
 
 const TestimonialCard = ({ testi }) => (
-    <div className="bg-white p-10 rounded-[40px] border border-dark-100/60 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.08)] hover:shadow-[0_24px_60px_-10px_rgba(57,102,128,0.15)] hover:border-[#396680]/30 hover:-translate-y-1.5 transition-all duration-500 relative text-left h-full flex flex-col group">
+    <div className="bg-white p-10 rounded-[40px] border border-[#396680]/30 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.08)] hover:shadow-[0_24px_60px_-10px_rgba(57,102,128,0.15)] hover:border-[#396680]/50 hover:-translate-y-1.5 transition-all duration-500 relative text-left h-full flex flex-col group">
         <div className="flex items-center gap-4 mb-6">
             <img
                 src={testi.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(testi.name)}&background=396680&color=fff&rounded=true&bold=true`}
@@ -222,8 +222,8 @@ const Layanan = () => {
                 },
                 {
                     step: 2,
-                    title: 'Design Arsitektur',
-                    description: 'Pembuatan design perancangan awal 3D dan Rencana Anggaran Biaya yang transparan secara menyeluruh.',
+                    title: 'Desain Arsitektur',
+                    description: 'Pembuatan desain perancangan awal 3D dan Rencana Anggaran Biaya yang transparan secara menyeluruh.',
                     icon: <Compass />,
                     image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 02 : DESIGN',
@@ -238,7 +238,7 @@ const Layanan = () => {
                     title: 'Penandatanganan',
                     description: 'Kesepakatan final atas design, timeline penyelesaian, dan biaya pekerjaan konstruksi secara tertulis hitam di atas putih.',
                     icon: <Handshake />,
-                    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=1200&auto=format&fit=crop',
+                    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 03 : KESEPAKATAN',
                     buttonText: 'Draft Kontrak',
                     subIcon1: <Handshake size={16} className="text-[#396680]" />,
@@ -251,7 +251,7 @@ const Layanan = () => {
                     title: 'Proses Konstruksi',
                     description: 'Eksekusi fisik pembangunan di lapangan dengan pengawasan ketat dan laporan progres berkala melalui sistem yang transparan.',
                     icon: <HardHat />,
-                    image: 'https://images.unsplash.com/photo-1541888081622-152e00780f2d?q=80&w=1200&auto=format&fit=crop',
+                    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
                     badge: 'PHASE 04 : EKSEKUSI',
                     buttonText: 'Pantau Proyek',
                     subIcon1: <HardHat size={16} className="text-[#396680]" />,
@@ -275,9 +275,9 @@ const Layanan = () => {
             ]
         },
         'design-build': {
-            badge: "DESIGN & INTERIOR EKSKLUSIF",
-            title: "Design and Build",
-            desc: "Layanan Design and Build kami menyediakan solusi  terintegrasi bagi klien yang ingin mentransformasikan visi hunian mereka menjadi kenyataan tanpa kerumitan.",
+            badge: "Rancang Bangun",
+            title: "Desain & Bangun",
+            desc: "Layanan Desain & Bangun kami menyediakan solusi  terintegrasi bagi klien yang ingin mentransformasikan visi hunian mereka menjadi kenyataan tanpa kerumitan.",
             heroImage: designBuildHero,
             heroTitle: "Luxury Residence Kitchen",
             heroSub: "BSD City, 2024",
@@ -327,7 +327,7 @@ const Layanan = () => {
                     title: 'Tinjau Anggaran',
                     description: 'Finalisasi ruang lingkup pekerjaan interior agar tetap linear dengan bujet Anda, yang selanjutnya diakhiri kontrak.',
                     icon: <Handshake />,
-                    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=1200&auto=format&fit=crop',
+                    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 03 : KESEPAKATAN',
                     buttonText: 'Atur Anggaran',
                     subIcon1: <Hammer size={16} className="text-[#396680]" />,
@@ -364,15 +364,15 @@ const Layanan = () => {
             ]
         },
         'desain': {
-            badge: "DESIGN ARSITEKTUR & INTERIOR",
-            title: "Design",
+            badge: "DESAIN ARSITEKTUR & INTERIOR",
+            title: "Desain Arsitektur",
             desc: "Wujudkan konsep bangunan impian Anda melalui visualisasi 3D yang realistis dan perencanaan detail arsitektur maupun interior sebelum proses konstruksi dimulai.",
             heroImage: galleryArch2,
             heroTitle: "Modern Minimalist Blueprint",
             heroSub: "Perencanaan Design, 2024",
             services: [
                 {
-                    title: 'Design Arsitektur',
+                    title: 'Desain Arsitektur',
                     desc: 'Layanan ini berfokus pada perencanaan struktur, fasad, dan tata letak ruang secara komprehensif, menghasilkan gambar kerja (DED) yang siap diaplikasikan di lapangan.',
                     icon: <Compass size={20} className="text-[#396680]" />,
                     link: '/kontak'
@@ -429,7 +429,7 @@ const Layanan = () => {
                     title: 'Penyusunan RAB',
                     description: 'Pembuatan Rencana Anggaran Biaya (RAB) yang terperinci dan transparan berdasarkan design yang telah disetujui.',
                     icon: <ClipboardCheck />,
-                    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32b7?q=80&w=1200&auto=format&fit=crop',
+                    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 04 : ESTIMASI',
                     buttonText: 'Atur Anggaran',
                     subIcon1: <ClipboardCheck size={16} className="text-[#396680]" />,
@@ -442,7 +442,7 @@ const Layanan = () => {
                     title: 'Gambar Kerja Final',
                     description: 'Penyerahan dokumen Detail Engineering Design (DED) lengkap yang siap digunakan sebagai panduan pelaksanaan konstruksi.',
                     icon: <Wrench />,
-                    image: 'https://images.unsplash.com/photo-1541888081622-152e00780f2d?q=80&w=1200&auto=format&fit=crop',
+                    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 05 : HANDOVER',
                     buttonText: 'Siap Bangun',
                     subIcon1: <Wrench size={16} className="text-[#396680]" />,
@@ -509,10 +509,10 @@ const Layanan = () => {
 
             <section className="pt-16 pb-12">
                 <div className="section-container text-center">
-                    <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full bg-white border border-dark-100 shadow-sm">
+                    <div className="inline-flex items-center px-4 py-1.5 mb-6 rounded-full bg-[#396680]/10 border border-[#396680]/20 shadow-sm">
                         <ShinyText
                             text={currentContent.badge}
-                            theme="dark"
+                            theme="brand"
                             speed={3}
                             className="text-[10px] font-bold uppercase tracking-widest"
                         />
@@ -563,10 +563,10 @@ const Layanan = () => {
 
                     <section className="pt-24 pb-12 bg-white -mx-4 px-4 sm:-mx-8 sm:px-8 md:-mx-16 md:px-16 lg:-mx-24 lg:px-24">
                         <div className="text-center max-w-2xl mx-auto mb-16 flex flex-col items-center">
-                            <div className="inline-flex items-center justify-center px-4 py-1.5 bg-dark-50 border border-dark-100 shadow-sm rounded-full mb-6 relative">
+                            <div className="inline-flex items-center justify-center px-4 py-1.5 bg-[#396680]/10 border border-[#396680]/20 shadow-sm rounded-full mb-6 relative">
                                 <ShinyText
-                                    text="Roadmap Pelayanan"
-                                    theme="dark"
+                                    text="Roadmap Kolaborasi"
+                                    theme="brand"
                                     speed={3}
                                     className="text-[10px] sm:text-xs font-extrabold tracking-widest uppercase"
                                 />
@@ -574,59 +574,45 @@ const Layanan = () => {
                             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-2">
                                 <span className="text-dark-900 drop-shadow-sm">Tahapan Kerja</span><br />
                                 <span className="text-[#396680]">
-                                    {activeTab === 'konstruksi' ? 'Konstruksi & Sipil' : activeTab === 'desain' ? 'Design Arsitektur & Interior' : 'Interior & Furnitur'}
+                                    {activeTab === 'konstruksi' ? 'Konstruksi' : activeTab === 'desain' ? 'Desain Arsitektur' : 'Desain & Bangun'}
                                 </span>
                             </h2>
                         </div>
 
                         <ScrollReveal variant="fadeInUp" className="w-full lg:max-w-6xl mx-auto">
-                            <Stepper
-                                initialStep={1}
-                                onStepChange={(step) => { console.log(step); }}
-                                onFinalStepCompleted={() => console.log("All steps completed!")}
-                                backButtonText="Sebelumnya"
-                                nextButtonText="Selanjutnya"
-                                stepCircleContainerClassName="scale-90 md:scale-100"
-                                contentClassName="mt-4"
-                                renderStepIndicator={({ step, isActive, isCompleted }) => {
-                                    const item = currentContent.roadmap[step - 1];
-                                    return (
-                                        <div className="flex flex-col items-center justify-center relative">
-                                            <div className="text-sm md:text-base">
-                                                {item.icon}
-                                            </div>
-                                            <div className={`absolute top-full mt-4 md:mt-5 w-[55px] sm:w-[80px] md:w-max text-center ${isActive || isCompleted ? 'text-dark-900 font-bold' : 'text-dark-300 font-medium md:font-bold'} text-[6.5px] sm:text-[8px] md:text-[10px] uppercase tracking-wider md:tracking-widest leading-[1.2] break-words`}>
-                                                {item.title}
-                                            </div>
-                                        </div>
-                                    );
-                                }}
+                            <ScrollStack
+                                itemDistance={500}
+                                stepLabels={currentContent.roadmap.map(item => ({
+                                    icon: item.icon,
+                                    label: item.title
+                                }))}
                             >
                                 {currentContent.roadmap.map((item, index) => (
-                                    <Step key={index}>
-                                        <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row animate-fadeIn">
-                                            <div className="w-full md:w-1/2 relative min-h-[300px] md:min-h-[450px]">
+                                    <ScrollStackItem key={index}>
+                                        <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row">
+                                            <div className="w-full md:w-1/2 relative min-h-[200px] md:min-h-[450px]">
                                                 <img
                                                     src={item.image}
                                                     alt={item.title}
                                                     className="absolute inset-0 w-full h-full object-cover"
                                                 />
                                                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
-                                                <div className="absolute bottom-6 left-6 inline-block px-3 py-1.5 bg-white/20 backdrop-blur-md rounded-full border border-white/20">
-                                                    <ShinyText text={item.badge} speed={3} className="text-[10px] font-bold tracking-widest uppercase" />
-                                                </div>
                                             </div>
-                                            <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-14 flex flex-col justify-center">
-                                                <h3 className="text-3xl font-bold text-dark-900 mb-4 tracking-tight">{item.title}</h3>
-                                                <p className="text-dark-500 text-base leading-relaxed mb-8 font-medium">
+                                            <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
+                                                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">{item.title}</h3>
+                                                <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                                     {item.description}
                                                 </p>
 
                                                 <div className="flex flex-wrap gap-4 mb-10">
-                                                    {item.buttonText === 'Lihat Katalog' ? (
-                                                        <a href="#galeri-proyek" className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
+                                                    {item.buttonText === 'Lihat Katalog' || item.buttonText === 'Cek Portofolio' || item.buttonText === 'Lihat Detail' || item.buttonText === 'Lihat Design' ? (
+                                                        <button onClick={() => document.getElementById('galeri-proyek')?.scrollIntoView({ behavior: 'smooth' })} className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                             {item.buttonText}
-                                                        </a>
+                                                        </button>
+                                                    ) : item.buttonText === 'Pantau Proyek' || item.buttonText === 'Cek Lokasi' ? (
+                                                        <Link to="/cek-progress" className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
+                                                            {item.buttonText}
+                                                        </Link>
                                                     ) : (
                                                         <Link to="/kontak" className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                             {item.buttonText}
@@ -646,9 +632,9 @@ const Layanan = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    </Step>
+                                    </ScrollStackItem>
                                 ))}
-                            </Stepper>
+                            </ScrollStack>
                         </ScrollReveal>
                     </section>
 
@@ -671,9 +657,6 @@ const Layanan = () => {
                                 </div>
                                 <div className="relative rounded-[40px] overflow-hidden shadow-lg h-[300px]">
                                     <img src={galleryInt2} alt="Project 4" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-                                    <div className="absolute bottom-6 right-6 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full">
-                                        <span className="text-[10px] font-bold text-dark-900">Interior Renovation</span>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -694,7 +677,7 @@ const Layanan = () => {
                         <div className="absolute inset-0 bg-white/5 pointer-events-none" />
                         <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 relative tracking-tight">Mulai Bangun Mimpimu Sekarang</h2>
                         <p className="text-white/80 mb-10 max-w-xl mx-auto text-lg relative leading-relaxed">
-                            Konsultasikan rencana {activeTab === 'konstruksi' ? 'pembangunan atau renovasi' : activeTab === 'desain' ? 'design arsitektur atau interior' : 'design interior atau furnitur kustom'} Anda dengan tim ahli kami secara gratis.
+                            Konsultasikan rencana {activeTab === 'konstruksi' ? 'pembangunan atau renovasi' : activeTab === 'desain' ? 'desain arsitektur atau interior' : 'desain interior atau furnitur kustom'} Anda dengan tim ahli kami secara gratis.
                         </p>
                         <div className="relative">
                             <WhatsAppButton label="Konsultasi Gratis via WhatsApp" size="lg" variant="white" />

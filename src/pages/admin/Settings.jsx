@@ -124,7 +124,7 @@ const Settings = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Masukkan kata sandi saat ini"
-                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#396680]/30 focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
+                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border-2 border-[#396680]/40 focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
                                 />
                                 <button
                                     type="button"
@@ -152,7 +152,7 @@ const Settings = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Masukkan kata sandi baru"
-                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#396680]/30 focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
+                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border-2 border-[#396680]/40 focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
                                 />
                                 <button
                                     type="button"
@@ -181,7 +181,7 @@ const Settings = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Ulangi kata sandi baru"
-                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#396680]/30 focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
+                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border-2 border-[#396680]/40 focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
                                 />
                                 <button
                                     type="button"
@@ -219,3 +219,4 @@ const Settings = () => {
 }
 
 export default Settings
+

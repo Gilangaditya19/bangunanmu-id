@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
+import ScrollToTop from './components/ScrollToTop'
 
 import PublicLayout from './layouts/PublicLayout'
 import AdminLayout from './layouts/AdminLayout'
@@ -21,6 +23,29 @@ import ProtectedRoute from './components/ProtectedRoute'
 function App() {
   return (
     <AuthProvider>
+      <ScrollToTop />
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            borderRadius: '12px',
+            background: '#fff',
+            color: '#1a202c',
+            padding: '14px 18px',
+            fontSize: '14px',
+            fontWeight: '500',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
+            border: '1px solid #e2e8f0',
+          },
+          success: {
+            iconTheme: { primary: '#396680', secondary: '#fff' },
+          },
+          error: {
+            iconTheme: { primary: '#ef4444', secondary: '#fff' },
+          },
+        }}
+      />
       <Routes>
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Beranda />} />
