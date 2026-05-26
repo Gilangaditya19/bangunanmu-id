@@ -328,6 +328,9 @@ const ProjectManagement = () => {
 
         const isHeic = /\.(heic|heif)$/i.test(file.name) || file.type === 'image/heic' || file.type === 'image/heif'
         
+        let processedFile = file
+
+        // Convert HEIC to JPG dulu kalau perlu
         if (isHeic) {
             const loadingToast = toast.loading('Mengkonversi foto HEIC ke JPG...')
             try {
@@ -339,18 +342,84 @@ const ProjectManagement = () => {
                 })
                 const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob
                 const newName = file.name.replace(/\.(heic|heif)$/i, '.jpg')
-                const convertedFile = new File([blob], newName, { type: 'image/jpeg' })
-                setNewDoc({ ...newDoc, file: convertedFile })
+                processedFile = new File([blob], newName, { type: 'image/jpeg' })
                 toast.dismiss(loadingToast)
-                toast.success('Foto berhasil dikonversi')
             } catch (err) {
                 console.error('HEIC conversion error:', err)
                 toast.dismiss(loadingToast)
                 toast.error('Gagal mengkonversi foto HEIC. Coba foto lain.')
+                return
             }
-        } else {
-            setNewDoc({ ...newDoc, file })
         }
+
+        // Resize foto kalau dimensi terlalu besar (max 1920px) atau ukuran > 1MB
+        const needsResize = processedFile.size > 1024 * 1024
+        if (needsResize) {
+            const loadingToast = toast.loading('Mengoptimalkan ukuran foto...')
+            try {
+                processedFile = await resizeImage(processedFile, 1920, 0.85)
+                toast.dismiss(loadingToast)
+                toast.success('Foto siap diunggah')
+            } catch (err) {
+                console.error('Resize error:', err)
+                toast.dismiss(loadingToast)
+                // Tetap pakai file original kalau resize gagal
+            }
+        }
+
+        setNewDoc({ ...newDoc, file: processedFile })
+    }
+
+    const resizeImage = (file, maxDimension = 1920, quality = 0.85) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image()
+            const reader = new FileReader()
+
+            reader.onload = (e) => {
+                img.src = e.target.result
+            }
+            reader.onerror = reject
+
+            img.onload = () => {
+                let { width, height } = img
+
+                // Hanya resize jika dimensi melebihi maxDimension
+                if (width > maxDimension || height > maxDimension) {
+                    if (width > height) {
+                        height = Math.round((height * maxDimension) / width)
+                        width = maxDimension
+                    } else {
+                        width = Math.round((width * maxDimension) / height)
+                        height = maxDimension
+                    }
+                }
+
+                const canvas = document.createElement('canvas')
+                canvas.width = width
+                canvas.height = height
+                const ctx = canvas.getContext('2d')
+                ctx.drawImage(img, 0, 0, width, height)
+
+                canvas.toBlob(
+                    (blob) => {
+                        if (!blob) {
+                            reject(new Error('Canvas toBlob failed'))
+                            return
+                        }
+                        const newFile = new File([blob], file.name.replace(/\.\w+$/, '.jpg'), {
+                            type: 'image/jpeg',
+                            lastModified: Date.now()
+                        })
+                        resolve(newFile)
+                    },
+                    'image/jpeg',
+                    quality
+                )
+            }
+            img.onerror = reject
+
+            reader.readAsDataURL(file)
+        })
     }
 
     const handleDeleteDoc = (docId) => {
@@ -603,31 +672,31 @@ const ProjectManagement = () => {
                             <div>
                                 <label className="block text-sm font-medium text-dark-700 mb-1">Judul Proyek</label>
                                 <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                    minLength={5} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" placeholder="Minimal 5 karakter" required />
+                                    minLength={5} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder="Minimal 5 karakter" required />
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Nama Klien</label>
                                     <input type="text" value={formData.client} onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" placeholder='Minimal 3 Karakter' required />
+                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder='Minimal 3 Karakter' required />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">No. Whatsapp/HP Klien</label>
                                     <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                         pattern="[0-9]{10,15}" title="Nomor telepon harus 10-15 digit angka saja"
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" placeholder="087712314562 (10-15 digit angka)" required />
+                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder="087712314562 (10-15 digit angka)" required />
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Email Klien</label>
                                     <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" placeholder="email@contoh.com" required />
+                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder="email@contoh.com" required />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Alamat Proyek</label>
                                     <input type="text" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" placeholder="Minimal 10 Karakter" />
+                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder="Minimal 10 Karakter" />
                                 </div>
                             </div>
                             <div className={`grid ${editingProject ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'} gap-4`}>
@@ -653,17 +722,17 @@ const ProjectManagement = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Tanggal Mulai</label>
                                     <input type="date" value={formData.startDate} onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" required />
+                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" required />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Estimasi Selesai</label>
                                     <input type="date" value={formData.estimatedEndDate} onChange={(e) => setFormData({ ...formData, estimatedEndDate: e.target.value })}
                                         min={formData.startDate}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:border-transparent" required />
+                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" required />
                                 </div>
                             </div>
                             {editingProject && (
@@ -766,7 +835,7 @@ const ProjectManagement = () => {
                                 )}
                             </div>
 
-                            <div className="bg-white p-5 md:p-6 rounded-2xl border-2 border-[#396680]/40 overflow-hidden">
+                            <div className="bg-white p-5 md:p-6 rounded-2xl border-2 border-[#396680]/40">
                                 <h4 className="font-bold text-dark-900 mb-4 flex items-center gap-2">
                                     {editingMs ? <Pencil size={18} className="text-dark-400" /> : <Plus size={18} className="text-dark-400" />} {editingMs ? 'Edit Tahapan' : 'Tambah Tahap Baru'}
                                 </h4>
@@ -785,7 +854,7 @@ const ProjectManagement = () => {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Target Selesai</label>
-                                        <input type="date" value={newMs.targetDate} onChange={(e) => setNewMs({ ...newMs, targetDate: e.target.value })} className="w-full max-w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium box-border" />
+                                        <input type="date" value={newMs.targetDate} onChange={(e) => setNewMs({ ...newMs, targetDate: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Keterangan Singkat</label>
