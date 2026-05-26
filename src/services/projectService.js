@@ -155,9 +155,7 @@ const normalizePhotoResponse = (payload) => {
     const photos = Array.isArray(rawData) ? rawData : []
 
     return photos.map((photo, index) => {
-        // Jika photo adalah string (URL langsung dari Cloudinary)
         if (typeof photo === 'string') {
-            // Extract filename dari URL sebagai ID (e.g. "20260525_054029_TRID_0.png")
             const filename = photo.split('/').pop() || `photo-${index}`
             return {
                 id: filename,
@@ -166,7 +164,6 @@ const normalizePhotoResponse = (payload) => {
                 createdAt: new Date().toISOString(),
             }
         }
-        // Jika photo adalah object
         return {
             id: photo.id || photo.photoId || photo._id || photo.filename || photo.fileName || `photo-${index}`,
             name: photo.name || photo.originalName || photo.fileName || photo.filename || 'Foto progress',
@@ -189,16 +186,23 @@ export const getDocuments = async (projectCode) => {
 export const uploadDocument = async (projectCode, file, description) => {
     try {
         const formData = new FormData()
-        formData.append('photos', file)
+        const safeFile = new File([file], file.name || 'photo.jpg', {
+            type: file.type || 'image/jpeg',
+            lastModified: file.lastModified || Date.now()
+        })
+        console.log(`[uploadDocument] Sending file: ${safeFile.name}, size: ${(safeFile.size / 1024).toFixed(0)}KB, type: ${safeFile.type}`)
+        formData.append('photos', safeFile)
         if (description) formData.append('description', description)
 
         const response = await api.post(`/projects/${projectCode}/photos`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
-            }
+            },
+            timeout: 120000,
         })
         return response.data
     } catch (error) {
+        console.error('[uploadDocument] Error:', error.response?.status, error.response?.data || error.message)
         throw error
     }
 }

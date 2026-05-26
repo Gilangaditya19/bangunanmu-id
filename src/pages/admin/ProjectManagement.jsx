@@ -12,13 +12,10 @@ import { sendProjectIdToClient } from '../../utils/whatsapp'
 
 const getPhotoUrl = (fileUrl) => {
     if (!fileUrl) return ''
-    // Jika sudah URL lengkap (http/https), gunakan langsung
     if (fileUrl.startsWith('http')) return fileUrl
-    // Jika mengandung /uploads/, extract dari situ
     if (fileUrl.includes('/uploads/')) {
         return `${import.meta.env.VITE_API_URL.replace('/api', '')}${fileUrl.substring(fileUrl.indexOf('/uploads/'))}`
     }
-    // Jika path relatif, gabungkan dengan base URL
     const base = import.meta.env.VITE_API_URL.replace('/api', '')
     return `${base}${fileUrl.startsWith('/') ? '' : '/'}${fileUrl}`
 }
@@ -41,6 +38,7 @@ const ProjectManagement = () => {
     const [newMs, setNewMs] = useState({ title: '', status: 'pending', targetDate: '', description: '' })
     const [editingMs, setEditingMs] = useState(null)
     const [newDoc, setNewDoc] = useState({ file: null, description: '' })
+    const [previewUrl, setPreviewUrl] = useState(null)
     const [editingProject, setEditingProject] = useState(null)
 
 
@@ -96,7 +94,6 @@ const ProjectManagement = () => {
         fetchProjects(currentPage)
     }, [currentPage, appliedFilters])
 
-    // Close modals on ESC key
     useEffect(() => {
         const handleEsc = (e) => {
             if (e.key === 'Escape') {
@@ -245,19 +242,16 @@ const ProjectManagement = () => {
             toast.error('Gagal menyimpan tahapan.')
             return
         }
-        // Refresh data terpisah - jangan masuk catch utama
         try {
             const response = await getMilestones(activeProject.id)
             setMilestones(response.data)
             fetchProjects()
         } catch (e) {
-            // Refresh gagal tapi data sudah tersimpan, tidak perlu alert
         }
     }
 
     const openEditMs = (ms) => {
         setEditingMs(ms)
-        // Map status backend (uppercase) ke value dropdown (lowercase)
         const statusMap = { 'PENDING': 'pending', 'ON_PROGRESS': 'in_progress', 'COMPLETED': 'completed' }
         setNewMs({
             title: ms.title,
@@ -311,12 +305,19 @@ const ProjectManagement = () => {
         setUploadingDoc(true)
         try {
             await uploadDocument(activeProject.id, newDoc.file, newDoc.description)
+            if (previewUrl) URL.revokeObjectURL(previewUrl)
+            setPreviewUrl(null)
             setNewDoc({ file: null, description: '' })
             const response = await getDocuments(activeProject.id)
             setDocuments(response.data)
             toast.success('Foto berhasil diunggah')
         } catch (error) {
-            toast.error('Gagal mengunggah foto.')
+            const errMsg = error.response?.data?.message || error.message || ''
+            if (error.code === 'ECONNABORTED' || errMsg.includes('timeout')) {
+                toast.error('Upload timeout. Coba gunakan foto dengan ukuran lebih kecil atau periksa koneksi internet.')
+            } else {
+                toast.error('Gagal mengunggah foto. ' + (errMsg || 'Coba lagi.'))
+            }
         } finally {
             setUploadingDoc(false)
         }
@@ -326,11 +327,24 @@ const ProjectManagement = () => {
         const file = e.target.files[0]
         if (!file) return
 
+        e.target.value = ''
+
+        const validTypes = ['image/jpeg', 'image/png', 'image/heic', 'image/heif', '']
+        const isValidExt = /\.(jpe?g|png|heic|heif)$/i.test(file.name)
+        if (!validTypes.includes(file.type) && !isValidExt) {
+            toast.error('Format file tidak didukung. Gunakan JPG, PNG, atau HEIC.')
+            return
+        }
+
+        if (file.size > 20 * 1024 * 1024) {
+            toast.error('Ukuran file terlalu besar (maks 20MB).')
+            return
+        }
+
         const isHeic = /\.(heic|heif)$/i.test(file.name) || file.type === 'image/heic' || file.type === 'image/heif'
         
         let processedFile = file
 
-        // Convert HEIC to JPG dulu kalau perlu
         if (isHeic) {
             const loadingToast = toast.loading('Mengkonversi foto HEIC ke JPG...')
             try {
@@ -338,11 +352,11 @@ const ProjectManagement = () => {
                 const convertedBlob = await heic2any({
                     blob: file,
                     toType: 'image/jpeg',
-                    quality: 0.85
+                    quality: 0.8
                 })
                 const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob
                 const newName = file.name.replace(/\.(heic|heif)$/i, '.jpg')
-                processedFile = new File([blob], newName, { type: 'image/jpeg' })
+                processedFile = new File([blob], newName, { type: 'image/jpeg', lastModified: Date.now() })
                 toast.dismiss(loadingToast)
             } catch (err) {
                 console.error('HEIC conversion error:', err)
@@ -352,73 +366,177 @@ const ProjectManagement = () => {
             }
         }
 
-        // Resize foto kalau dimensi terlalu besar (max 1920px) atau ukuran > 1MB
-        const needsResize = processedFile.size > 1024 * 1024
-        if (needsResize) {
-            const loadingToast = toast.loading('Mengoptimalkan ukuran foto...')
+        const TARGET_MAX_SIZE = 1024 * 1024
+        if (processedFile.size > TARGET_MAX_SIZE) {
+            const loadingToast = toast.loading('Mengoptimalkan foto...')
             try {
-                processedFile = await resizeImage(processedFile, 1920, 0.85)
+                let attempts = [
+                    { dim: 1280, q: 0.7 },
+                    { dim: 1024, q: 0.6 },
+                    { dim: 800, q: 0.5 },
+                    { dim: 640, q: 0.4 },
+                ]
+
+                for (const { dim, q } of attempts) {
+                    processedFile = await resizeImage(processedFile, dim, q)
+                    if (processedFile.size <= TARGET_MAX_SIZE) break
+                }
                 toast.dismiss(loadingToast)
-                toast.success('Foto siap diunggah')
             } catch (err) {
                 console.error('Resize error:', err)
                 toast.dismiss(loadingToast)
-                // Tetap pakai file original kalau resize gagal
             }
         }
 
         setNewDoc({ ...newDoc, file: processedFile })
+        if (previewUrl) URL.revokeObjectURL(previewUrl)
+        setPreviewUrl(URL.createObjectURL(processedFile))
     }
-
-    const resizeImage = (file, maxDimension = 1920, quality = 0.85) => {
-        return new Promise((resolve, reject) => {
-            const img = new Image()
-            const reader = new FileReader()
-
-            reader.onload = (e) => {
-                img.src = e.target.result
-            }
-            reader.onerror = reject
-
-            img.onload = () => {
-                let { width, height } = img
-
-                // Hanya resize jika dimensi melebihi maxDimension
-                if (width > maxDimension || height > maxDimension) {
-                    if (width > height) {
-                        height = Math.round((height * maxDimension) / width)
-                        width = maxDimension
-                    } else {
-                        width = Math.round((width * maxDimension) / height)
-                        height = maxDimension
-                    }
-                }
-
-                const canvas = document.createElement('canvas')
-                canvas.width = width
-                canvas.height = height
-                const ctx = canvas.getContext('2d')
-                ctx.drawImage(img, 0, 0, width, height)
-
-                canvas.toBlob(
-                    (blob) => {
-                        if (!blob) {
-                            reject(new Error('Canvas toBlob failed'))
+    const getExifOrientation = (file) => {
+        return new Promise((resolve) => {
+            try {
+                const reader = new FileReader()
+                reader.onload = (e) => {
+                    try {
+                        const view = new DataView(e.target.result)
+                        if (view.getUint16(0, false) !== 0xFFD8) {
+                            resolve(1)
                             return
                         }
-                        const newFile = new File([blob], file.name.replace(/\.\w+$/, '.jpg'), {
-                            type: 'image/jpeg',
-                            lastModified: Date.now()
-                        })
-                        resolve(newFile)
-                    },
-                    'image/jpeg',
-                    quality
-                )
+                        let offset = 2
+                        while (offset < view.byteLength) {
+                            if (offset + 2 > view.byteLength) break
+                            const marker = view.getUint16(offset, false)
+                            offset += 2
+                            if (marker === 0xFFE1) {
+                                if (offset + 2 > view.byteLength) break
+                                const length = view.getUint16(offset, false)
+                                if (offset + length > view.byteLength) break
+                                if (view.getUint32(offset + 2, false) !== 0x45786966) {
+                                    resolve(1)
+                                    return
+                                }
+                                const tiffOffset = offset + 8
+                                if (tiffOffset + 8 > view.byteLength) { resolve(1); return }
+                                const little = view.getUint16(tiffOffset, false) === 0x4949
+                                const ifdOffset = view.getUint32(tiffOffset + 4, little)
+                                const ifdStart = tiffOffset + ifdOffset
+                                if (ifdStart + 2 > view.byteLength) { resolve(1); return }
+                                const tagsCount = view.getUint16(ifdStart, little)
+                                const dirStart = ifdStart + 2
+                                for (let i = 0; i < tagsCount; i++) {
+                                    const entryOffset = dirStart + i * 12
+                                    if (entryOffset + 12 > view.byteLength) break
+                                    if (view.getUint16(entryOffset, little) === 0x0112) {
+                                        resolve(view.getUint16(entryOffset + 8, little))
+                                        return
+                                    }
+                                }
+                                resolve(1)
+                                return
+                            } else if ((marker & 0xFF00) !== 0xFF00) {
+                                break
+                            } else {
+                                if (offset + 2 > view.byteLength) break
+                                offset += view.getUint16(offset, false)
+                            }
+                        }
+                        resolve(1)
+                    } catch (e) {
+                        resolve(1)
+                    }
+                }
+                reader.onerror = () => resolve(1)
+                reader.readAsArrayBuffer(file.slice(0, 65536))
+            } catch (e) {
+                resolve(1)
             }
-            img.onerror = reject
+        })
+    }
 
-            reader.readAsDataURL(file)
+    const applyExifOrientation = (ctx, canvas, img, orientation) => {
+        const { width, height } = canvas
+        switch (orientation) {
+            case 2: ctx.transform(-1, 0, 0, 1, width, 0); break
+            case 3: ctx.transform(-1, 0, 0, -1, width, height); break
+            case 4: ctx.transform(1, 0, 0, -1, 0, height); break
+            case 5: canvas.width = height; canvas.height = width; ctx.transform(0, 1, 1, 0, 0, 0); break
+            case 6: canvas.width = height; canvas.height = width; ctx.transform(0, 1, -1, 0, height, 0); break
+            case 7: canvas.width = height; canvas.height = width; ctx.transform(0, -1, -1, 0, height, width); break
+            case 8: canvas.width = height; canvas.height = width; ctx.transform(0, -1, 1, 0, 0, width); break
+            default: break
+        }
+    }
+
+    const resizeImage = (file, maxDimension = 1280, quality = 0.7) => {
+        return new Promise((resolve, reject) => {
+            const url = URL.createObjectURL(file)
+            const img = document.createElement('img')
+
+            img.onload = () => {
+                try {
+                    let { width, height } = img
+
+                    if (width > maxDimension || height > maxDimension) {
+                        if (width > height) {
+                            height = Math.round((height * maxDimension) / width)
+                            width = maxDimension
+                        } else {
+                            width = Math.round((width * maxDimension) / height)
+                            height = maxDimension
+                        }
+                    }
+
+                    const canvas = document.createElement('canvas')
+                    canvas.width = width
+                    canvas.height = height
+                    const ctx = canvas.getContext('2d')
+                    ctx.drawImage(img, 0, 0, width, height)
+
+                    canvas.toBlob(
+                        (blob) => {
+                            URL.revokeObjectURL(url)
+                            if (!blob) {
+                                try {
+                                    const dataUrl = canvas.toDataURL('image/jpeg', quality)
+                                    const byteString = atob(dataUrl.split(',')[1])
+                                    const ab = new ArrayBuffer(byteString.length)
+                                    const ia = new Uint8Array(ab)
+                                    for (let i = 0; i < byteString.length; i++) {
+                                        ia[i] = byteString.charCodeAt(i)
+                                    }
+                                    const fallbackBlob = new Blob([ab], { type: 'image/jpeg' })
+                                    const newFile = new File([fallbackBlob], file.name.replace(/\.\w+$/, '.jpg'), {
+                                        type: 'image/jpeg',
+                                        lastModified: Date.now()
+                                    })
+                                    resolve(newFile)
+                                } catch (fallbackErr) {
+                                    reject(new Error('Gagal memproses foto'))
+                                }
+                                return
+                            }
+                            const newFile = new File([blob], file.name.replace(/\.\w+$/, '.jpg'), {
+                                type: 'image/jpeg',
+                                lastModified: Date.now()
+                            })
+                            resolve(newFile)
+                        },
+                        'image/jpeg',
+                        quality
+                    )
+                } catch (canvasErr) {
+                    URL.revokeObjectURL(url)
+                    reject(canvasErr)
+                }
+            }
+
+            img.onerror = () => {
+                URL.revokeObjectURL(url)
+                reject(new Error('Gagal memuat gambar'))
+            }
+
+            img.src = url
         })
     }
 
@@ -703,7 +821,7 @@ const ProjectManagement = () => {
                                 <div>
                                     <label className="block text-sm font-medium text-dark-700 mb-1">Kategori</label>
                                     <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680]">
+                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]">
                                         <option value="Konstruksi">Konstruksi</option>
                                         <option value="Design and Build">Desain & Bangun</option>
                                         <option value="Design">Desain Arsitektur</option>
@@ -713,7 +831,7 @@ const ProjectManagement = () => {
                                     <div>
                                         <label className="block text-sm font-medium text-dark-700 mb-1">Status Proyek</label>
                                         <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                            className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680]">
+                                            className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]">
                                             <option value="pending">MENUNGGU</option>
                                             <option value="in_progress">BERJALAN</option>
                                             <option value="completed">SELESAI</option>
@@ -842,11 +960,11 @@ const ProjectManagement = () => {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Judul Tahapan</label>
-                                        <input type="text" value={newMs.title} onChange={(e) => setNewMs({ ...newMs, title: e.target.value })} placeholder="Misal: Finishing Interior" className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium" />
+                                        <input type="text" value={newMs.title} onChange={(e) => setNewMs({ ...newMs, title: e.target.value })} placeholder="Misal: Finishing Interior" className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Status</label>
-                                        <select value={newMs.status} onChange={(e) => setNewMs({ ...newMs, status: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium">
+                                        <select value={newMs.status} onChange={(e) => setNewMs({ ...newMs, status: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium">
                                             <option value="pending">MENUNGGU</option>
                                             <option value="in_progress">BERJALAN</option>
                                             <option value="completed">SELESAI</option>
@@ -858,7 +976,7 @@ const ProjectManagement = () => {
                                     </div>
                                     <div>
                                         <label className="block text-xs font-bold text-dark-500 mb-1">Keterangan Singkat</label>
-                                        <input type="text" value={newMs.description} onChange={(e) => setNewMs({ ...newMs, description: e.target.value })} placeholder="Opsional..." className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium" />
+                                        <input type="text" value={newMs.description} onChange={(e) => setNewMs({ ...newMs, description: e.target.value })} placeholder="Opsional..." className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium" />
                                     </div>
                                 </div>
                                 <div className="flex gap-2">
@@ -888,7 +1006,7 @@ const ProjectManagement = () => {
                                 <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1">Pembaruan Lapangan</h2>
                                 <p className="text-white/80 text-sm">Unggah dan kelola dokumentasi visual progres proyek</p>
                             </div>
-                            <button onClick={() => setShowGalleryModal(false)} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <button onClick={() => { if (previewUrl) URL.revokeObjectURL(previewUrl); setPreviewUrl(null); setNewDoc({ file: null, description: '' }); setShowGalleryModal(false) }} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                                 <X />
                             </button>
                         </div>
@@ -906,16 +1024,16 @@ const ProjectManagement = () => {
                                         <label className="flex-1 px-4 py-3 rounded-xl border-2 border-[#396680]/40 text-sm cursor-pointer hover:bg-dark-50 transition-colors flex items-center gap-2">
                                             <span className="px-3 py-1 bg-[#396680]/10 text-[#396680] font-bold text-xs rounded-lg">Pilih File</span>
                                             <span className="text-dark-500 truncate">{newDoc.file ? newDoc.file.name : 'Belum ada file dipilih'}</span>
-                                            <input type="file" onChange={handleFileSelect} className="hidden" accept="image/jpeg,image/png,image/heic,image/heif,.heic,.heif" />
+                                            <input type="file" onChange={handleFileSelect} className="hidden" accept="image/*,.heic,.heif" />
                                         </label>
                                         <button type="button" onClick={handleUploadDoc} disabled={uploadingDoc} className="px-6 py-3 bg-[#396680] hover:bg-[#2d5166] text-white text-sm font-bold rounded-xl transition-all shadow-md whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2">
                                             {uploadingDoc ? <><Loader2 size={16} className="animate-spin" /> Mengunggah...</> : 'Unggah Foto'}
                                         </button>
                                     </div>
-                                    {newDoc.file && (
-                                        <div className="relative w-full max-w-[200px] aspect-video rounded-xl overflow-hidden border-2 border-[#396680]/20 cursor-pointer" onClick={() => setLightboxImage({ src: URL.createObjectURL(newDoc.file), alt: newDoc.file.name })}>
-                                            <img src={URL.createObjectURL(newDoc.file)} alt="Preview" className="w-full h-full object-cover hover:scale-105 transition-transform" />
-                                            <button type="button" onClick={(e) => { e.stopPropagation(); setNewDoc({ ...newDoc, file: null }) }} className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600">✕</button>
+                                    {newDoc.file && previewUrl && (
+                                        <div className="relative w-full max-w-[200px] aspect-video rounded-xl overflow-hidden border-2 border-[#396680]/20 cursor-pointer" onClick={() => setLightboxImage({ src: previewUrl, alt: newDoc.file.name })}>
+                                            <img src={previewUrl} alt="Preview" className="w-full h-full object-cover hover:scale-105 transition-transform" />
+                                            <button type="button" onClick={(e) => { e.stopPropagation(); if (previewUrl) URL.revokeObjectURL(previewUrl); setPreviewUrl(null); setNewDoc({ ...newDoc, file: null }) }} className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600">✕</button>
                                         </div>
                                     )}
                                 </div>
