@@ -223,26 +223,12 @@ const Layanan = () => {
                 },
                 {
                     step: 2,
-                    title: 'Desain Arsitektur',
-                    shortTitle: 'Desain',
-                    description: 'Pembuatan desain perancangan awal 3D dan Rencana Anggaran Biaya yang transparan secara menyeluruh.',
-                    icon: <Compass />,
-                    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'PHASE 02 : DESIGN',
-                    buttonText: 'Lihat Design',
-                    subIcon1: <Compass size={16} className="text-[#396680]" />,
-                    subText1: 'Perancangan 3D',
-                    subIcon2: <ClipboardCheck size={16} className="text-[#396680]" />,
-                    subText2: 'Review RAB'
-                },
-                {
-                    step: 3,
                     title: 'Penandatanganan',
                     shortTitle: 'Kontrak',
-                    description: 'Kesepakatan final atas design, timeline penyelesaian, dan biaya pekerjaan konstruksi secara tertulis hitam di atas putih.',
+                    description: 'Kesepakatan final atas RAB, timeline penyelesaian, dan biaya pekerjaan konstruksi secara tertulis hitam di atas putih.',
                     icon: <Handshake />,
                     image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'PHASE 03 : KESEPAKATAN',
+                    badge: 'PHASE 02 : KESEPAKATAN',
                     buttonText: 'Draft Kontrak',
                     subIcon1: <Handshake size={16} className="text-[#396680]" />,
                     subText1: 'Legalitas',
@@ -250,13 +236,13 @@ const Layanan = () => {
                     subText2: 'MOU Final'
                 },
                 {
-                    step: 4,
+                    step: 3,
                     title: 'Proses Konstruksi',
                     shortTitle: 'Konstruksi',
                     description: 'Eksekusi fisik pembangunan di lapangan dengan pengawasan ketat dan laporan progres berkala melalui sistem yang transparan.',
                     icon: <HardHat />,
                     image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'PHASE 04 : EKSEKUSI',
+                    badge: 'PHASE 03 : EKSEKUSI',
                     buttonText: 'Pantau Proyek',
                     subIcon1: <HardHat size={16} className="text-[#396680]" />,
                     subText1: 'Sipil Aktif',
@@ -264,13 +250,13 @@ const Layanan = () => {
                     subText2: 'Laporan Berkala'
                 },
                 {
-                    step: 5,
+                    step: 4,
                     title: 'Serah Terima Kunci',
                     shortTitle: 'Serah Terima',
                     description: 'Inspeksi final bersama dan penyerahan bangunan siap huni beserta dokumen retensi dan garansi pemeliharaan struktur.',
                     icon: <Home />,
                     image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'PHASE 05 : FINAL',
+                    badge: 'PHASE 04 : FINAL',
                     buttonText: 'Hubungi Kami',
                     subIcon1: <Home size={16} className="text-[#396680]" />,
                     subText1: 'Handover',
@@ -288,14 +274,14 @@ const Layanan = () => {
             heroSub: "BSD City, 2024",
             services: [
                 {
-                    title: 'Interior Design',
-                    desc: 'Layanan ini berfokus pada pengoptimalan fungsi dan estetika ruang di dalam bangunan untuk meningkatkan kualitas hidup serta kenyamanan penghuninya.',
+                    title: 'Desain & Konstruksi Rumah',
+                    desc: 'Layanan lengkap mulai dari perancangan desain arsitektur hingga pembangunan fisik rumah impian Anda dalam satu paket terintegrasi.',
                     icon: <Paintbrush size={20} className="text-[#396680]" />,
                     link: '/kontak'
                 },
                 {
-                    title: 'Outdoor Area Design',
-                    desc: 'Layanan ini berfokus pada transformasi area terbuka di sekitar bangunan agar menjadi ruang yang fungsional dan memiliki nilai tambah bagi properti.',
+                    title: 'Renovasi Total',
+                    desc: 'Perombakan menyeluruh bangunan lama Anda dengan desain baru yang modern, termasuk perencanaan ulang tata ruang dan eksekusi pembangunan.',
                     icon: <Home size={20} className="text-[#396680]" />,
                     link: '/kontak'
                 }
@@ -343,25 +329,12 @@ const Layanan = () => {
                 },
                 {
                     step: 4,
-                    title: 'Pabrikasi & Instalasi',
-                    description: 'Pabrikasi custom furniture di workshop kami untuk menghemat waktu, dilanjutkan instalasi final di panel lokasi.',
-                    icon: <Wrench />,
-                    image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'TAHAP 04 : PRODUKSI',
-                    buttonText: 'Pantau Proyek',
-                    subIcon1: <Wrench size={16} className="text-[#396680]" />,
-                    subText1: 'Workshop',
-                    subIcon2: <HardHat size={16} className="text-[#396680]" />,
-                    subText2: 'Fitting Akhir'
-                },
-                {
-                    step: 5,
                     title: 'Final Inspection',
                     shortTitle: 'Final',
                     description: 'Pengecekan dan finishing setiap detail akhir sebelum kami melaksanakan serah terima kepemilikan hasil karya.',
                     icon: <ClipboardCheck />,
                     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'TAHAP 05 : SERAH TERIMA',
+                    badge: 'TAHAP 04 : SERAH TERIMA',
                     buttonText: 'Cek Lokasi',
                     subIcon1: <ClipboardCheck size={16} className="text-[#396680]" />,
                     subText1: 'Defect Audit',

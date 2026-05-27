@@ -140,7 +140,7 @@ const Beranda = () => {
                             <span className="text-[#396680]">Kreatif & Terpercaya</span>
                         </h2>
                         <p className="text-dark-500 text-lg leading-relaxed">
-                            Kami adalah Bangunanmu.id, tim berdedikasi yang menghadirkan solusi unggul di bidang konstruksi dan design interior, khususnya untuk hunian. Berbekal pengalaman lebih dari empat tahun, kami memahami pentingnya menciptakan rumah yang nyaman, fungsional, dan dirancang secara khusus sesuai dengan visi Anda.
+                            Kami adalah Bangunanmu.id, tim berdedikasi yang menghadirkan solusi unggul di bidang konstruksi dan desain interior, khususnya untuk hunian. Berbekal pengalaman lebih dari empat tahun, kami memahami pentingnya menciptakan rumah yang nyaman, fungsional, dan dirancang secara khusus sesuai dengan visi Anda.
                         </p>
 
                         <div className="p-8 bg-white rounded-3xl shadow-lg border border-dark-50 relative">
@@ -232,10 +232,10 @@ const Beranda = () => {
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
                                 <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain & Bangun</h3>
-                                <p className="text-dark-500 mb-8 line-clamp-2">Kustomisasi interior dan layout design yang presisi untuk nuansa senada di setiap sudut ruangan.</p>
+                                <p className="text-dark-500 mb-8 line-clamp-2">Solusi terintegrasi dari perancangan desain hingga pembangunan fisik rumah impian Anda dalam satu paket.</p>
 
                                 <ul className="space-y-3 mb-10">
-                                    {['Interior Design', 'Outdoor Area Design'].map((item, i) => (
+                                    {['Desain & Konstruksi Rumah', 'Renovasi Total'].map((item, i) => (
                                         <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
                                             <CheckCircle2 size={16} className="text-[#396680]" />
                                             {item}
@@ -293,7 +293,7 @@ const Beranda = () => {
                             </div>
                             <h2 className="text-3xl sm:text-5xl font-bold text-white mb-6">Pantau Proyekmu</h2>
                             <p className="text-white/80 text-lg mb-10">
-                                Masukkan ID/Kode proyek untuk melihat progress konstruksi real-time.
+                                Masukkan ID/Kode proyek untuk melihat progress konstruksi anda.
                             </p>
 
                             <div className="flex flex-col sm:flex-row gap-4 mb-12">
@@ -302,7 +302,7 @@ const Beranda = () => {
                                     <input
                                         type="text"
                                         name="tracking_id_home"
-                                        placeholder="Contoh: BGN-2023-001"
+                                        placeholder="Contoh: BGR-2026"
                                         autoComplete="off"
                                         spellCheck="false"
                                         className="w-full pl-14 pr-6 py-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all font-medium"
@@ -480,7 +480,7 @@ const Beranda = () => {
                                     <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
                                         <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Proses Pembangunan</h3>
                                         <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
-                                            Eksekusi pembangunan di lapangan dilakukan secara profesional oleh tukang dan teknisi bersertifikasi. Anda akan mendapatkan laporan progress berkala secara real-time dari sistem kami.
+                                            Eksekusi pembangunan di lapangan dilakukan secara profesional oleh tukang dan teknisi. Anda akan mendapatkan laporan progress berkala dari sistem kami.
                                         </p>
 
                                         <div className="flex flex-wrap gap-4 mb-10">

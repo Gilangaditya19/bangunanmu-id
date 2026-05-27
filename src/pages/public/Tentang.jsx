@@ -14,7 +14,7 @@ const Tentang = () => {
                     <ScrollReveal variant="fadeInLeft" className="space-y-8 z-10 relative">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#396680]/10 border border-[#396680]/20 shadow-sm max-w-max">
                             <ShinyText 
-                                text="OVER 4 YEARS OF EXPERIENCE" 
+                                text="PENGALAMAN LEBIH DARI 4 TAHUN" 
                                 theme="brand"
                                 speed={3} 
                                 className="text-[10px] font-bold tracking-widest uppercase" 
@@ -27,7 +27,7 @@ const Tentang = () => {
                         </h1>
 
                         <p className="text-lg text-dark-500 max-w-lg leading-relaxed">
-                            Kami adalah Bangunanmu.id, sebuah tim berdedikasi yang menyediakan solusi unggulan di bidang konstruksi dan design interior. Dengan pengalaman lebih dari empat tahun, kami memahami betapa pentingnya menciptakan hunian yang nyaman, fungsional, serta dirancang secara unik sesuai dengan visi Anda. Melalui layanan kami, Anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.
+                            Kami adalah Bangunanmu.id, sebuah tim berdedikasi yang menyediakan solusi unggulan di bidang konstruksi dan desain. Dengan pengalaman lebih dari empat tahun, kami memahami betapa pentingnya menciptakan hunian yang nyaman, fungsional, serta dirancang secara unik sesuai dengan visi anda. Melalui layanan kami, anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.
                         </p>
 
                         <div className="flex flex-wrap gap-4 pt-4">
@@ -69,8 +69,8 @@ const Tentang = () => {
                                 <span className="text-xs font-bold tracking-widest text-[#396680] uppercase">VISI & MISI</span>
                             </div>
                             <h2 className="text-4xl sm:text-5xl font-bold text-dark-900 tracking-tight leading-tight">
-                                Bukan Sekadar Kontraktor, <br />
-                                Partner Kreatif Anda.
+                                Lebih dari Sekadar Kontraktor, <br />
+                                Partner Kreatif untuk Mewujudkan Visi Anda.
                             </h2>
                         </div>
                         <div className="lg:col-span-5">
@@ -136,7 +136,7 @@ const Tentang = () => {
                                         <p className="text-5xl font-bold mb-2">99<span className="text-white/60">%</span></p>
                                         <p className="text-white/70 text-[10px] font-bold tracking-widest uppercase">Klien Puas</p>
                                     </div>
-                                    <div className="text-center sm:text-left">
+                                    <div className="text-center sm:text-left col-span-2 sm:col-span-1">
                                         <p className="text-5xl font-bold mb-2">4<span className="text-white/60">+</span></p>
                                         <p className="text-white/70 text-[10px] font-bold tracking-widest uppercase">Tahun</p>
                                     </div>

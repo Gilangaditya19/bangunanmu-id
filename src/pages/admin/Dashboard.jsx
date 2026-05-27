@@ -117,7 +117,7 @@ const Dashboard = () => {
                         </p>
                         <div className="mt-auto">
                             <Link to="/admin/projects" className="inline-flex items-center gap-2 text-sm font-bold text-[#396680] hover:text-dark-900 transition-colors">
-                                Buka Manajemen <ArrowRight size={14} />
+                                Buka Manajemen Proyek <ArrowRight size={14} />
                             </Link>
                         </div>
                     </div>
@@ -134,7 +134,7 @@ const Dashboard = () => {
                         </p>
                         <div className="mt-auto">
                             <Link to="/admin/testimonials" className="inline-flex items-center gap-2 text-sm font-bold text-[#9c754d] hover:text-dark-900 transition-colors">
-                                Buka Testimoni <ArrowRight size={14} />
+                                Buka Manajemen Testimoni <ArrowRight size={14} />
                             </Link>
                         </div>
                     </div>

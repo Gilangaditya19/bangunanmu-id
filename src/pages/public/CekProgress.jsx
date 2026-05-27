@@ -243,7 +243,7 @@ const CekProgress = () => {
                         Lacak Proyek Impian Anda
                     </h1>
                     <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
-                        Pembaruan real-time pada proyek konstruksi atau interior Anda. Masukkan ID Proyek unik Anda di bawah ini untuk memulai.
+                        Lacak pembaruan pada proyek konstruksi atau interior anda. Masukkan ID Proyek unik anda di bawah ini untuk memulai.
                     </p>
 
                     <form id="cek-progress-form" onSubmit={handleSearch} className="max-w-xl mx-auto relative group">
@@ -253,7 +253,7 @@ const CekProgress = () => {
                         <input
                             type="text"
                             name="project_tracking_id"
-                            placeholder="PRJ-2025-001"
+                            placeholder="BGR-2026"
                             value={searchId}
                             onChange={(e) => setSearchId(e.target.value)}
                             autoComplete="off"
@@ -287,7 +287,11 @@ const CekProgress = () => {
                                 <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${projectData.rawStatus === 'completed' ? 'bg-green-100 text-green-700' : projectData.rawStatus === 'in_progress' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>
                                     {projectData.status}
                                 </span>
-                                <span className="px-3 py-1 text-xs font-bold rounded-full bg-[#396680]/10 text-[#396680] uppercase tracking-wider">
+                                <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${
+                                    projectData.category === 'Konstruksi' ? 'bg-amber-50 text-amber-700' :
+                                    projectData.category === 'Desain & Bangun' ? 'bg-blue-50 text-blue-700' :
+                                    'bg-purple-50 text-purple-700'
+                                }`}>
                                     {projectData.category}
                                 </span>
                                 <span className="text-dark-400 text-sm font-medium">ID: {projectData.id}</span>

@@ -572,7 +572,7 @@ const ProjectManagement = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
                     <h1 className="text-4xl font-extrabold text-dark-900 tracking-tight mb-2">Manajemen Proyek</h1>
-                    <p className="text-dark-500 font-medium">Pantau dan kelola semua proyek konstruksi Anda secara real-time.</p>
+                    <p className="text-dark-500 font-medium">Pantau dan kelola semua proyek konstruksi anda.</p>
                 </div>
                 <div className="mt-2 md:mt-0 flex-shrink-0">
                     <button onClick={openCreate} className="px-6 py-3.5 bg-[#396680] hover:bg-[#2d5166] text-white font-bold rounded-full shadow-md transition-all flex items-center gap-2">
@@ -698,7 +698,11 @@ const ProjectManagement = () => {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-6">
-                                                <span className={`inline-flex px-3 py-1.5 rounded-full text-[9px] font-extrabold uppercase tracking-widest ${isKonstruksi ? 'bg-[#F0F4F8] text-[#396680]' : 'bg-[#F4F4F4] text-dark-500'}`}>
+                                                <span className={`inline-flex px-3 py-1.5 rounded-full text-[9px] font-extrabold uppercase tracking-widest ${
+                                                    isKonstruksi ? 'bg-amber-50 text-amber-700' :
+                                                    (project.category === 'Design and Build' || project.category === 'design_and_build') ? 'bg-blue-50 text-blue-700' :
+                                                    'bg-purple-50 text-purple-700'
+                                                }`}>
                                                     {project.category === 'desain' ? 'Desain Arsitektur' : project.category === 'Design' ? 'Desain Arsitektur' : project.category === 'Design and Build' ? 'Desain & Bangun' : (project.category || (isKonstruksi ? 'Konstruksi' : 'Desain & Bangun'))}
                                                 </span>
                                             </td>
