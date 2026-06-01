@@ -1036,7 +1036,7 @@ const ProjectManagement = () => {
                                     <Upload size={32} />
                                 </div>
                                 <h4 className="font-bold text-dark-900 text-lg mb-1">Unggah Foto Pembaruan Baru</h4>
-                                <p className="text-dark-400 text-sm mb-5">Mendukung format gambar JPG, PNG (Maks 5MB)</p>
+                                <p className="text-dark-400 text-sm mb-5">Mendukung format gambar JPG, PNG, HEIC/HEIF</p>
                                 <div className="flex flex-col gap-3 w-full">
                                     <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
                                         <label className="flex-1 px-4 py-3 rounded-xl border-2 border-[#396680]/40 text-sm cursor-pointer hover:bg-dark-50 transition-colors flex items-center gap-2">
