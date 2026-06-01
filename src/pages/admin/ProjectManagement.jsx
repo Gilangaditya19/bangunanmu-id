@@ -1022,7 +1022,7 @@ const ProjectManagement = () => {
                                     <span className="px-2 py-0.5 bg-white text-[#396680] rounded shadow-sm text-[10px] font-bold tracking-widest uppercase">Mockup Data</span>
                                 </div>
                                 <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1">Pembaruan Lapangan</h2>
-                                <p className="text-white/80 text-sm">Unggah dan kelola dokumentasi visual progres proyek</p>
+                                <p className="text-white/80 text-sm">Unggah dan kelola dokumentasi progres proyek</p>
                             </div>
                             <button onClick={() => { previewUrls.forEach(url => URL.revokeObjectURL(url)); setPreviewUrls([]); setNewDoc({ files: [], description: '' }); setShowGalleryModal(false) }} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                                 <X />

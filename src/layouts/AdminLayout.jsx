@@ -54,9 +54,6 @@ const AdminLayout = () => {
                                     : 'text-dark-500 hover:text-dark-900 hover:bg-dark-100/50'
                                     }`}
                             >
-                                {isActive && (
-                                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-[#396680] rounded-r-md"></div>
-                                )}
                                 <div className={`text-lg ${isActive ? 'text-[#396680]' : 'text-dark-400'}`}>
                                     {link.icon}
                                 </div>

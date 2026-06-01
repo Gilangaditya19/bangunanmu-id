@@ -61,7 +61,7 @@ const Login = () => {
                             Selamat Datang <br /> Kembali<br className="hidden md:block" />
                         </h1>
                         <p className="hidden sm:block text-white/80 text-base lg:text-lg leading-relaxed max-w-sm">
-                            Wujudkan proyek konstruksi impian Anda dengan platform manajemen bangunan terintegrasi.
+                            Wujudkan proyek konstruksi impian Anda dengan Bangunanmu.
                         </p>
                     </div>
                 </div>
