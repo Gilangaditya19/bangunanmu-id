@@ -37,8 +37,8 @@ const ProjectManagement = () => {
     const [uploadingDoc, setUploadingDoc] = useState(false)
     const [newMs, setNewMs] = useState({ title: '', status: 'pending', targetDate: '', description: '' })
     const [editingMs, setEditingMs] = useState(null)
-    const [newDoc, setNewDoc] = useState({ file: null, description: '' })
-    const [previewUrl, setPreviewUrl] = useState(null)
+    const [newDoc, setNewDoc] = useState({ files: [], description: '' })
+    const [previewUrls, setPreviewUrls] = useState([])
     const [editingProject, setEditingProject] = useState(null)
 
 
@@ -301,96 +301,110 @@ const ProjectManagement = () => {
     }
 
     const handleUploadDoc = async () => {
-        if (!newDoc.file) return
+        if (newDoc.files.length === 0) return
         setUploadingDoc(true)
+        let successCount = 0
+        let failCount = 0
         try {
-            await uploadDocument(activeProject.id, newDoc.file, newDoc.description)
-            if (previewUrl) URL.revokeObjectURL(previewUrl)
-            setPreviewUrl(null)
-            setNewDoc({ file: null, description: '' })
+            for (const file of newDoc.files) {
+                try {
+                    await uploadDocument(activeProject.id, file, newDoc.description)
+                    successCount++
+                } catch (error) {
+                    failCount++
+                    console.error('Upload error for', file.name, error)
+                }
+            }
+            previewUrls.forEach(url => URL.revokeObjectURL(url))
+            setPreviewUrls([])
+            setNewDoc({ files: [], description: '' })
             const response = await getDocuments(activeProject.id)
             setDocuments(response.data)
-            toast.success('Foto berhasil diunggah')
-        } catch (error) {
-            const errMsg = error.response?.data?.message || error.message || ''
-            if (error.code === 'ECONNABORTED' || errMsg.includes('timeout')) {
-                toast.error('Upload timeout. Coba gunakan foto dengan ukuran lebih kecil atau periksa koneksi internet.')
+            if (failCount === 0) {
+                toast.success(`${successCount} foto berhasil diunggah`)
             } else {
-                toast.error('Gagal mengunggah foto. ' + (errMsg || 'Coba lagi.'))
+                toast.success(`${successCount} foto berhasil, ${failCount} gagal diunggah`)
             }
+        } catch (error) {
+            toast.error('Gagal mengunggah foto.')
         } finally {
             setUploadingDoc(false)
         }
     }
 
     const handleFileSelect = async (e) => {
-        const file = e.target.files[0]
-        if (!file) return
+        const selectedFiles = Array.from(e.target.files)
+        if (selectedFiles.length === 0) return
 
         e.target.value = ''
 
         const validTypes = ['image/jpeg', 'image/png', 'image/heic', 'image/heif', '']
-        const isValidExt = /\.(jpe?g|png|heic|heif)$/i.test(file.name)
-        if (!validTypes.includes(file.type) && !isValidExt) {
-            toast.error('Format file tidak didukung. Gunakan JPG, PNG, atau HEIC.')
-            return
-        }
+        const processedFiles = []
+        const newUrls = []
 
-        if (file.size > 20 * 1024 * 1024) {
-            toast.error('Ukuran file terlalu besar (maks 20MB).')
-            return
-        }
+        const loadingToast = selectedFiles.length > 1 ? toast.loading(`Memproses ${selectedFiles.length} foto...`) : null
 
-        const isHeic = /\.(heic|heif)$/i.test(file.name) || file.type === 'image/heic' || file.type === 'image/heif'
-        
-        let processedFile = file
-
-        if (isHeic) {
-            const loadingToast = toast.loading('Mengkonversi foto HEIC ke JPG...')
-            try {
-                const heic2any = (await import('heic2any')).default
-                const convertedBlob = await heic2any({
-                    blob: file,
-                    toType: 'image/jpeg',
-                    quality: 0.8
-                })
-                const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob
-                const newName = file.name.replace(/\.(heic|heif)$/i, '.jpg')
-                processedFile = new File([blob], newName, { type: 'image/jpeg', lastModified: Date.now() })
-                toast.dismiss(loadingToast)
-            } catch (err) {
-                console.error('HEIC conversion error:', err)
-                toast.dismiss(loadingToast)
-                toast.error('Gagal mengkonversi foto HEIC. Coba foto lain.')
-                return
+        for (const file of selectedFiles) {
+            const isValidExt = /\.(jpe?g|png|heic|heif)$/i.test(file.name)
+            if (!validTypes.includes(file.type) && !isValidExt) {
+                toast.error(`${file.name}: Format tidak didukung.`)
+                continue
             }
-        }
 
-        const TARGET_MAX_SIZE = 1024 * 1024
-        if (processedFile.size > TARGET_MAX_SIZE) {
-            const loadingToast = toast.loading('Mengoptimalkan foto...')
-            try {
-                let attempts = [
-                    { dim: 1280, q: 0.7 },
-                    { dim: 1024, q: 0.6 },
-                    { dim: 800, q: 0.5 },
-                    { dim: 640, q: 0.4 },
-                ]
+            if (file.size > 20 * 1024 * 1024) {
+                toast.error(`${file.name}: Ukuran terlalu besar (maks 20MB).`)
+                continue
+            }
 
-                for (const { dim, q } of attempts) {
-                    processedFile = await resizeImage(processedFile, dim, q)
-                    if (processedFile.size <= TARGET_MAX_SIZE) break
+            const isHeic = /\.(heic|heif)$/i.test(file.name) || file.type === 'image/heic' || file.type === 'image/heif'
+            let processedFile = file
+
+            if (isHeic) {
+                try {
+                    const heic2any = (await import('heic2any')).default
+                    const convertedBlob = await heic2any({
+                        blob: file,
+                        toType: 'image/jpeg',
+                        quality: 0.8
+                    })
+                    const blob = Array.isArray(convertedBlob) ? convertedBlob[0] : convertedBlob
+                    const newName = file.name.replace(/\.(heic|heif)$/i, '.jpg')
+                    processedFile = new File([blob], newName, { type: 'image/jpeg', lastModified: Date.now() })
+                } catch (err) {
+                    console.error('HEIC conversion error:', err)
+                    toast.error(`${file.name}: Gagal konversi HEIC.`)
+                    continue
                 }
-                toast.dismiss(loadingToast)
-            } catch (err) {
-                console.error('Resize error:', err)
-                toast.dismiss(loadingToast)
             }
+
+            const TARGET_MAX_SIZE = 1024 * 1024
+            if (processedFile.size > TARGET_MAX_SIZE) {
+                try {
+                    let attempts = [
+                        { dim: 1280, q: 0.7 },
+                        { dim: 1024, q: 0.6 },
+                        { dim: 800, q: 0.5 },
+                        { dim: 640, q: 0.4 },
+                    ]
+                    for (const { dim, q } of attempts) {
+                        processedFile = await resizeImage(processedFile, dim, q)
+                        if (processedFile.size <= TARGET_MAX_SIZE) break
+                    }
+                } catch (err) {
+                    console.error('Resize error:', err)
+                }
+            }
+
+            processedFiles.push(processedFile)
+            newUrls.push(URL.createObjectURL(processedFile))
         }
 
-        setNewDoc({ ...newDoc, file: processedFile })
-        if (previewUrl) URL.revokeObjectURL(previewUrl)
-        setPreviewUrl(URL.createObjectURL(processedFile))
+        if (loadingToast) toast.dismiss(loadingToast)
+
+        if (processedFiles.length > 0) {
+            setNewDoc(prev => ({ ...prev, files: [...prev.files, ...processedFiles] }))
+            setPreviewUrls(prev => [...prev, ...newUrls])
+        }
     }
     const getExifOrientation = (file) => {
         return new Promise((resolve) => {
@@ -1010,7 +1024,7 @@ const ProjectManagement = () => {
                                 <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1">Pembaruan Lapangan</h2>
                                 <p className="text-white/80 text-sm">Unggah dan kelola dokumentasi visual progres proyek</p>
                             </div>
-                            <button onClick={() => { if (previewUrl) URL.revokeObjectURL(previewUrl); setPreviewUrl(null); setNewDoc({ file: null, description: '' }); setShowGalleryModal(false) }} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                            <button onClick={() => { previewUrls.forEach(url => URL.revokeObjectURL(url)); setPreviewUrls([]); setNewDoc({ files: [], description: '' }); setShowGalleryModal(false) }} className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                                 <X />
                             </button>
                         </div>
@@ -1027,17 +1041,21 @@ const ProjectManagement = () => {
                                     <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
                                         <label className="flex-1 px-4 py-3 rounded-xl border-2 border-[#396680]/40 text-sm cursor-pointer hover:bg-dark-50 transition-colors flex items-center gap-2">
                                             <span className="px-3 py-1 bg-[#396680]/10 text-[#396680] font-bold text-xs rounded-lg">Pilih File</span>
-                                            <span className="text-dark-500 truncate">{newDoc.file ? newDoc.file.name : 'Belum ada file dipilih'}</span>
-                                            <input type="file" onChange={handleFileSelect} className="hidden" accept="image/*,.heic,.heif" />
+                                            <span className="text-dark-500 truncate">{newDoc.files.length > 0 ? `${newDoc.files.length} file dipilih` : 'Belum ada file dipilih'}</span>
+                                            <input type="file" multiple onChange={handleFileSelect} className="hidden" accept="image/*,.heic,.heif" />
                                         </label>
                                         <button type="button" onClick={handleUploadDoc} disabled={uploadingDoc} className="px-6 py-3 bg-[#396680] hover:bg-[#2d5166] text-white text-sm font-bold rounded-xl transition-all shadow-md whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2">
                                             {uploadingDoc ? <><Loader2 size={16} className="animate-spin" /> Mengunggah...</> : 'Unggah Foto'}
                                         </button>
                                     </div>
-                                    {newDoc.file && previewUrl && (
-                                        <div className="relative w-full max-w-[200px] aspect-video rounded-xl overflow-hidden border-2 border-[#396680]/20 cursor-pointer" onClick={() => setLightboxImage({ src: previewUrl, alt: newDoc.file.name })}>
-                                            <img src={previewUrl} alt="Preview" className="w-full h-full object-cover hover:scale-105 transition-transform" />
-                                            <button type="button" onClick={(e) => { e.stopPropagation(); if (previewUrl) URL.revokeObjectURL(previewUrl); setPreviewUrl(null); setNewDoc({ ...newDoc, file: null }) }} className="absolute top-1 right-1 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center text-xs hover:bg-red-600">✕</button>
+                                    {previewUrls.length > 0 && (
+                                        <div className="flex flex-wrap gap-3">
+                                            {previewUrls.map((url, idx) => (
+                                                <div key={idx} className="relative w-[120px] aspect-video rounded-xl overflow-hidden border-2 border-[#396680]/20 cursor-pointer" onClick={() => setLightboxImage({ src: url, alt: newDoc.files[idx]?.name || 'Preview' })}>
+                                                    <img src={url} alt="Preview" className="w-full h-full object-cover hover:scale-105 transition-transform" />
+                                                    <button type="button" onClick={(e) => { e.stopPropagation(); URL.revokeObjectURL(url); setPreviewUrls(prev => prev.filter((_, i) => i !== idx)); setNewDoc(prev => ({ ...prev, files: prev.files.filter((_, i) => i !== idx) })) }} className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-[10px] hover:bg-red-600">✕</button>
+                                                </div>
+                                            ))}
                                         </div>
                                     )}
                                 </div>
