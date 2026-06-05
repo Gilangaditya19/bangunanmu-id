@@ -213,14 +213,12 @@ const ProjectManagement = () => {
 
     const handleAddMilestone = async () => {
         if (!newMs.title) return
-        const statusMap = { pending: 'PENDING', in_progress: 'ON_PROGRESS', completed: 'COMPLETED' }
-        const beStatus = statusMap[newMs.status] || newMs.status.toUpperCase()
         try {
             if (editingMs) {
                 await updateMilestone(activeProject.id, editingMs.id, {
                     title: newMs.title,
                     name: newMs.title,
-                    status: beStatus,
+                    status: newMs.status,
                     description: newMs.description,
                     targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : null,
                     progress: newMs.status === 'completed' ? 100 : 0
@@ -230,7 +228,7 @@ const ProjectManagement = () => {
                 await addMilestone(activeProject.id, {
                     title: newMs.title,
                     name: newMs.title,
-                    status: beStatus,
+                    status: newMs.status,
                     description: newMs.description,
                     targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : null,
                     progress: newMs.status === 'completed' ? 100 : 0
