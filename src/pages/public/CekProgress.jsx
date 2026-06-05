@@ -74,8 +74,16 @@ const CekProgress = () => {
 
     const handleReviewSubmit = async () => {
         if (!projectData) return;
-        if (!reviewComment.trim()) {
+        
+        const trimmedComment = reviewComment.trim();
+        
+        if (!trimmedComment) {
             toast.error('Silakan tulis ulasan Anda terlebih dahulu.');
+            return;
+        }
+        
+        if (trimmedComment.length < 10) {
+            toast.error('Ulasan minimal 10 karakter.');
             return;
         }
         
@@ -86,7 +94,7 @@ const CekProgress = () => {
                 email: projectData.customerEmail || 'client@bangunanmu.id',
                 company: projectData.title,
                 position: 'Klien',
-                testimonialText: reviewComment,
+                testimonialText: trimmedComment,
                 rating: rating
             });
             setReviewSuccess(true);
@@ -94,7 +102,8 @@ const CekProgress = () => {
             toast.success('Terima kasih! Ulasan Anda berhasil dikirim.');
         } catch (error) {
             console.error('Failed to submit review:', error);
-            toast.error('Gagal mengirimkan ulasan.');
+            const errorMessage = error.response?.data?.message || error.response?.data?.error || 'Gagal mengirimkan ulasan.';
+            toast.error(errorMessage);
         } finally {
             setIsSubmittingReview(false);
         }
@@ -495,15 +504,15 @@ const CekProgress = () => {
             )}
 
             {showReviewModal && (
-                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-                    <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden border border-dark-100">
-                        <div className="p-6 border-b border-[#2d5166] flex items-center justify-between bg-[#396680] text-white">
+                <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn overflow-y-auto">
+                    <div className="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg my-8 border border-dark-100">
+                        <div className="p-6 border-b border-[#2d5166] flex items-center justify-between bg-[#396680] rounded-t-[2.5rem] text-white">
                             <h2 className="text-xl font-bold tracking-tight">Kirimkan Ulasan</h2>
                             <button onClick={() => setShowReviewModal(false)} className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
                                 <X size={20} />
                             </button>
                         </div>
-                        <div className="p-8 bg-[#FAFAFA]">
+                        <div className="p-8 bg-[#FAFAFA] rounded-b-[2.5rem]">
                             <div className="text-center mb-8 bg-white p-6 rounded-2xl border border-dark-100 shadow-sm">
                                 <p className="text-dark-500 font-bold mb-4 uppercase tracking-widest text-[#396680] text-xs">Rating Kepuasan</p>
                                 <div className="flex justify-center gap-3 cursor-pointer">
@@ -524,18 +533,6 @@ const CekProgress = () => {
                                     value={reviewComment}
                                     onChange={(e) => setReviewComment(e.target.value)}
                                 ></textarea>
-                            </div>
-                            
-                            <div className="mb-8">
-                                <label className="flex items-start gap-4 cursor-pointer group bg-white p-5 rounded-2xl border border-dark-100 shadow-sm hover:border-[#396680] transition-colors">
-                                    <div className="mt-0.5">
-                                        <input type="checkbox" defaultChecked className="w-5 h-5 text-[#396680] rounded-md border-dark-300 focus:ring-[#396680] cursor-pointer" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-dark-900 mb-0.5 group-hover:text-[#396680] transition-colors">Izinkan kami menampilkannya</p>
-                                        <p className="text-xs text-dark-500">Gunakan nama <strong>"{projectData.client}"</strong> sebagai identitas ulasan yang mungkin ditampilkan di beranda situs kami.</p>
-                                    </div>
-                                </label>
                             </div>
                             
                             <div className="flex gap-4">

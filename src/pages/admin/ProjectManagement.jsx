@@ -170,7 +170,10 @@ const ProjectManagement = () => {
             fetchProjects()
         } catch (error) {
             console.error('Error saving project:', error)
-            toast.error(error.response?.data?.message || 'Terjadi kesalahan saat menyimpan proyek.')
+            const errData = error.response?.data
+            let errMsg = errData?.errors?.[0] || errData?.message || 'Terjadi kesalahan saat menyimpan proyek.'
+            errMsg = errMsg.replace(/customer/gi, 'klien')
+            toast.error(errMsg)
         }
     }
 
@@ -237,7 +240,10 @@ const ProjectManagement = () => {
             setNewMs({ title: '', status: 'pending', targetDate: '', description: '' })
             toast.success(editingMs ? 'Tahapan berhasil diperbarui' : 'Tahapan berhasil ditambahkan')
         } catch (error) {
-            toast.error('Gagal menyimpan tahapan.')
+            const errData = error.response?.data
+            let errMsg = errData?.errors?.[0] || errData?.message || 'Gagal menyimpan tahapan.'
+            errMsg = errMsg.replace(/milestone/gi, 'tahapan')
+            toast.error(errMsg)
             return
         }
         try {
