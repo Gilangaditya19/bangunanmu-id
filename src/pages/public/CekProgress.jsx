@@ -281,7 +281,7 @@ const CekProgress = () => {
             {isTracking && projectData && (
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
 
-                    <ScrollReveal variant="fadeInUp" className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-dark-100 mb-10 flex flex-col md:flex-row md:items-center justify-between gap-8 h-auto">
+                    <ScrollReveal variant="fadeInUp" className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-[#e2e8f0] mb-10 flex flex-col md:flex-row md:items-center justify-between gap-8 h-auto">
                         <div>
                             <div className="flex flex-wrap items-center gap-3 mb-4">
                                 <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${projectData.rawStatus === 'completed' ? 'bg-green-100 text-green-700' : projectData.rawStatus === 'in_progress' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>
@@ -371,7 +371,7 @@ const CekProgress = () => {
 
                     <ScrollReveal variant="fadeInUp" className="mb-10 lg:mb-16 w-full">
                         
-                        <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-dark-100">
+                        <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-[#e2e8f0]">
                             <h3 className="text-xl md:text-2xl font-bold text-dark-900 mb-8 px-2">Status Saat Ini</h3>
                             
                             <div className="relative pl-4 md:pl-8">
