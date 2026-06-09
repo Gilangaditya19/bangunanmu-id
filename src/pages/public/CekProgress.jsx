@@ -95,6 +95,12 @@ const CekProgress = () => {
                 testimonialText: trimmedComment,
                 rating: rating
             });
+
+            const submittedReviews = JSON.parse(localStorage.getItem('submitted_reviews') || '{}');
+            const storageId = (projectData?.id || searchId).trim().toUpperCase();
+            submittedReviews[storageId] = true;
+            localStorage.setItem('submitted_reviews', JSON.stringify(submittedReviews));
+
             setReviewSuccess(true);
             setShowReviewModal(false);
             toast.success('Terima kasih! Ulasan Anda berhasil dikirim.');
@@ -221,14 +227,29 @@ const CekProgress = () => {
 
 
             try {
-                const reviewResponse = await api.get('/testimonials', {
-                    params: { page: 1, limit: 1 }
-                });
-                const reviewList = reviewResponse.data?.data?.data;
-                const hasReview = Array.isArray(reviewList) && reviewList.some(
-                    t => t.email === (data.customerEmail || '') || t.name === data.customerName
-                );
-                setReviewSuccess(hasReview);
+                const submittedReviews = JSON.parse(localStorage.getItem('submitted_reviews') || '{}');
+                const checkId = trimmedId.toUpperCase();
+                if (submittedReviews[checkId]) {
+                    setReviewSuccess(true);
+                } else {
+                    try {
+                        const reviewResponse = await api.get('/testimonials', {
+                            params: { page: 1, limit: 100 }
+                        });
+                        const reviewList = reviewResponse.data?.data?.data || reviewResponse.data?.data || [];
+                        const hasReview = Array.isArray(reviewList) && reviewList.some(
+                            t => (t.name === data.customerName && t.company === data.projectName) ||
+                                (t.email === (data.customerEmail || '') && data.customerEmail)
+                        );
+                        if (hasReview) {
+                            submittedReviews[checkId] = true;
+                            localStorage.setItem('submitted_reviews', JSON.stringify(submittedReviews));
+                        }
+                        setReviewSuccess(hasReview);
+                    } catch (pubErr) {
+                        setReviewSuccess(false);
+                    }
+                }
             } catch (revError) {
                 setReviewSuccess(false);
             }
@@ -297,8 +318,8 @@ const CekProgress = () => {
                                     {projectData.status}
                                 </span>
                                 <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${projectData.category === 'Konstruksi' ? 'bg-amber-50 text-amber-700' :
-                                        projectData.category === 'Desain & Bangun' ? 'bg-blue-50 text-blue-700' :
-                                            'bg-purple-50 text-purple-700'
+                                    projectData.category === 'Desain & Bangun' ? 'bg-blue-50 text-blue-700' :
+                                        'bg-purple-50 text-purple-700'
                                     }`}>
                                     {projectData.category}
                                 </span>
