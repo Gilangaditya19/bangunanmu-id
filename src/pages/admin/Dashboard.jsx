@@ -55,7 +55,7 @@ const Dashboard = () => {
                         <Compass size={20} />
                     </div>
                     <div className="mt-8 xl:mt-auto">
-                        <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Total Proyek</p>
+                        <p className="text-[10px] sm:text-xs font-extrabold text-black tracking-widest uppercase mb-1">Total Proyek</p>
                         <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
                             {loading ? <Loader2 className="animate-spin" size={24} /> : stats.totalProjects}
                         </p>
@@ -67,7 +67,7 @@ const Dashboard = () => {
                         <TrendingUp size={20} />
                     </div>
                     <div className="mt-8 xl:mt-auto">
-                        <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Proyek Aktif</p>
+                        <p className="text-[10px] sm:text-xs font-extrabold text-black tracking-widest uppercase mb-1">Proyek Aktif</p>
                         <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
                             {loading ? <Loader2 className="animate-spin" size={24} /> : stats.activeProjects}
                         </p>
@@ -79,7 +79,7 @@ const Dashboard = () => {
                         <CheckCircle2 size={20} />
                     </div>
                     <div className="mt-8 xl:mt-auto">
-                        <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Proyek Selesai</p>
+                        <p className="text-[10px] sm:text-xs font-extrabold text-black tracking-widest uppercase mb-1">Proyek Selesai</p>
                         <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
                             {loading ? <Loader2 className="animate-spin" size={24} /> : stats.completedProjects}
                         </p>
@@ -91,7 +91,7 @@ const Dashboard = () => {
                         <MessageSquare size={20} />
                     </div>
                     <div className="mt-8 xl:mt-auto">
-                        <p className="text-[10px] sm:text-xs font-bold text-dark-400 tracking-widest uppercase mb-1">Total Testimoni</p>
+                        <p className="text-[10px] sm:text-xs font-extrabold text-black tracking-widest uppercase mb-1">Total Testimoni</p>
                         <p className="text-4xl sm:text-5xl font-extrabold text-dark-900 leading-none tracking-tight">
                             {loading ? <Loader2 className="animate-spin" size={24} /> : stats.totalTestimonials}
                         </p>
@@ -101,7 +101,7 @@ const Dashboard = () => {
 
             <div className="mb-6">
                 <h2 className="text-2xl font-extrabold text-dark-900 tracking-tight">Aksi Cepat</h2>
-                <p className="text-sm text-dark-500 font-medium">Akses cepat fitur utama manajemen</p>
+                <p className="text-sm text-black font-semibold">Akses cepat fitur utama manajemen</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -112,7 +112,7 @@ const Dashboard = () => {
                             <Compass size={24} />
                         </div>
                         <h3 className="text-xl font-bold text-dark-900 mb-3 tracking-tight">Kelola Proyek</h3>
-                        <p className="text-sm text-dark-500 leading-relaxed font-medium mb-8">
+                        <p className="text-sm text-black leading-relaxed font-semibold mb-8">
                             Pantau progres, tambahkan proyek baru, atau perbarui status konstruksi.
                         </p>
                         <div className="mt-auto">
@@ -129,7 +129,7 @@ const Dashboard = () => {
                             <MessageSquare size={24} />
                         </div>
                         <h3 className="text-xl font-bold text-dark-900 mb-3 tracking-tight">Kelola Testimoni</h3>
-                        <p className="text-sm text-dark-500 leading-relaxed font-medium mb-8">
+                        <p className="text-sm text-black leading-relaxed font-semibold mb-8">
                             Lihat ulasan klien, moderasi testimoni baru, dan publikasikan ke website.
                         </p>
                         <div className="mt-auto">

@@ -26,7 +26,7 @@ const Tentang = () => {
                             <span className="text-[#396680]">Kami?</span>
                         </h1>
 
-                        <p className="text-lg text-dark-500 max-w-lg leading-relaxed">
+                        <p className="text-lg text-dark-900 max-w-lg leading-relaxed">
                             Kami adalah Bangunanmu.id, sebuah tim berdedikasi yang menyediakan solusi unggulan di bidang konstruksi dan desain. Dengan pengalaman lebih dari empat tahun, kami memahami betapa pentingnya menciptakan hunian yang nyaman, fungsional, serta dirancang secara unik sesuai dengan visi anda. Melalui layanan kami, anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.
                         </p>
 
@@ -74,7 +74,7 @@ const Tentang = () => {
                             </h2>
                         </div>
                         <div className="lg:col-span-5">
-                            <p className="text-dark-500 text-lg leading-relaxed">
+                            <p className="text-dark-900 text-lg leading-relaxed">
                                 Kami hadir sebagai penyedia solusi konstruksi dan interior berbasis teknologi, serta dikenal atas komitmen kami terhadap kualitas, transparansi, dan kepuasan klien. Kami bertekad untuk menetapkan standar baru dalam konstruksi dengan mengintegrasikan teknologi mutakhir seperti Building Information Modeling (BIM) dan Augmented Reality (AR), guna menciptakan ruang luar biasa yang membangun kepercayaan serta melampaui harapan klien.
                             </p>
                         </div>
@@ -87,7 +87,7 @@ const Tentang = () => {
                                 <Lightbulb size={24} className="text-[#396680]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Inovasi Tanpa Batas</h3>
-                            <p className="text-dark-500 text-sm leading-relaxed">
+                            <p className="text-dark-900 text-sm leading-relaxed">
                                 Pemanfaatan teknologi terkini, termasuk Building Information Modeling (BIM) dan Augmented Reality (AR), guna menjamin proses yang terintegrasi serta transparan dari awal hingga akhir.
                             </p>
                         </ScrollReveal>
@@ -97,7 +97,7 @@ const Tentang = () => {
                                 <Palette size={24} className="text-[#396680]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Transparansi</h3>
-                            <p className="text-dark-500 text-sm leading-relaxed">
+                            <p className="text-dark-900 text-sm leading-relaxed">
                                 Membangun kepercayaan melalui komunikasi yang jelas, praktik kerja yang etis, serta komitmen terhadap kualitas.
                             </p>
                         </ScrollReveal>
@@ -107,7 +107,7 @@ const Tentang = () => {
                                 <Shield size={24} className="text-[#396680]" />
                             </div>
                             <h3 className="text-xl font-bold text-dark-900 mb-4">Kolaborasi</h3>
-                            <p className="text-dark-500 text-sm leading-relaxed">
+                            <p className="text-dark-900 text-sm leading-relaxed">
                                 Bekerja sama secara erat dengan klien untuk mewujudkan visi mereka, serta memadukan ide-ide klien dengan keahlian yang kami miliki.
                             </p>
                         </ScrollReveal>
@@ -153,7 +153,7 @@ const Tentang = () => {
                         Siap Mewujudkan Ruang Impian <br className="hidden sm:block" />
                         Anda?
                     </h2>
-                    <p className="text-lg text-dark-500 mb-12 max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-lg text-dark-900 mb-12 max-w-2xl mx-auto leading-relaxed">
                         Jangan biarkan ide Anda hanya menjadi angan-angan. Mari berdiskusi dan mulai membangun masa depan hari ini.
                     </p>
                     <Link to="/kontak" className="inline-flex items-center justify-center px-10 py-5 bg-[#396680] text-white font-bold rounded-full hover:bg-[#2d5166] hover:scale-105 transition-all duration-300 shadow-xl shadow-[#396680]/20 text-lg">

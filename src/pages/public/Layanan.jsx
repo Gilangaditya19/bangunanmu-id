@@ -171,10 +171,10 @@ const TestimonialCard = ({ testi }) => (
                         <Star key={starIndex} size={12} fill={starIndex < (testi.rating || 5) ? "currentColor" : "none"} className={`${starIndex < (testi.rating || 5) ? 'text-yellow-400' : 'text-dark-100'}`} />
                     ))}
                 </div>
-                <p className="text-dark-400 text-[10px] sm:text-[11px] font-medium leading-tight">{testi.company || testi.project || testi.role || 'Klien Bangunanmu'}</p>
+                <p className="text-dark-600 text-[10px] sm:text-[11px] font-medium leading-tight">{testi.company || testi.project || testi.role || 'Klien Bangunanmu'}</p>
             </div>
         </div>
-        <p className="text-dark-600 text-sm leading-relaxed flex-1">
+        <p className="text-dark-900 text-sm leading-relaxed flex-1">
             {testi.testimonialText || testi.review || testi.text}
         </p>
     </div>
@@ -358,7 +358,7 @@ const Layanan = () => {
                     link: '/kontak'
                 },
                 {
-                    title: 'Design Interior',
+                    title: 'Desain Interior',
                     desc: 'Layanan yang merancang estetika dan fungsionalitas ruang dalam, dari pemilihan palet warna hingga penentuan furnitur, untuk menciptakan harmoni visual.',
                     icon: <Paintbrush size={20} className="text-[#396680]" />,
                     link: '/kontak'
@@ -368,7 +368,7 @@ const Layanan = () => {
                 {
                     step: 1,
                     title: 'Konsultasi & Konsep',
-                    description: 'Diskusi awal untuk memahami kebutuhan spesifik, preferensi gaya, dan penentuan konsep design yang sesuai dengan anggaran Anda.',
+                    description: 'Diskusi awal untuk memahami kebutuhan spesifik, preferensi gaya, dan penentuan konsep desain yang sesuai dengan anggaran Anda.',
                     icon: <Search />,
                     image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 01 : KONSEPTUAL',
@@ -409,7 +409,7 @@ const Layanan = () => {
                     step: 4,
                     title: 'Penyusunan RAB',
                     shortTitle: 'RAB',
-                    description: 'Pembuatan Rencana Anggaran Biaya (RAB) yang terperinci dan transparan berdasarkan design yang telah disetujui.',
+                    description: 'Pembuatan Rencana Anggaran Biaya (RAB) yang terperinci dan transparan berdasarkan desain yang telah disetujui.',
                     icon: <ClipboardCheck />,
                     image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 04 : ESTIMASI',
@@ -423,7 +423,7 @@ const Layanan = () => {
                     step: 5,
                     title: 'Gambar Kerja Final',
                     shortTitle: 'DED Final',
-                    description: 'Penyerahan dokumen Detail Engineering Design (DED) lengkap yang siap digunakan sebagai panduan pelaksanaan konstruksi.',
+                    description: 'Penyerahan dokumen Detail Engineering Desain (DED) lengkap yang siap digunakan sebagai panduan pelaksanaan konstruksi.',
                     icon: <Wrench />,
                     image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
                     badge: 'TAHAP 05 : HANDOVER',
@@ -501,7 +501,7 @@ const Layanan = () => {
                         />
                     </div>
                     <h1 className="text-4xl md:text-5xl font-bold text-dark-900 mb-6 tracking-tight">{currentContent.title}</h1>
-                    <p className="text-dark-500 max-w-2xl mx-auto leading-relaxed text-lg">
+                    <p className="text-dark-900 max-w-2xl mx-auto leading-relaxed text-lg">
                         {currentContent.desc}
                     </p>
                 </div>
@@ -531,7 +531,7 @@ const Layanan = () => {
                                     {card.icon}
                                 </div>
                                 <h3 className="text-xl font-bold text-dark-900 mb-4">{card.title}</h3>
-                                <p className="text-dark-500 text-sm leading-relaxed mb-8">
+                                <p className="text-dark-900 text-sm leading-relaxed mb-8">
                                     {card.desc}
                                 </p>
                                 <Link
@@ -583,12 +583,12 @@ const Layanan = () => {
                                             </div>
                                             <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
                                                 <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">{item.title}</h3>
-                                                <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
+                                                <p className="text-dark-900 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                                     {item.description}
                                                 </p>
 
                                                 <div className="flex flex-wrap gap-4 mb-10">
-                                                    {item.buttonText === 'Lihat Katalog' || item.buttonText === 'Cek Portofolio' || item.buttonText === 'Lihat Detail' || item.buttonText === 'Lihat Design' ? (
+                                                    {item.buttonText === 'Lihat Katalog' || item.buttonText === 'Cek Portofolio' || item.buttonText === 'Lihat Detail' || item.buttonText === 'Lihat Desain' ? (
                                                         <button onClick={() => document.getElementById('galeri-proyek')?.scrollIntoView({ behavior: 'smooth' })} className="inline-flex px-8 py-3.5 bg-[#396680] text-white font-bold rounded-full shadow-md hover:bg-[#2d5166] transition-all transform hover:-translate-y-0.5">
                                                             {item.buttonText}
                                                         </button>
@@ -604,11 +604,11 @@ const Layanan = () => {
                                                 </div>
 
                                                 <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
-                                                    <div className="flex items-center gap-2 text-dark-500">
+                                                    <div className="flex items-center gap-2 text-dark-800">
                                                         {item.subIcon1}
                                                         <span className="text-xs font-bold tracking-wider uppercase">{item.subText1}</span>
                                                     </div>
-                                                    <div className="flex items-center gap-2 text-dark-500">
+                                                    <div className="flex items-center gap-2 text-dark-800">
                                                         {item.subIcon2}
                                                         <span className="text-xs font-bold tracking-wider uppercase">{item.subText2}</span>
                                                     </div>

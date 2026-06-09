@@ -30,13 +30,13 @@ const AdminLayout = () => {
                     <img src="/logo.png" alt="Bangunanmu.id Logo" className="h-10 w-auto object-contain flex-shrink-0" />
                     <div className="flex flex-col">
                         <span className="text-xl font-extrabold text-dark-900 tracking-tight leading-tight">
-                            Bangunanmu<span className="font-medium text-dark-500">.id</span>
+                            Bangunanmu<span className="font-semibold text-black">.id</span>
                         </span>
-                        <span className="text-[8px] font-bold text-[#396680] tracking-widest uppercase mt-0.5">
+                        <span className="text-[8px] font-bold text-black tracking-widest uppercase mt-0.5">
                             Konstruksi & Desain & Bangun
                         </span>
                     </div>
-                    <button onClick={() => setSidebarOpen(false)} className="lg:hidden ml-auto text-dark-400">
+                    <button onClick={() => setSidebarOpen(false)} className="lg:hidden ml-auto text-black/60 hover:text-black">
                         <X size={20} />
                     </button>
                 </div>
@@ -50,11 +50,11 @@ const AdminLayout = () => {
                                 to={link.to}
                                 onClick={() => setSidebarOpen(false)}
                                 className={`flex items-center gap-4 px-6 py-3.5 rounded-lg font-bold text-[15px] transition-all relative ${isActive
-                                    ? 'text-[#396680] bg-white shadow-sm'
-                                    : 'text-dark-500 hover:text-dark-900 hover:bg-dark-100/50'
+                                    ? 'text-[#396680] bg-white shadow-sm border border-[#E2E8EC]'
+                                    : 'text-black/80 hover:text-[#396680] hover:bg-dark-100/50'
                                     }`}
                             >
-                                <div className={`text-lg ${isActive ? 'text-[#396680]' : 'text-dark-400'}`}>
+                                <div className={`text-lg ${isActive ? 'text-[#396680]' : 'text-black/60 group-hover:text-[#396680]'}`}>
                                     {link.icon}
                                 </div>
                                 <span>{link.label}</span>
@@ -70,9 +70,9 @@ const AdminLayout = () => {
                         </div>
                         <div className="flex-1 overflow-hidden">
                             <p className="text-xs font-extrabold text-dark-900 truncate">Admin Bangunanmu</p>
-                            <p className="text-[10px] text-dark-500 font-medium">Super Admin</p>
+                            <p className="text-[10px] text-black font-semibold">Super Admin</p>
                         </div>
-                        <button onClick={handleLogout} className="p-2 text-dark-400 hover:text-red-500 transition-colors" title="Logout">
+                        <button onClick={handleLogout} className="p-2 text-black/60 hover:text-red-500 transition-colors" title="Logout">
                             <LogOut size={18} />
                         </button>
                     </div>
@@ -89,7 +89,7 @@ const AdminLayout = () => {
             <div className="flex-1 lg:ml-[260px] flex flex-col min-h-screen relative z-10 w-full overflow-x-hidden">
                 <header className="px-4 sm:px-8 pt-8 pb-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div className="flex items-center gap-4 w-full md:w-auto">
-                        <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 bg-white rounded-lg shadow-sm text-dark-500">
+                        <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 bg-white rounded-lg shadow-sm text-black">
                             <Menu size={20} />
                         </button>
                     </div>

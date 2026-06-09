@@ -44,7 +44,7 @@ const PublicLayout = () => {
     ]
 
     const activeLinkClass = ({ isActive }) =>
-        `relative px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 ${isActive ? 'bg-dark-100 text-dark-900 shadow-sm' : 'text-dark-500 hover:text-dark-900 hover:bg-dark-50'
+        `relative px-5 py-2 rounded-full font-medium text-sm transition-all duration-300 ${isActive ? 'bg-dark-100 text-dark-900 shadow-sm' : 'text-dark-900 hover:text-dark-900 hover:bg-dark-50'
         }`
 
     return (
@@ -69,7 +69,7 @@ const PublicLayout = () => {
                                             onMouseEnter={() => setLayananDropdown(true)}
                                             onMouseLeave={() => setLayananDropdown(false)}
                                         >
-                                            <button className={`flex items-center gap-1 px-5 py-2 text-sm font-medium transition-all duration-300 rounded-full ${location.pathname.startsWith('/layanan') ? 'bg-dark-100 text-dark-900 shadow-sm' : 'text-dark-500 hover:text-dark-900 hover:bg-dark-50'}`}>
+                                            <button className={`flex items-center gap-1 px-5 py-2 text-sm font-medium transition-all duration-300 rounded-full ${location.pathname.startsWith('/layanan') ? 'bg-dark-100 text-dark-900 shadow-sm' : 'text-dark-900 hover:text-dark-900 hover:bg-dark-50'}`}>
                                                 {link.label}
                                                 <ChevronDown size={14} className={`ml-1 transition-transform duration-300 ${layananDropdown ? 'rotate-180' : ''}`} />
                                             </button>
@@ -122,7 +122,7 @@ const PublicLayout = () => {
                                     <div key={i} className="bg-dark-50 rounded-2xl p-2">
                                         <button
                                             onClick={() => setLayananDropdown(!layananDropdown)}
-                                            className="w-full flex items-center justify-between px-4 py-3 font-medium text-dark-700 rounded-xl"
+                                            className="w-full flex items-center justify-between px-4 py-3 font-medium text-dark-900 rounded-xl"
                                         >
                                             {link.label}
                                             <div className={`p-1 rounded-full bg-white shadow-sm transition-transform duration-300 ${layananDropdown ? 'rotate-180' : ''}`}>
@@ -136,7 +136,7 @@ const PublicLayout = () => {
                                                         key={j}
                                                         to={child.to}
                                                         onClick={() => setMobileMenuOpen(false)}
-                                                        className="block px-4 py-3 text-sm font-medium text-dark-500 hover:text-dark-900 hover:bg-white rounded-xl transition-all"
+                                                        className="block px-4 py-3 text-sm font-medium text-dark-900 hover:text-dark-900 hover:bg-white rounded-xl transition-all"
                                                     >
                                                         {child.label}
                                                     </Link>
@@ -151,7 +151,7 @@ const PublicLayout = () => {
                                         end={link.to === '/'}
                                         onClick={() => setMobileMenuOpen(false)}
                                         className={({ isActive }) =>
-                                            `block px-6 py-3.5 font-medium rounded-2xl transition-all ${isActive ? 'bg-dark-100 text-dark-900' : 'text-dark-700 hover:bg-dark-50'}`
+                                            `block px-6 py-3.5 font-medium rounded-2xl transition-all ${isActive ? 'bg-dark-100 text-dark-900' : 'text-dark-900 hover:bg-dark-50'}`
                                         }
                                     >
                                         {link.label}

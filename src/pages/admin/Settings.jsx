@@ -93,7 +93,7 @@ const Settings = () => {
                     {}
                     <div className="flex flex-col mb-8 text-center items-center">
                         <h1 className="text-2xl md:text-3xl font-bold text-dark-900 mb-2">Ganti Kata Sandi</h1>
-                        <p className="text-dark-500 font-medium text-sm">Pastikan akun Anda tetap aman dengan menggunakan kata sandi yang kuat.</p>
+                        <p className="text-black font-semibold text-sm">Pastikan akun Anda tetap aman dengan menggunakan kata sandi yang kuat.</p>
                     </div>
 
                     {error && (
@@ -124,7 +124,7 @@ const Settings = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Masukkan kata sandi saat ini"
-                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border-2 border-[#396680]/40 focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
+                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-black focus:outline-none focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
                                 />
                                 <button
                                     type="button"
@@ -152,7 +152,7 @@ const Settings = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Masukkan kata sandi baru"
-                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border-2 border-[#396680]/40 focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
+                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-black focus:outline-none focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
                                 />
                                 <button
                                     type="button"
@@ -162,7 +162,7 @@ const Settings = () => {
                                     {showPassword.new ? <Eye size={18} /> : <EyeOff size={18} />}
                                 </button>
                             </div>
-                            <p className="text-[10px] font-bold text-dark-400 mt-2 tracking-wider uppercase ml-2">
+                            <p className="text-[10px] font-bold text-black/80 mt-2 tracking-wider uppercase ml-2">
                                 MINIMAL 8 KARAKTER, KOMBINASI HURUF DAN ANGKA.
                             </p>
                         </div>
@@ -181,7 +181,7 @@ const Settings = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Ulangi kata sandi baru"
-                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border-2 border-[#396680]/40 focus:outline-none focus:ring-2 focus:ring-[#396680] focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
+                                    className="w-full pl-11 pr-12 py-3.5 rounded-full border border-black focus:outline-none focus:border-[#396680] transition-all text-dark-900 placeholder:text-dark-300"
                                 />
                                 <button
                                     type="button"
@@ -198,7 +198,7 @@ const Settings = () => {
                             <button
                                 type="button"
                                 onClick={() => setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' })}
-                                className="px-6 py-3 text-sm font-bold text-dark-500 hover:text-dark-900 transition-colors"
+                                className="px-6 py-3 text-sm font-bold text-black/70 hover:text-black transition-colors"
                             >
                                 Batal
                             </button>

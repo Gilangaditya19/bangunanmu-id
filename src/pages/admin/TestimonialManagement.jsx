@@ -103,12 +103,12 @@ const TestimonialManagement = () => {
             <div className="flex flex-col lg:flex-row lg:items-start justify-between mb-8 gap-6">
                 <div className="flex-1">
                     <h1 className="text-3xl sm:text-4xl font-extrabold text-[#1a202c] tracking-tight mb-2">Manajemen Testimoni</h1>
-                    <p className="text-dark-500 font-medium text-sm sm:text-base">Kelola ulasan dan umpan balik dari klien Anda untuk membangun kepercayaan.</p>
+                    <p className="text-black font-semibold text-sm sm:text-base">Kelola ulasan dan umpan balik dari klien Anda untuk membangun kepercayaan.</p>
                 </div>
                 
                 <div className="bg-white rounded-full sm:rounded-[40px] px-8 py-2 shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex items-center gap-6 min-w-max border border-dark-100/50">
                     <div className="pl-6 py-4 pr-12">
-                        <p className="text-[9px] sm:text-[10px] font-extrabold text-dark-300 tracking-widest uppercase mb-1">Total Testimoni</p>
+                        <p className="text-[9px] sm:text-[10px] font-extrabold text-black tracking-widest uppercase mb-1">Total Testimoni</p>
                         <p className="text-3xl sm:text-4xl font-extrabold text-dark-900 leading-none">{paginationMeta.total || (testimonials || []).length}</p>
                     </div>
                 </div>
@@ -116,17 +116,17 @@ const TestimonialManagement = () => {
 
             <div className="bg-white rounded-[2rem] p-6 shadow-md border border-dark-100/30 hover:shadow-lg transition-shadow flex flex-col sm:flex-row items-end gap-4 lg:gap-6 w-full mb-8">
                 <div className="flex-1 w-full relative">
-                    <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Status</label>
+                    <label className="block text-[10px] font-bold text-black tracking-widest uppercase mb-2">Status</label>
                     <select 
                         value={filterStatus}
                         onChange={(e) => setFilterStatus(e.target.value)}
-                        className="w-full px-5 py-3 rounded-xl border-2 border-[#396680]/40 bg-[#F9F9FB] text-dark-900 font-bold text-sm focus:outline-none focus:border-[#396680] appearance-none cursor-pointer"
+                        className="w-full px-5 py-3 rounded-xl border border-black bg-[#F9F9FB] bg-none text-dark-900 font-bold text-sm focus:outline-none focus:border-[#396680] appearance-none cursor-pointer"
                     >
                         <option value="Semua Status">Semua Status</option>
                         <option value="Diterbitkan">Diterbitkan</option>
                         <option value="Disembunyikan">Disembunyikan</option>
                     </select>
-                    <div className="absolute right-4 bottom-3.5 text-dark-400 pointer-events-none">
+                    <div className="absolute right-4 bottom-3.5 text-black pointer-events-none">
                         <ChevronDown size={14} />
                     </div>
                 </div>
@@ -145,10 +145,10 @@ const TestimonialManagement = () => {
                     <table className="w-full text-left min-w-[900px]">
                         <thead>
                             <tr className="border-b border-dark-100/60">
-                                <th className="px-8 py-5 text-[10px] font-extrabold text-dark-300 uppercase tracking-widest bg-white">Info Klien</th>
-                                <th className="px-6 py-5 text-[10px] font-extrabold text-dark-300 uppercase tracking-widest bg-white">Rating & Ulasan</th>
-                                <th className="px-6 py-5 text-[10px] font-extrabold text-dark-300 uppercase tracking-widest bg-white text-center">Status</th>
-                                <th className="px-8 py-5 text-[10px] font-extrabold text-dark-300 uppercase tracking-widest bg-white text-right">Aksi</th>
+                                <th className="px-8 py-5 text-[10px] font-extrabold text-black uppercase tracking-widest bg-white">Info Klien</th>
+                                <th className="px-6 py-5 text-[10px] font-extrabold text-black uppercase tracking-widest bg-white">Rating & Ulasan</th>
+                                <th className="px-6 py-5 text-[10px] font-extrabold text-black uppercase tracking-widest bg-white text-center">Status</th>
+                                <th className="px-8 py-5 text-[10px] font-extrabold text-black uppercase tracking-widest bg-white text-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-dark-50/60">
@@ -194,7 +194,7 @@ const TestimonialManagement = () => {
                                                 <div className="flex gap-1 mb-3">
                                                     {renderStars(testi.rating || 5)}
                                                 </div>
-                                                <p className="text-dark-500 font-medium italic text-sm leading-relaxed pr-4">
+                                                <p className="text-black font-semibold italic text-sm leading-relaxed pr-4">
                                                     "{testi.testimonialText || testi.review || 'Tidak ada ulasan'}"
                                                 </p>
                                             </td>
@@ -209,7 +209,7 @@ const TestimonialManagement = () => {
                                                 <div className="flex items-center justify-end gap-3 opacity-80 group-hover:opacity-100 transition-opacity">
                                                     <button 
                                                         onClick={() => handleToggleApproval(testi._id || testi.id, testi.isApproved)} 
-                                                        className="w-8 h-8 rounded-full bg-[#F4F6F8] border border-[#EAECEE] flex items-center justify-center text-dark-400 hover:text-[#396680] hover:bg-[#EAECEE] transition-all" 
+                                                        className="w-8 h-8 rounded-full bg-[#F4F6F8] border border-[#EAECEE] flex items-center justify-center text-black/60 hover:text-[#396680] hover:bg-[#EAECEE] transition-all" 
                                                         title="Sembunyikan/Tampilkan"
                                                     >
                                                         {isHidden ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -232,7 +232,7 @@ const TestimonialManagement = () => {
                 </div>
 
                 <div className="px-8 py-5 border-t border-dark-100/60 flex items-center justify-between bg-white text-sm mt-auto">
-                    <span className="text-[11px] font-medium text-dark-400 tracking-wide">
+                    <span className="text-[11px] font-semibold text-black/70 tracking-wide">
                         Menampilkan <strong className="text-dark-900 font-extrabold">{displayData.length > 0 ? `${(paginationMeta.page - 1) * paginationMeta.limit + 1}-${Math.min(paginationMeta.page * paginationMeta.limit, paginationMeta.total)}` : '0'}</strong> dari <strong className="text-dark-900 font-extrabold">{paginationMeta.total}</strong> testimoni
                     </span>
                     {paginationMeta.pages > 1 && (
@@ -240,7 +240,7 @@ const TestimonialManagement = () => {
                             <button
                                 onClick={() => { if (paginationMeta.hasPrevPage) setCurrentPage(currentPage - 1) }}
                                 disabled={!paginationMeta.hasPrevPage}
-                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasPrevPage ? 'text-dark-400 hover:bg-dark-50 hover:text-dark-900 cursor-pointer' : 'text-dark-200 cursor-not-allowed'}`}
+                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasPrevPage ? 'text-black hover:bg-dark-50 hover:text-black cursor-pointer' : 'text-black/20 cursor-not-allowed'}`}
                             >
                                 <ChevronLeft size={14} />
                             </button>
@@ -253,7 +253,7 @@ const TestimonialManagement = () => {
                                 }, [])
                                 .map((item, idx) =>
                                     item === '...' ? (
-                                        <span key={`dots-${idx}`} className="text-dark-300 px-1">...</span>
+                                        <span key={`dots-${idx}`} className="text-black/30 px-1">...</span>
                                     ) : (
                                         <button
                                             key={item}
@@ -261,7 +261,7 @@ const TestimonialManagement = () => {
                                             className={`w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-colors ${
                                                 item === currentPage
                                                     ? 'bg-[#396680] text-white shadow-md'
-                                                    : 'bg-transparent text-dark-600 hover:bg-dark-50'
+                                                    : 'bg-transparent text-black hover:bg-dark-50'
                                             }`}
                                         >
                                             {item}
@@ -272,7 +272,7 @@ const TestimonialManagement = () => {
                             <button
                                 onClick={() => { if (paginationMeta.hasNextPage) setCurrentPage(currentPage + 1) }}
                                 disabled={!paginationMeta.hasNextPage}
-                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasNextPage ? 'text-dark-400 hover:bg-dark-50 hover:text-dark-900 cursor-pointer' : 'text-dark-200 cursor-not-allowed'}`}
+                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasNextPage ? 'text-black hover:bg-dark-50 hover:text-black cursor-pointer' : 'text-black/20 cursor-not-allowed'}`}
                             >
                                 <ChevronRight size={14} />
                             </button>

@@ -29,7 +29,7 @@ const ProjectManagement = () => {
     const [lightboxImage, setLightboxImage] = useState(null)
     const [activeProject, setActiveProject] = useState(null)
     const [showAllDocs, setShowAllDocs] = useState(false)
-    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', message: '', onConfirm: () => {}, confirmText: 'Hapus' })
+    const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', message: '', onConfirm: () => { }, confirmText: 'Hapus' })
     const [milestones, setMilestones] = useState([])
     const [documents, setDocuments] = useState([])
     const [msLoading, setMsLoading] = useState(false)
@@ -73,8 +73,8 @@ const ProjectManagement = () => {
             else if (appliedFilters.category === 'Design and Build') beProjectType = 'design_and_build';
             else if (appliedFilters.category === 'Design') beProjectType = 'design';
 
-            const response = await getAllProjects({ 
-                page, 
+            const response = await getAllProjects({
+                page,
                 limit: 10,
                 status: beStatus,
                 projectType: beProjectType
@@ -146,7 +146,7 @@ const ProjectManagement = () => {
                 const response = await createProject(formData)
                 const newProjectCode = response?.data?.projectCode
                 toast.success('Proyek berhasil dibuat')
-                
+
                 if (newProjectCode && formData.phone) {
                     setConfirmDialog({
                         isOpen: true,
@@ -220,25 +220,25 @@ const ProjectManagement = () => {
             if (editingMs) {
                 await updateMilestone(activeProject.id, editingMs.id, {
                     title: newMs.title,
-                    name: newMs.title,
                     status: newMs.status,
-                    description: newMs.description,
-                    targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : null,
-                    progress: newMs.status === 'completed' ? 100 : 0
+                    targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : undefined,
+                    description: newMs.description
                 })
-                setEditingMs(null)
+                toast.success('Tahapan berhasil diperbarui')
             } else {
                 await addMilestone(activeProject.id, {
                     title: newMs.title,
-                    name: newMs.title,
                     status: newMs.status,
-                    description: newMs.description,
-                    targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : null,
-                    progress: newMs.status === 'completed' ? 100 : 0
+                    targetDate: newMs.targetDate ? new Date(newMs.targetDate).toISOString() : undefined,
+                    description: newMs.description
                 })
+                toast.success('Tahapan berhasil ditambahkan')
             }
             setNewMs({ title: '', status: 'pending', targetDate: '', description: '' })
-            toast.success(editingMs ? 'Tahapan berhasil diperbarui' : 'Tahapan berhasil ditambahkan')
+            setEditingMs(null)
+            const response = await getMilestones(activeProject.id)
+            setMilestones(response.data)
+            fetchProjects()
         } catch (error) {
             const errData = error.response?.data
             let errMsg = errData?.errors?.[0] || errData?.message || 'Gagal menyimpan tahapan.'
@@ -590,7 +590,7 @@ const ProjectManagement = () => {
             <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
                 <div>
                     <h1 className="text-4xl font-extrabold text-dark-900 tracking-tight mb-2">Manajemen Proyek</h1>
-                    <p className="text-dark-500 font-medium">Pantau dan kelola semua proyek konstruksi anda.</p>
+                    <p className="text-black font-semibold">Pantau dan kelola semua proyek konstruksi anda.</p>
                 </div>
                 <div className="mt-2 md:mt-0 flex-shrink-0">
                     <button onClick={openCreate} className="px-6 py-3.5 bg-[#396680] hover:bg-[#2d5166] text-white font-bold rounded-full shadow-md transition-all flex items-center gap-2">
@@ -603,34 +603,34 @@ const ProjectManagement = () => {
 
                 <div className="bg-white rounded-[2rem] p-8 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex items-center justify-between w-full lg:w-[280px] relative overflow-hidden flex-shrink-0">
                     <div className="relative z-10">
-                        <p className="text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-1">Total Proyek</p>
+                        <p className="text-[10px] font-bold text-black tracking-widest uppercase mb-1">Total Proyek</p>
                         <p className="text-4xl font-extrabold text-dark-900">{paginationMeta.total || projects.length}</p>
                     </div>
                 </div>
 
                 <div className="bg-white rounded-[2rem] p-6 lg:p-8 shadow-md border border-dark-100/50 hover:shadow-lg transition-shadow flex-1 flex flex-col sm:flex-row items-end gap-4 lg:gap-6">
                     <div className="flex-1 w-full relative">
-                        <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Kategori</label>
+                        <label className="block text-[10px] font-bold text-black tracking-widest uppercase mb-2">Kategori</label>
                         <select
                             value={filterCategory}
                             onChange={(e) => setFilterCategory(e.target.value)}
-                            className="w-full px-5 py-3 rounded-xl border-2 border-[#396680]/40 bg-transparent text-dark-900 font-bold text-sm focus:outline-none focus:border-[#396680] appearance-none cursor-pointer"
+                            className="w-full px-5 py-3 rounded-xl border border-black bg-transparent bg-none text-dark-900 font-bold text-sm focus:outline-none focus:border-[#396680] appearance-none cursor-pointer"
                         >
                             <option value="Semua Kategori">Semua Kategori</option>
                             <option value="Konstruksi">Konstruksi</option>
                             <option value="Design and Build">Desain & Bangun</option>
                             <option value="Design">Desain Arsitektur</option>
                         </select>
-                        <div className="absolute right-4 bottom-3.5 text-dark-300 pointer-events-none">
+                        <div className="absolute right-4 bottom-3.5 text-black pointer-events-none">
                             <ChevronDown size={14} />
                         </div>
                     </div>
                     <div className="flex-1 w-full relative">
-                        <label className="block text-[10px] font-bold text-dark-400 tracking-widest uppercase mb-2">Status</label>
+                        <label className="block text-[10px] font-bold text-black tracking-widest uppercase mb-2">Status</label>
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
-                            className="w-full px-5 py-3 rounded-xl border-2 border-[#396680]/40 bg-transparent text-dark-900 font-bold text-sm focus:outline-none focus:border-[#396680] appearance-none cursor-pointer"
+                            className="w-full px-5 py-3 rounded-xl border border-black bg-transparent bg-none text-dark-900 font-bold text-sm focus:outline-none focus:border-[#396680] appearance-none cursor-pointer"
                         >
                             <option value="Semua Status">Semua Status</option>
                             <option value="MENUNGGU">MENUNGGU</option>
@@ -638,7 +638,7 @@ const ProjectManagement = () => {
                             <option value="SELESAI">SELESAI</option>
                             <option value="DIBATALKAN">DIBATALKAN</option>
                         </select>
-                        <div className="absolute right-4 bottom-3.5 text-dark-300 pointer-events-none">
+                        <div className="absolute right-4 bottom-3.5 text-black pointer-events-none">
                             <ChevronDown size={14} />
                         </div>
                     </div>
@@ -658,11 +658,11 @@ const ProjectManagement = () => {
                     <table className="w-full text-left min-w-[900px]">
                         <thead>
                             <tr className="border-b border-dark-100/60">
-                                <th className="px-8 py-5 text-[10px] font-extrabold text-dark-300 uppercase tracking-widest bg-white">Proyek</th>
-                                <th className="px-6 py-5 text-[10px] font-extrabold text-dark-300 uppercase tracking-widest bg-white">Klien & Alamat</th>
-                                <th className="px-6 py-5 text-[10px] font-extrabold text-dark-300 uppercase tracking-widest bg-white">Kategori</th>
-                                <th className="px-6 py-5 text-[10px] font-extrabold text-dark-300 uppercase tracking-widest bg-white">Status</th>
-                                <th className="px-8 py-5 text-[10px] font-extrabold text-dark-300 uppercase tracking-widest bg-white text-right">Aksi</th>
+                                <th className="px-8 py-5 text-[10px] font-extrabold text-black uppercase tracking-widest bg-white">Proyek</th>
+                                <th className="px-6 py-5 text-[10px] font-extrabold text-black uppercase tracking-widest bg-white">Klien & Alamat</th>
+                                <th className="px-6 py-5 text-[10px] font-extrabold text-black uppercase tracking-widest bg-white">Kategori</th>
+                                <th className="px-6 py-5 text-[10px] font-extrabold text-black uppercase tracking-widest bg-white">Status</th>
+                                <th className="px-8 py-5 text-[10px] font-extrabold text-black uppercase tracking-widest bg-white text-right">Aksi</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-dark-50/60">
@@ -705,22 +705,21 @@ const ProjectManagement = () => {
                                                     </div>
                                                     <div>
                                                         <p className="font-bold text-dark-900 text-[15px] mb-0.5">{project.title}</p>
-                                                        <p className="text-[11px] text-dark-400 font-mono tracking-wider">ID: {project.id || `PRJ-2024-${Math.floor(Math.random() * 900) + 100}`}</p>
+                                                        <p className="text-[11px] text-black font-semibold font-mono tracking-wider">ID: {project.id || `PRJ-2024-${Math.floor(Math.random() * 900) + 100}`}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-6 font-bold text-dark-600 text-sm">
                                                 <div className="max-w-[150px] leading-tight flex flex-col gap-1">
                                                     <span className="text-dark-900">{project.client}</span>
-                                                    <span className="text-[11px] text-dark-400 font-medium line-clamp-1">{project.address || 'Alamat belum diatur'}</span>
+                                                    <span className="text-[11px] text-black/70 font-semibold line-clamp-1">{project.address || 'Alamat belum diatur'}</span>
                                                 </div>
                                             </td>
                                             <td className="px-6 py-6">
-                                                <span className={`inline-flex px-3 py-1.5 rounded-full text-[9px] font-extrabold uppercase tracking-widest ${
-                                                    isKonstruksi ? 'bg-amber-50 text-amber-700' :
+                                                <span className={`inline-flex px-3 py-1.5 rounded-full text-[9px] font-extrabold uppercase tracking-widest ${isKonstruksi ? 'bg-amber-50 text-amber-700' :
                                                     (project.category === 'Design and Build' || project.category === 'design_and_build') ? 'bg-blue-50 text-blue-700' :
-                                                    'bg-purple-50 text-purple-700'
-                                                }`}>
+                                                        'bg-purple-50 text-purple-700'
+                                                    }`}>
                                                     {project.category === 'desain' ? 'Desain Arsitektur' : project.category === 'Design' ? 'Desain Arsitektur' : project.category === 'Design and Build' ? 'Desain & Bangun' : (project.category || (isKonstruksi ? 'Konstruksi' : 'Desain & Bangun'))}
                                                 </span>
                                             </td>
@@ -732,10 +731,10 @@ const ProjectManagement = () => {
                                             </td>
                                             <td className="px-8 py-6">
                                                 <div className="flex items-center justify-end gap-4 opacity-70 group-hover:opacity-100 transition-opacity">
-                                                    <button onClick={() => openEdit(project)} className="text-dark-300 hover:text-dark-900 transition-colors" title="Edit">
+                                                    <button onClick={() => openEdit(project)} className="text-black/50 hover:text-black transition-colors" title="Edit">
                                                         <Pencil size={18} />
                                                     </button>
-                                                    <button onClick={() => handleDelete(project.id)} className="text-dark-300 hover:text-red-500 transition-colors" title="Hapus">
+                                                    <button onClick={() => handleDelete(project.id)} className="text-black/50 hover:text-red-500 transition-colors" title="Hapus">
                                                         <Trash2 size={18} />
                                                     </button>
                                                 </div>
@@ -749,7 +748,7 @@ const ProjectManagement = () => {
                 </div>
 
                 <div className="px-8 py-5 border-t border-dark-100/60 flex items-center justify-between bg-white text-sm">
-                    <span className="text-[10px] font-bold text-dark-300 uppercase tracking-widest">
+                    <span className="text-[10px] font-bold text-black uppercase tracking-widest">
                         Menampilkan {filteredProjects.length > 0 ? `${(paginationMeta.page - 1) * paginationMeta.limit + 1}-${Math.min(paginationMeta.page * paginationMeta.limit, paginationMeta.total)}` : '0'} Dari {paginationMeta.total} Proyek
                     </span>
                     {paginationMeta.pages > 1 && (
@@ -757,7 +756,7 @@ const ProjectManagement = () => {
                             <button
                                 onClick={() => { if (paginationMeta.hasPrevPage) setCurrentPage(currentPage - 1) }}
                                 disabled={!paginationMeta.hasPrevPage}
-                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasPrevPage ? 'text-dark-400 hover:bg-dark-50 hover:text-dark-900 cursor-pointer' : 'text-dark-200 cursor-not-allowed'}`}
+                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasPrevPage ? 'text-black hover:bg-dark-50 hover:text-black cursor-pointer' : 'text-black/20 cursor-not-allowed'}`}
                             >
                                 <ChevronLeft size={14} />
                             </button>
@@ -770,14 +769,14 @@ const ProjectManagement = () => {
                                 }, [])
                                 .map((item, idx) =>
                                     item === '...' ? (
-                                        <span key={`dots-${idx}`} className="text-dark-300 px-1">...</span>
+                                        <span key={`dots-${idx}`} className="text-black/30 px-1">...</span>
                                     ) : (
                                         <button
                                             key={item}
                                             onClick={() => setCurrentPage(item)}
                                             className={`w-8 h-8 rounded-full font-bold text-xs flex items-center justify-center transition-colors ${item === currentPage
-                                                    ? 'bg-[#396680] text-white shadow-sm'
-                                                    : 'bg-transparent text-dark-500 hover:bg-dark-50 hover:text-dark-900'
+                                                ? 'bg-[#396680] text-white shadow-sm'
+                                                : 'bg-transparent text-black hover:bg-dark-50 hover:text-black'
                                                 }`}
                                         >
                                             {item}
@@ -788,7 +787,7 @@ const ProjectManagement = () => {
                             <button
                                 onClick={() => { if (paginationMeta.hasNextPage) setCurrentPage(currentPage + 1) }}
                                 disabled={!paginationMeta.hasNextPage}
-                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasNextPage ? 'text-dark-400 hover:bg-dark-50 hover:text-dark-900 cursor-pointer' : 'text-dark-200 cursor-not-allowed'}`}
+                                className={`w-8 h-8 rounded-full border border-dark-100 flex items-center justify-center transition-colors ${paginationMeta.hasNextPage ? 'text-black hover:bg-dark-50 hover:text-black cursor-pointer' : 'text-black/20 cursor-not-allowed'}`}
                             >
                                 <ChevronRight size={14} />
                             </button>
@@ -804,46 +803,46 @@ const ProjectManagement = () => {
                             <h2 className="text-xl font-bold text-dark-900">
                                 {editingProject ? 'Edit Proyek' : 'Tambah Proyek Baru'}
                             </h2>
-                            <button onClick={() => { setShowModal(false); resetForm() }} className="text-dark-400 hover:text-dark-600">
+                            <button onClick={() => { setShowModal(false); resetForm() }} className="text-black/60 hover:text-black">
                                 <X size={24} />
                             </button>
                         </div>
                         <form onSubmit={handleSubmit} className="p-6 space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-dark-700 mb-1">Judul Proyek</label>
+                                <label className="block text-sm font-bold text-black mb-1">Judul Proyek</label>
                                 <input type="text" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                    minLength={5} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder="Minimal 5 karakter" required />
+                                    minLength={5} className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]" placeholder="Minimal 5 karakter" required />
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-dark-700 mb-1">Nama Klien</label>
+                                    <label className="block text-sm font-bold text-black mb-1">Nama Klien</label>
                                     <input type="text" value={formData.client} onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder='Minimal 3 Karakter' required />
+                                        className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]" placeholder='Minimal 3 Karakter' required />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-dark-700 mb-1">No. Whatsapp/HP Klien</label>
+                                    <label className="block text-sm font-bold text-black mb-1">No. Whatsapp/HP Klien</label>
                                     <input type="tel" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                         pattern="[0-9]{10,15}" title="Nomor telepon harus 10-15 digit angka saja"
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder="087712314562 (10-15 digit angka)" required />
+                                        className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]" placeholder="087712314562 (10-15 digit angka)" required />
                                 </div>
                             </div>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-dark-700 mb-1">Email Klien</label>
+                                    <label className="block text-sm font-bold text-black mb-1">Email Klien</label>
                                     <input type="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder="email@contoh.com" required />
+                                        className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]" placeholder="email@contoh.com" required />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-dark-700 mb-1">Alamat Proyek</label>
+                                    <label className="block text-sm font-bold text-black mb-1">Alamat Proyek</label>
                                     <input type="text" value={formData.address} onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" placeholder="Minimal 10 Karakter" />
+                                        className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]" placeholder="Minimal 10 Karakter" />
                                 </div>
                             </div>
                             <div className={`grid ${editingProject ? 'grid-cols-1 sm:grid-cols-2' : 'grid-cols-1'} gap-4`}>
                                 <div>
-                                    <label className="block text-sm font-medium text-dark-700 mb-1">Kategori</label>
+                                    <label className="block text-sm font-bold text-black mb-1">Kategori</label>
                                     <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]">
+                                        className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]">
                                         <option value="Konstruksi">Konstruksi</option>
                                         <option value="Design and Build">Desain & Bangun</option>
                                         <option value="Design">Desain Arsitektur</option>
@@ -851,9 +850,9 @@ const ProjectManagement = () => {
                                 </div>
                                 {editingProject && (
                                     <div>
-                                        <label className="block text-sm font-medium text-dark-700 mb-1">Status Proyek</label>
+                                        <label className="block text-sm font-bold text-black mb-1">Status Proyek</label>
                                         <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                            className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]">
+                                            className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]">
                                             <option value="pending">MENUNGGU</option>
                                             <option value="in_progress">BERJALAN</option>
                                             <option value="completed">SELESAI</option>
@@ -864,25 +863,25 @@ const ProjectManagement = () => {
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-dark-700 mb-1">Tanggal Mulai</label>
+                                    <label className="block text-sm font-bold text-black mb-1">Tanggal Mulai</label>
                                     <input type="date" value={formData.startDate} onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" required />
+                                        className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]" required />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-dark-700 mb-1">Estimasi Selesai</label>
+                                    <label className="block text-sm font-bold text-black mb-1">Estimasi Selesai</label>
                                     <input type="date" value={formData.estimatedEndDate} onChange={(e) => setFormData({ ...formData, estimatedEndDate: e.target.value })}
                                         min={formData.startDate}
-                                        className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680]" required />
+                                        className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]" required />
                                 </div>
                             </div>
                             {editingProject && (
                                 <div className="grid grid-cols-1 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-dark-700 mb-1">Total Progres ({editingProject.progress || 0}%)</label>
+                                        <label className="block text-sm font-bold text-black mb-1">Total Progres ({editingProject.progress || 0}%)</label>
                                         <div className="w-full bg-dark-100 rounded-lg h-3 overflow-hidden">
                                             <div className="h-full bg-[#396680] rounded-lg transition-all duration-500" style={{ width: `${editingProject.progress || 0}%` }} />
                                         </div>
-                                        <p className="text-[10px] text-dark-400 mt-1.5 italic">Progres dihitung otomatis dari rata-rata seluruh tahapan.</p>
+                                        <p className="text-[10px] text-black font-semibold mt-1.5 italic">Progres dihitung otomatis dari rata-rata seluruh tahapan.</p>
                                     </div>
                                 </div>
                             )}
@@ -891,14 +890,14 @@ const ProjectManagement = () => {
                                 <div className="pt-4 border-t border-dark-100">
                                     <h4 className="text-sm font-bold text-dark-900 mb-3 flex items-center gap-2">Data Lanjutan (Terhubung ke Cek Progress di Halaman User)</h4>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                        <button type="button" onClick={() => openTimeline(editingProject)} className="w-full px-4 py-3 rounded-xl border-2 border-[#396680]/40 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#396680] hover:text-[#396680] hover:bg-white transition-all text-center">
+                                        <button type="button" onClick={() => openTimeline(editingProject)} className="w-full px-4 py-3 rounded-xl border border-black bg-dark-50 text-black text-sm font-bold hover:border-black hover:text-[#396680] hover:bg-white transition-all text-center">
                                             + Manajemen Timeline Tahapan
                                         </button>
-                                        <button type="button" onClick={() => openGallery(editingProject)} className="w-full px-4 py-3 rounded-xl border-2 border-[#396680]/40 bg-dark-50 text-dark-500 text-sm font-bold hover:border-[#396680] hover:text-[#396680] hover:bg-white transition-all text-center">
+                                        <button type="button" onClick={() => openGallery(editingProject)} className="w-full px-4 py-3 rounded-xl border border-black bg-dark-50 text-black text-sm font-bold hover:border-black hover:text-[#396680] hover:bg-white transition-all text-center">
                                             + Unggah Pembaruan Lapangan
                                         </button>
                                     </div>
-                                    <p className="text-[10px] text-dark-400 mt-2 italic"></p>
+                                    <p className="text-[10px] text-black/70 mt-2 italic"></p>
                                 </div>
                             )}
 
@@ -918,9 +917,6 @@ const ProjectManagement = () => {
 
                         <div className="p-6 md:p-8 border-b border-[#2d5166] flex items-center justify-between bg-[#396680] text-white">
                             <div>
-                                <div className="flex items-center gap-3 mb-1">
-                                    <span className="px-2 py-0.5 bg-white text-[#396680] rounded shadow-sm text-[10px] font-bold tracking-widest uppercase">Mockup Data</span>
-                                </div>
                                 <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1">Manajemen Timeline</h2>
                                 <p className="text-white/80 text-sm">Menyusun urutan tahapan & checklist proyek</p>
                             </div>
@@ -932,39 +928,39 @@ const ProjectManagement = () => {
                         <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#FAFAFA]">
                             <div className="space-y-4 mb-8">
                                 {msLoading ? (
-                                    <p className="text-center py-8 text-dark-400">Memuat tahapan...</p>
+                                    <p className="text-center py-8 text-black font-semibold">Memuat tahapan...</p>
                                 ) : milestones.length === 0 ? (
-                                    <p className="text-center py-8 text-dark-400 italic">Belum ada tahapan. Tambahkan di bawah.</p>
+                                    <p className="text-center py-8 text-black/80 font-bold italic">Belum ada tahapan. Tambahkan di bawah.</p>
                                 ) : (
                                     milestones.map((stage) => (
                                         <div key={stage.id} className="bg-white p-5 rounded-2xl border-2 border-[#396680]/40 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
                                             <div className="mt-1">
-                                                {(stage.status === 'completed' || stage.status === 'COMPLETED') ? (
+                                                {(stage.status === 'completed' || stage.status === 'COMPLETED' || stage.status === 'selesai') ? (
                                                     <CheckCircle2 className="text-green-500 text-xl" />
-                                                ) : (stage.status === 'in_progress' || stage.status === 'ON_PROGRESS') ? (
+                                                ) : (stage.status === 'in_progress' || stage.status === 'ON_PROGRESS' || stage.status === 'berjalan') ? (
                                                     <div className="w-5 h-5 rounded-full border-4 border-[#396680] bg-white"></div>
                                                 ) : (
-                                                    <Circle className="text-dark-300 text-xl" />
+                                                    <Circle className="text-black/40 text-xl" />
                                                 )}
                                             </div>
                                             <div className="flex-1">
                                                 <div className="flex items-center justify-between mb-1">
                                                     <div className="flex items-center gap-3">
                                                         <h4 className="font-bold text-dark-900 text-lg">{stage.title}</h4>
-                                                        {(stage.status === 'in_progress' || stage.status === 'ON_PROGRESS') && <span className="text-[10px] px-2 py-0.5 bg-[#396680]/10 text-[#396680] font-bold uppercase rounded-sm">Sedang Berjalan</span>}
-                                                        {(stage.status === 'completed' || stage.status === 'COMPLETED') && <span className="text-[10px] px-2 py-0.5 bg-green-50 text-green-600 font-bold uppercase rounded-sm">Selesai</span>}
-                                                        {(stage.status === 'pending' || stage.status === 'PENDING') && <span className="text-[10px] px-2 py-0.5 bg-amber-50 text-amber-600 font-bold uppercase rounded-sm">Menunggu</span>}
+                                                        {(stage.status === 'in_progress' || stage.status === 'ON_PROGRESS' || stage.status === 'berjalan') && <span className="text-[10px] px-2 py-0.5 bg-[#396680]/10 text-[#396680] font-bold uppercase rounded-sm">Sedang Berjalan</span>}
+                                                        {(stage.status === 'completed' || stage.status === 'COMPLETED' || stage.status === 'selesai') && <span className="text-[10px] px-2 py-0.5 bg-green-50 text-green-600 font-bold uppercase rounded-sm">Selesai</span>}
+                                                        {(stage.status === 'pending' || stage.status === 'PENDING' || stage.status === 'menunggu') && <span className="text-[10px] px-2 py-0.5 bg-amber-50 text-amber-600 font-bold uppercase rounded-sm">Menunggu</span>}
                                                     </div>
-                                                    <div className="flex gap-2 text-dark-300 flex-shrink-0 ml-2">
+                                                    <div className="flex gap-2 text-black/50 flex-shrink-0 ml-2">
                                                         <button onClick={() => openEditMs(stage)} className="hover:text-[#396680] transition-colors"><Pencil size={14} /></button>
                                                         <button onClick={() => handleDeleteMilestone(stage.id)} className="hover:text-red-500 transition-colors"><Trash2 size={14} /></button>
                                                     </div>
                                                 </div>
-                                                <p className="text-dark-400 text-xs font-medium mb-1">{stage.description}</p>
+                                                <p className="text-black/80 text-xs font-semibold mb-1">{stage.description}</p>
                                                 <div className="flex items-center gap-3">
-                                                    <p className="text-[#396680] text-[10px] font-bold uppercase tracking-widest">{stage.status === 'COMPLETED' ? 'SELESAI' : stage.status === 'ON_PROGRESS' ? 'BERJALAN' : stage.status === 'PENDING' ? 'MENUNGGU' : stage.status}</p>
+                                                    <p className="text-[#396680] text-[10px] font-bold uppercase tracking-widest">{(stage.status === 'COMPLETED' || stage.status === 'completed' || stage.status === 'selesai') ? 'SELESAI' : (stage.status === 'ON_PROGRESS' || stage.status === 'in_progress' || stage.status === 'berjalan') ? 'BERJALAN' : (stage.status === 'PENDING' || stage.status === 'pending' || stage.status === 'menunggu') ? 'MENUNGGU' : stage.status}</p>
                                                     {stage.targetDate && (
-                                                        <p className="text-dark-300 text-[10px] font-bold uppercase tracking-widest">
+                                                        <p className="text-black/60 text-[10px] font-bold uppercase tracking-widest">
                                                             Target: {new Date(stage.targetDate).toLocaleDateString('id-ID')}
                                                         </p>
                                                     )}
@@ -975,30 +971,30 @@ const ProjectManagement = () => {
                                 )}
                             </div>
 
-                            <div className="bg-white p-5 md:p-6 rounded-2xl border-2 border-[#396680]/40">
+                            <div className="bg-white p-5 md:p-6 rounded-2xl border border-black">
                                 <h4 className="font-bold text-dark-900 mb-4 flex items-center gap-2">
-                                    {editingMs ? <Pencil size={18} className="text-dark-400" /> : <Plus size={18} className="text-dark-400" />} {editingMs ? 'Edit Tahapan' : 'Tambah Tahap Baru'}
+                                    {editingMs ? <Pencil size={18} className="text-black/60" /> : <Plus size={18} className="text-black/60" />} {editingMs ? 'Edit Tahapan' : 'Tambah Tahap Baru'}
                                 </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                     <div>
-                                        <label className="block text-xs font-bold text-dark-500 mb-1">Judul Tahapan</label>
-                                        <input type="text" value={newMs.title} onChange={(e) => setNewMs({ ...newMs, title: e.target.value })} placeholder="Misal: Finishing Interior" className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium" />
+                                        <label className="block text-xs font-bold text-black mb-1">Judul Tahapan</label>
+                                        <input type="text" value={newMs.title} onChange={(e) => setNewMs({ ...newMs, title: e.target.value })} placeholder="Misal: Finishing Interior" className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680] text-sm font-medium" />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-dark-500 mb-1">Status</label>
-                                        <select value={newMs.status} onChange={(e) => setNewMs({ ...newMs, status: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium">
+                                        <label className="block text-xs font-bold text-black mb-1">Status</label>
+                                        <select value={newMs.status} onChange={(e) => setNewMs({ ...newMs, status: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680] text-sm font-medium">
                                             <option value="pending">MENUNGGU</option>
                                             <option value="in_progress">BERJALAN</option>
                                             <option value="completed">SELESAI</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-dark-500 mb-1">Target Selesai</label>
-                                        <input type="date" value={newMs.targetDate} onChange={(e) => setNewMs({ ...newMs, targetDate: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium" />
+                                        <label className="block text-xs font-bold text-black mb-1">Target Selesai</label>
+                                        <input type="date" value={newMs.targetDate} onChange={(e) => setNewMs({ ...newMs, targetDate: e.target.value })} className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680] text-sm font-medium" />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-bold text-dark-500 mb-1">Keterangan Singkat</label>
-                                        <input type="text" value={newMs.description} onChange={(e) => setNewMs({ ...newMs, description: e.target.value })} placeholder="Opsional..." className="w-full px-4 py-2.5 rounded-lg border-2 border-[#396680]/40 bg-white focus:ring-2 focus:ring-[#396680] focus:border-[#396680] focus:outline-none text-sm font-medium" />
+                                        <label className="block text-xs font-bold text-black mb-1">Keterangan Singkat</label>
+                                        <input type="text" value={newMs.description} onChange={(e) => setNewMs({ ...newMs, description: e.target.value })} placeholder="Opsional..." className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680] text-sm font-medium" />
                                     </div>
                                 </div>
                                 <div className="flex gap-2">
@@ -1006,7 +1002,7 @@ const ProjectManagement = () => {
                                         {editingMs ? 'Simpan Perubahan' : 'Tambah Tahapan'}
                                     </button>
                                     {editingMs && (
-                                        <button type="button" onClick={() => { setEditingMs(null); setNewMs({ title: '', status: 'pending', targetDate: '', description: '' }) }} className="px-4 py-3 bg-dark-100 text-dark-500 text-sm font-bold rounded-xl hover:bg-dark-200 transition-all">Batal</button>
+                                        <button type="button" onClick={() => { setEditingMs(null); setNewMs({ title: '', status: 'pending', targetDate: '', description: '' }) }} className="px-4 py-3 bg-dark-100 text-black text-sm font-bold rounded-xl hover:bg-dark-200 transition-all">Batal</button>
                                     )}
                                 </div>
                             </div>
@@ -1022,9 +1018,6 @@ const ProjectManagement = () => {
 
                         <div className="p-6 md:p-8 border-b border-[#2d5166] flex items-center justify-between bg-[#396680] text-white">
                             <div>
-                                <div className="flex items-center gap-3 mb-1">
-                                    <span className="px-2 py-0.5 bg-white text-[#396680] rounded shadow-sm text-[10px] font-bold tracking-widest uppercase">Mockup Data</span>
-                                </div>
                                 <h2 className="text-xl md:text-2xl font-bold tracking-tight mb-1">Pembaruan Lapangan</h2>
                                 <p className="text-white/80 text-sm">Unggah dan kelola dokumentasi progres proyek</p>
                             </div>
@@ -1035,17 +1028,17 @@ const ProjectManagement = () => {
 
                         <div className="flex-1 overflow-y-auto p-6 md:p-8 bg-[#FAFAFA]">
 
-                            <div className="bg-white p-6 md:p-8 rounded-2xl border-2 border-[#396680]/40 mb-8 flex flex-col items-center justify-center text-center hover:bg-dark-50/30 transition-colors">
+                            <div className="bg-white p-6 md:p-8 rounded-2xl border border-black mb-8 flex flex-col items-center justify-center text-center hover:bg-dark-50/30 transition-colors">
                                 <div className="w-16 h-16 bg-[#F0F4F8] rounded-full flex items-center justify-center text-[#396680] mb-4 shadow-sm">
                                     <Upload size={32} />
                                 </div>
                                 <h4 className="font-bold text-dark-900 text-lg mb-1">Unggah Foto Pembaruan Baru</h4>
-                                <p className="text-dark-400 text-sm mb-5">Mendukung format gambar JPG, PNG, HEIC/HEIF</p>
+                                <p className="text-black/70 font-semibold text-sm mb-5">Mendukung format gambar JPG, PNG, HEIC/HEIF</p>
                                 <div className="flex flex-col gap-3 w-full">
                                     <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
-                                        <label className="flex-1 px-4 py-3 rounded-xl border-2 border-[#396680]/40 text-sm cursor-pointer hover:bg-dark-50 transition-colors flex items-center gap-2">
+                                        <label className="flex-1 px-4 py-3 rounded-xl border border-black text-sm cursor-pointer hover:bg-dark-50 transition-colors flex items-center gap-2">
                                             <span className="px-3 py-1 bg-[#396680]/10 text-[#396680] font-bold text-xs rounded-lg">Pilih File</span>
-                                            <span className="text-dark-500 truncate">{newDoc.files.length > 0 ? `${newDoc.files.length} file dipilih` : 'Belum ada file dipilih'}</span>
+                                            <span className="text-black font-semibold truncate">{newDoc.files.length > 0 ? `${newDoc.files.length} file dipilih` : 'Belum ada file dipilih'}</span>
                                             <input type="file" multiple onChange={handleFileSelect} className="hidden" accept="image/*,.heic,.heif" />
                                         </label>
                                         <button type="button" onClick={handleUploadDoc} disabled={uploadingDoc} className="px-6 py-3 bg-[#396680] hover:bg-[#2d5166] text-white text-sm font-bold rounded-xl transition-all shadow-md whitespace-nowrap disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2">
@@ -1055,7 +1048,7 @@ const ProjectManagement = () => {
                                     {previewUrls.length > 0 && (
                                         <div className="flex flex-wrap gap-3">
                                             {previewUrls.map((url, idx) => (
-                                                <div key={idx} className="relative w-[120px] aspect-video rounded-xl overflow-hidden border-2 border-[#396680]/20 cursor-pointer" onClick={() => setLightboxImage({ src: url, alt: newDoc.files[idx]?.name || 'Preview' })}>
+                                                <div key={idx} className="relative w-[120px] aspect-video rounded-xl overflow-hidden border-2 border-black/20 cursor-pointer" onClick={() => setLightboxImage({ src: url, alt: newDoc.files[idx]?.name || 'Preview' })}>
                                                     <img src={url} alt="Preview" className="w-full h-full object-cover hover:scale-105 transition-transform" />
                                                     <button type="button" onClick={(e) => { e.stopPropagation(); URL.revokeObjectURL(url); setPreviewUrls(prev => prev.filter((_, i) => i !== idx)); setNewDoc(prev => ({ ...prev, files: prev.files.filter((_, i) => i !== idx) })) }} className="absolute top-1 right-1 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-[10px] hover:bg-red-600">✕</button>
                                                 </div>
@@ -1065,14 +1058,14 @@ const ProjectManagement = () => {
                                 </div>
                             </div>
 
-                            <h4 className="font-bold text-dark-900 mb-5 flex items-center gap-2">
-                                <Image size={20} className="text-dark-400" /> Daftar Dokumentasi Tersimpan
+                            <h4 className="font-bold text-black mb-5 flex items-center gap-2">
+                                <Image size={20} className="text-black" /> Daftar Dokumentasi Tersimpan
                             </h4>
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 {docLoading ? (
-                                    <p className="col-span-4 text-center py-8 text-dark-400">Memuat galeri...</p>
+                                    <p className="col-span-4 text-center py-8 text-black font-semibold">Memuat galeri...</p>
                                 ) : documents.length === 0 ? (
-                                    <p className="col-span-4 text-center py-8 text-dark-400 italic">Belum ada foto yang diunggah.</p>
+                                    <p className="col-span-4 text-center py-8 text-black/80 font-bold italic">Belum ada foto yang diunggah.</p>
                                 ) : (
                                     (showAllDocs ? documents : documents.slice(0, 4)).map((photo) => (
                                         <div key={photo.id} className="relative aspect-[4/5] md:aspect-square rounded-2xl overflow-hidden group shadow-sm bg-white border border-dark-100 flex flex-col hover:shadow-md transition-shadow">
@@ -1090,7 +1083,7 @@ const ProjectManagement = () => {
                                                 </div>
                                             </div>
                                             <div className="p-3 lg:p-4 bg-white flex-1 flex flex-col justify-center border-t border-dark-100">
-                                                <p className="text-[10px] sm:text-xs font-bold text-dark-400 uppercase tracking-wider mb-1 line-clamp-1">
+                                                <p className="text-[10px] sm:text-xs font-bold text-black/70 uppercase tracking-wider mb-1 line-clamp-1">
                                                     {(() => {
                                                         const match = (photo.fileUrl || '').split('/').pop()?.match(/(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})/);
                                                         if (match) {
@@ -1100,7 +1093,7 @@ const ProjectManagement = () => {
                                                         return new Date(photo.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
                                                     })()}
                                                 </p>
-                                                <h5 className="font-bold text-dark-900 text-xs sm:text-sm leading-tight line-clamp-2">
+                                                <h5 className="font-bold text-black text-xs sm:text-sm leading-tight line-clamp-2">
                                                     {(() => {
                                                         const match = (photo.fileUrl || '').split('/').pop()?.match(/(\d{4})(\d{2})(\d{2})_(\d{2})(\d{2})/);
                                                         if (match) {
@@ -1131,7 +1124,7 @@ const ProjectManagement = () => {
                                 <div className="mt-6 text-center">
                                     <button
                                         onClick={() => setShowAllDocs(false)}
-                                        className="px-6 py-2 bg-dark-50 hover:bg-dark-100 text-dark-500 font-bold rounded-full text-sm transition-all border border-dark-200"
+                                        className="px-6 py-2 bg-dark-50 hover:bg-dark-100 text-black font-bold rounded-full text-sm transition-all border border-dark-200"
                                     >
                                         Sembunyikan Sebagian
                                     </button>

@@ -35,14 +35,12 @@ const CekProgress = () => {
     const [showGallery, setShowGallery] = useState(false);
     const autoSearchDone = useRef(false);
 
-    // Auto-search jika ada query param ?id=xxx
     useEffect(() => {
         const idParam = searchParams.get('id');
         if (idParam && !autoSearchDone.current) {
             autoSearchDone.current = true;
             setSearchId(idParam);
-            // Trigger search otomatis
-            const fakeEvent = { preventDefault: () => {} };
+            const fakeEvent = { preventDefault: () => { } };
             setTimeout(() => {
                 document.getElementById('cek-progress-form')?.requestSubmit();
             }, 100);
@@ -74,19 +72,19 @@ const CekProgress = () => {
 
     const handleReviewSubmit = async () => {
         if (!projectData) return;
-        
+
         const trimmedComment = reviewComment.trim();
-        
+
         if (!trimmedComment) {
             toast.error('Silakan tulis ulasan Anda terlebih dahulu.');
             return;
         }
-        
+
         if (trimmedComment.length < 10) {
             toast.error('Ulasan minimal 10 karakter.');
             return;
         }
-        
+
         setIsSubmittingReview(true);
         try {
             await api.post('/testimonials', {
@@ -111,7 +109,7 @@ const CekProgress = () => {
 
     const handleSearch = async (e) => {
         e.preventDefault();
-        const trimmedId = searchId.trim();
+        const trimmedId = searchId.trim().toUpperCase();
         if (!trimmedId) return;
 
         setLoading(true);
@@ -126,8 +124,8 @@ const CekProgress = () => {
 
             const mappedData = {
                 id: data.projectCode,
-                status: getStatusBadge(data.status),
-                rawStatus: data.status,
+                status: getStatusBadge((data.status || '').toLowerCase()),
+                rawStatus: (data.status || '').toLowerCase(),
                 title: data.projectName,
                 client: data.customerName,
                 category: data.projectType === 'konstruksi' ? 'Konstruksi' : data.projectType === 'design' ? 'Desain Arsitektur' : 'Desain & Bangun',
@@ -138,26 +136,30 @@ const CekProgress = () => {
                 estimatedEndDate: data.estimatedEndDate,
                 timeline: data.milestones.map((ms, index) => {
                     const icon = getMilestoneIcon(ms.title || ms.name);
-                    
+
                     const statusStr = (ms.status || '').toLowerCase();
                     let status = 'upcoming';
                     let statusLabel = 'MENUNGGU';
                     let statusColor = 'bg-gray-100 text-gray-600 border-gray-200';
 
-                    if (statusStr === 'completed') {
+                    if (statusStr === 'completed' || statusStr === 'selesai') {
                         status = 'completed';
                         statusLabel = 'SELESAI';
                         statusColor = 'bg-green-50 text-green-700 border-green-100';
-                    } else if (statusStr === 'in_progress' || statusStr === 'on_progress') {
+                    } else if (statusStr === 'in_progress' || statusStr === 'on_progress' || statusStr === 'berjalan') {
                         status = 'in-progress';
                         statusLabel = 'BERJALAN';
                         statusColor = 'bg-blue-50 text-blue-700 border-blue-100';
+                    } else if (statusStr === 'pending' || statusStr === 'menunggu') {
+                        status = 'upcoming';
+                        statusLabel = 'MENUNGGU';
+                        statusColor = 'bg-gray-100 text-gray-600 border-gray-200';
                     }
 
                     const msDate = ms.targetDate || ms.endDate || ms.startDate || ms.actualCompletionDate;
                     let dateLabel = 'Belum ada jadwal pasti';
                     if (msDate) {
-                        const formattedDate = new Date(msDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'short', year: 'numeric'});
+                        const formattedDate = new Date(msDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
                         dateLabel = status === 'completed' ? `Selesai: ${formattedDate}` : `Target: ${formattedDate}`;
                     }
 
@@ -175,9 +177,7 @@ const CekProgress = () => {
                 }),
                 siteUpdates: (() => {
                     const photoList = (data.documentFiles && data.documentFiles.length > 0) ? data.documentFiles : (data.photos || []);
-                    
-                    // Extract tanggal & waktu dari URL Cloudinary (format: 20260525_054029_xxx.png)
-                    // Waktu di Cloudinary adalah UTC, konversi ke WIB (+7)
+
                     const parsePhotoDate = (url) => {
                         if (!url) return null;
                         const filename = url.split('/').pop() || '';
@@ -225,7 +225,6 @@ const CekProgress = () => {
                     params: { page: 1, limit: 1 }
                 });
                 const reviewList = reviewResponse.data?.data?.data;
-                // Filter berdasarkan email atau nama klien untuk cek apakah sudah pernah submit
                 const hasReview = Array.isArray(reviewList) && reviewList.some(
                     t => t.email === (data.customerEmail || '') || t.name === data.customerName
                 );
@@ -234,7 +233,8 @@ const CekProgress = () => {
                 setReviewSuccess(false);
             }
         } catch (err) {
-            setError(err.response?.data?.message || 'Proyek tidak ditemukan. Periksa kembali ID Proyek Anda.');
+            const rawMsg = err.response?.data?.message || err.response?.data?.error || 'Proyek tidak ditemukan. Periksa kembali ID Proyek Anda.';
+            setError(rawMsg.replace(/project/gi, 'Proyek'));
         } finally {
             setLoading(false);
         }
@@ -242,11 +242,11 @@ const CekProgress = () => {
 
     return (
         <div className="bg-[#FAFAFA] min-h-screen pb-24 font-sans">
-            
+
             <section className="bg-[#396680] pt-24 pb-20 px-4 relative overflow-hidden border-b border-dark-100">
-                
+
                 <div className="absolute inset-0 opacity-[0.1] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#fff 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
-                
+
                 <ScrollReveal variant="scaleUp" className="max-w-3xl mx-auto text-center relative z-10">
                     <h1 className="text-4xl md:text-5xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">
                         Lacak Proyek Impian Anda
@@ -267,7 +267,7 @@ const CekProgress = () => {
                             onChange={(e) => setSearchId(e.target.value)}
                             autoComplete="off"
                             spellCheck="false"
-                            className="w-full py-4 pl-14 pr-32 rounded-full border-2 border-white/20 bg-white shadow-xl focus:outline-none focus:border-white focus:ring-4 focus:ring-white/20 transition-all font-medium text-lg placeholder-dark-300 relative z-10"
+                            className="w-full py-4 pl-14 pr-32 rounded-full border-2 border-white/20 bg-white shadow-xl focus:outline-none focus:border-[#396680] focus:ring-4 focus:ring-[#396680]/25 transition-all font-medium text-lg placeholder-dark-300 relative z-10"
                         />
                         <button
                             type="submit"
@@ -278,10 +278,10 @@ const CekProgress = () => {
                             Lacak
                         </button>
                     </form>
-                    
+
                     {error && (
-                        <div className="mt-6 max-w-xl mx-auto p-4 bg-red-500/20 backdrop-blur-md rounded-2xl border-2 border-red-500 shadow-lg text-white font-bold animate-fadeIn text-center">
-                            {error}
+                        <div className="mt-6 max-w-xl mx-auto px-6 py-3 bg-red-500/10 backdrop-blur-md rounded-full border border-red-500/35 shadow-[0_8px_30px_rgb(0,0,0,0.08)] text-white font-medium animate-fadeIn text-center text-sm flex items-center justify-center gap-2.5">
+                            <span>{error}</span>
                         </div>
                     )}
                 </ScrollReveal>
@@ -296,23 +296,22 @@ const CekProgress = () => {
                                 <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${projectData.rawStatus === 'completed' ? 'bg-green-100 text-green-700' : projectData.rawStatus === 'in_progress' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700'}`}>
                                     {projectData.status}
                                 </span>
-                                <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${
-                                    projectData.category === 'Konstruksi' ? 'bg-amber-50 text-amber-700' :
-                                    projectData.category === 'Desain & Bangun' ? 'bg-blue-50 text-blue-700' :
-                                    'bg-purple-50 text-purple-700'
-                                }`}>
+                                <span className={`px-3 py-1 text-xs font-bold rounded-full uppercase tracking-wider ${projectData.category === 'Konstruksi' ? 'bg-amber-50 text-amber-700' :
+                                        projectData.category === 'Desain & Bangun' ? 'bg-blue-50 text-blue-700' :
+                                            'bg-purple-50 text-purple-700'
+                                    }`}>
                                     {projectData.category}
                                 </span>
-                                <span className="text-dark-400 text-sm font-medium">ID: {projectData.id}</span>
+                                <span className="text-black text-sm font-semibold">ID: {projectData.id}</span>
                             </div>
-                            <h2 className="text-2xl md:text-3xl font-bold text-dark-900 mb-3">{projectData.title}</h2>
-                            <div className="flex flex-col gap-2 text-dark-500 font-medium">
+                            <h2 className="text-2xl md:text-3xl font-bold text-black mb-3">{projectData.title}</h2>
+                            <div className="flex flex-col gap-2 text-black/95 font-medium">
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6">
                                     <p className="flex items-center gap-2">
                                         <User size={16} className="text-[#396680] opacity-80" />
                                         {projectData.client}
                                     </p>
-                                    <div className="hidden sm:block w-px h-4 bg-dark-200"></div>
+                                    <div className="hidden sm:block w-px h-4 bg-dark-300"></div>
                                     <p className="flex items-center gap-2">
                                         <MapPin size={16} className="text-[#396680] opacity-80" />
                                         {projectData.address}
@@ -323,16 +322,16 @@ const CekProgress = () => {
                                         {projectData.startDate && (
                                             <p className="flex items-center gap-2">
                                                 <Calendar size={16} className="text-[#396680] opacity-80" />
-                                                <span>Mulai: <strong className="text-dark-800">{new Date(projectData.startDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</strong></span>
+                                                <span>Mulai: <strong className="text-black font-extrabold">{new Date(projectData.startDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</strong></span>
                                             </p>
                                         )}
                                         {projectData.startDate && projectData.estimatedEndDate && (
-                                            <div className="hidden sm:block w-px h-4 bg-dark-200"></div>
+                                            <div className="hidden sm:block w-px h-4 bg-dark-300"></div>
                                         )}
                                         {projectData.estimatedEndDate && (
                                             <p className="flex items-center gap-2">
                                                 <Calendar size={16} className="text-[#396680] opacity-80" />
-                                                <span>Estimasi Selesai: <strong className="text-dark-800">{new Date(projectData.estimatedEndDate).toLocaleDateString('id-ID', {day: 'numeric', month: 'long', year: 'numeric'})}</strong></span>
+                                                <span>Estimasi Selesai: <strong className="text-black font-extrabold">{new Date(projectData.estimatedEndDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</strong></span>
                                             </p>
                                         )}
                                     </div>
@@ -340,14 +339,14 @@ const CekProgress = () => {
                             </div>
                         </div>
                         <div className="md:text-right flex flex-col items-start md:items-end">
-                            <p className="text-dark-500 text-sm font-medium mb-2">Total Progres</p>
+                            <p className="text-black text-sm font-semibold mb-2">Total Progres</p>
                             <div className="flex items-end gap-2 mb-3">
                                 <span className="text-5xl font-extrabold text-[#396680] leading-none tracking-tighter">
                                     {projectData.overallProgress}%
                                 </span>
                             </div>
                             <div className="w-full md:w-48 h-2.5 bg-dark-100 rounded-full overflow-hidden">
-                                <div 
+                                <div
                                     className="h-full bg-[#396680] rounded-full transition-all duration-1000 ease-out"
                                     style={{ width: `${projectData.overallProgress}%` }}
                                 ></div>
@@ -373,18 +372,18 @@ const CekProgress = () => {
                     {reviewSuccess && projectData.rawStatus === 'completed' && (
                         <div className="bg-green-50 rounded-[2rem] p-8 md:p-10 shadow-sm border border-green-200 mb-10 text-center animate-fadeIn flex flex-col items-center">
                             <CheckCircle2 size={48} className="text-green-500 mb-4" />
-                            <h3 className="text-xl md:text-2xl font-bold text-dark-900 mb-2">Terima Kasih atas Ulasan Anda!</h3>
-                            <p className="text-dark-600 font-medium max-w-lg">Ulasan Anda sangat berarti bagi kami dan telah berhasil diteruskan ke tim manajemen. Senang bisa bekerjasama dengan Anda.</p>
+                            <h3 className="text-xl md:text-2xl font-bold text-black mb-2">Terima Kasih atas Ulasan Anda!</h3>
+                            <p className="text-black font-medium max-w-lg">Ulasan Anda sangat berarti bagi kami dan telah berhasil diteruskan ke tim manajemen. Senang bisa bekerjasama dengan Anda.</p>
                         </div>
                     )}
 
                     <ScrollReveal variant="fadeInUp" className="mb-10 lg:mb-16 w-full">
-                        
+
                         <div className="bg-white rounded-[2rem] p-8 md:p-10 shadow-sm border border-[#e2e8f0]">
-                            <h3 className="text-xl md:text-2xl font-bold text-dark-900 mb-8 px-2">Status Saat Ini</h3>
-                            
+                            <h3 className="text-xl md:text-2xl font-bold text-black mb-8 px-2">Status Saat Ini</h3>
+
                             <div className="relative pl-4 md:pl-8">
-                                
+
                                 <div className="space-y-12">
                                     {projectData.timeline.map((stage, index) => {
                                         const isCompleted = stage.status === 'completed';
@@ -394,7 +393,7 @@ const CekProgress = () => {
 
                                         return (
                                             <div key={stage.id} className="relative flex gap-6 md:gap-8">
-                                                
+
                                                 <div className="relative z-10 flex-shrink-0 flex flex-col items-center">
                                                     <div className={`w-14 h-14 rounded-full flex items-center justify-center text-xl shadow-sm border-4 border-white transition-colors duration-500 relative z-20
                                                         ${isCompleted ? 'bg-[#396680] text-white' : ''}
@@ -403,7 +402,7 @@ const CekProgress = () => {
                                                     `}>
                                                         {stage.icon}
                                                     </div>
-                                                    
+
                                                     {!isLast && (
                                                         <div className="absolute top-14 -bottom-12 w-0.5 bg-dark-100 z-10">
                                                             <div className={`w-full bg-[#396680] transition-all duration-1000 ${isCompleted ? 'h-full' : 'h-0'}`}></div>
@@ -413,18 +412,18 @@ const CekProgress = () => {
 
                                                 <div className={`flex-1 pt-3 ${isInProgress ? '' : 'pb-4'} ${isUpcoming ? 'opacity-80' : ''}`}>
                                                     <div className="flex flex-wrap items-center gap-3 mb-1">
-                                                        <h4 className={`text-lg font-bold transition-colors duration-500 ${isUpcoming ? 'text-dark-500' : 'text-dark-900'}`}>
+                                                        <h4 className={`text-lg font-bold transition-colors duration-500 ${isUpcoming ? 'text-black/55' : 'text-black'}`}>
                                                             {stage.title}
                                                         </h4>
                                                         <span className={`px-2.5 py-0.5 text-[10px] font-bold rounded-sm uppercase tracking-wide border ${stage.statusColor}`}>
                                                             {stage.statusLabel}
                                                         </span>
                                                     </div>
-                                                    <p className={`text-xs font-medium mb-3 ${isUpcoming ? 'text-dark-400' : 'text-[#396680]'}`}>{stage.date}</p>
+                                                    <p className={`text-xs font-medium mb-3 ${isUpcoming ? 'text-black/60' : 'text-[#396680]'}`}>{stage.date}</p>
 
-                                                    
+
                                                     {stage.description && (
-                                                        <div className="bg-white px-5 py-3 rounded-xl border border-dark-100 text-sm text-dark-600 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] inline-block">
+                                                        <div className="bg-white px-5 py-3 rounded-xl border border-dark-100 text-sm text-black shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] inline-block">
                                                             {stage.description}
                                                         </div>
                                                     )}
@@ -436,9 +435,9 @@ const CekProgress = () => {
                                                                     {task.completed ? (
                                                                         <CheckCircle2 size={16} className="text-green-500 mt-0.5 flex-shrink-0" />
                                                                     ) : (
-                                                                        <Circle size={16} className="text-dark-300 mt-0.5 flex-shrink-0" />
+                                                                        <Circle size={16} className="text-dark-400 mt-0.5 flex-shrink-0" />
                                                                     )}
-                                                                    <span className={`text-sm ${task.completed ? 'text-dark-900 font-medium' : 'text-dark-500 italic'}`}>
+                                                                    <span className={`text-sm ${task.completed ? 'text-black font-semibold' : 'text-black/70 italic'}`}>
                                                                         {task.name}
                                                                     </span>
                                                                 </div>
@@ -456,26 +455,26 @@ const CekProgress = () => {
 
                     <ScrollReveal variant="fadeInUp">
                         <div className="flex items-center justify-between mb-6 px-2">
-                            <h3 className="text-xl font-bold text-dark-900">Pembaruan Lapangan</h3>
+                            <h3 className="text-xl font-bold text-black">Pembaruan Lapangan</h3>
                             {projectData.siteUpdates.length > 4 && (
-                                <button 
+                                <button
                                     onClick={() => setShowGallery(true)}
-                                    className="text-sm font-semibold text-dark-500 hover:text-dark-900 flex items-center gap-1 transition-colors"
+                                    className="text-sm font-semibold text-black/85 hover:text-black flex items-center gap-1 transition-colors"
                                 >
                                     Lihat Semua <ArrowRight size={12} />
                                 </button>
                             )}
                         </div>
-                        
+
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                             {projectData.siteUpdates.slice(0, 4).map((update) => (
                                 <div key={update.id} className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden group cursor-pointer shadow-sm"
                                     onClick={() => setLightboxImage({ src: getPhotoUrl(update.image), alt: update.title })}
                                 >
-                                    <img 
-                                        src={getPhotoUrl(update.image)} 
-                                        alt={update.title} 
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                                    <img
+                                        src={getPhotoUrl(update.image)}
+                                        alt={update.title}
+                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-dark-900/90 via-dark-900/20 to-transparent"></div>
                                     <div className="absolute bottom-4 left-4 right-4 text-white">
@@ -484,17 +483,17 @@ const CekProgress = () => {
                                     </div>
                                 </div>
                             ))}
-                            
+
                             {projectData.siteUpdates.length > 4 && (
-                                <div 
+                                <div
                                     onClick={() => setShowGallery(true)}
                                     className="relative aspect-square md:aspect-[4/5] rounded-3xl overflow-hidden bg-dark-50 border-2 border-dashed border-dark-200 hover:border-[#396680] flex flex-col items-center justify-center cursor-pointer transition-colors group shadow-sm"
                                 >
-                                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-dark-400 group-hover:text-[#396680] group-hover:scale-110 transition-all mb-3 text-xl">
+                                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-black/60 group-hover:text-[#396680] group-hover:scale-110 transition-all mb-3 text-xl">
                                         <Search size={18} />
                                     </div>
-                                    <span className="font-bold text-dark-900 text-sm">Lihat Galeri</span>
-                                    <span className="text-xs text-dark-400 font-medium">+{projectData.siteUpdates.length - 4} foto</span>
+                                    <span className="font-bold text-black text-sm">Lihat Galeri</span>
+                                    <span className="text-xs text-black/70 font-semibold">+{projectData.siteUpdates.length - 4} foto</span>
                                 </div>
                             )}
                         </div>
@@ -523,22 +522,22 @@ const CekProgress = () => {
                                     ))}
                                 </div>
                             </div>
-                            
+
                             <div className="mb-6 bg-white p-6 rounded-2xl border border-dark-100 shadow-sm">
                                 <label className="block text-xs font-bold text-dark-500 mb-3 uppercase tracking-widest text-[#396680]">Ceritakan Pengalaman Anda</label>
-                                <textarea 
-                                    rows="4" 
-                                    placeholder="Testimoni minimal 10 karakter" 
-                                    className="w-full px-5 py-4 rounded-xl border border-dark-200 bg-dark-50 focus:bg-white focus:ring-2 focus:ring-[#396680] focus:outline-none resize-none transition-colors text-dark-900"
+                                <textarea
+                                    rows="4"
+                                    placeholder="Testimoni minimal 10 karakter"
+                                    className="w-full px-5 py-4 rounded-xl border border-black bg-dark-50 focus:bg-white focus:ring-2 focus:ring-[#396680] focus:outline-none resize-none transition-colors text-black"
                                     value={reviewComment}
                                     onChange={(e) => setReviewComment(e.target.value)}
                                 ></textarea>
                             </div>
-                            
+
                             <div className="flex gap-4">
-                                <button onClick={() => setShowReviewModal(false)} className="flex-1 py-4 bg-white border border-dark-200 hover:bg-dark-50 text-dark-900 font-bold rounded-xl transition-colors">Batal</button>
-                                <button 
-                                    onClick={handleReviewSubmit} 
+                                <button onClick={() => setShowReviewModal(false)} className="flex-1 py-4 bg-white border border-black hover:bg-dark-50 text-black font-bold rounded-xl transition-colors">Batal</button>
+                                <button
+                                    onClick={handleReviewSubmit}
                                     disabled={isSubmittingReview}
                                     className="flex-1 py-4 bg-[#396680] hover:bg-[#2d5166] text-white font-bold rounded-xl transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 disabled:opacity-50 disabled:translate-y-0"
                                 >
@@ -567,10 +566,10 @@ const CekProgress = () => {
                                     <div key={update.id} className="relative aspect-square rounded-2xl overflow-hidden group cursor-pointer shadow-sm border border-dark-100 bg-white"
                                         onClick={() => setLightboxImage({ src: getPhotoUrl(update.image), alt: update.title })}
                                     >
-                                        <img 
-                                            src={getPhotoUrl(update.image)} 
-                                            alt={update.title} 
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                                        <img
+                                            src={getPhotoUrl(update.image)}
+                                            alt={update.title}
+                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                         />
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                         <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity translate-y-2 group-hover:translate-y-0 duration-300">
@@ -586,7 +585,7 @@ const CekProgress = () => {
             )}
 
             {lightboxImage && (
-                <div 
+                <div
                     className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md cursor-zoom-out"
                     onClick={() => setLightboxImage(null)}
                     onKeyDown={(e) => e.key === 'Escape' && setLightboxImage(null)}
@@ -594,16 +593,16 @@ const CekProgress = () => {
                     ref={(el) => el && el.focus()}
                     style={{ animation: 'fadeIn 0.2s ease-out' }}
                 >
-                    <button 
-                        onClick={() => setLightboxImage(null)} 
+                    <button
+                        onClick={() => setLightboxImage(null)}
                         className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xl transition-colors z-10"
                     >
                         <X size={24} />
                     </button>
-                    <img 
-                        src={lightboxImage.src} 
-                        alt={lightboxImage.alt} 
-                        className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl" 
+                    <img
+                        src={lightboxImage.src}
+                        alt={lightboxImage.alt}
+                        className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
                         onClick={(e) => e.stopPropagation()}
                     />
                     <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/40 px-4 py-2 rounded-full">{lightboxImage.alt}</p>

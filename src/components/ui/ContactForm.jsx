@@ -55,9 +55,10 @@ const ContactForm = () => {
             </div>
 
             <div className="space-y-2">
-                <label className="block text-xs font-bold text-dark-900 px-1">Subjek</label>
+                <label htmlFor="subject" className="block text-xs font-bold text-dark-900 px-1">Subjek</label>
                 <div className="relative">
                     <select
+                        id="subject"
                         name="subject"
                         value={formData.subject}
                         onChange={handleChange}

@@ -69,7 +69,7 @@ const Login = () => {
                 <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center bg-white relative">
                     <div className="max-w-md w-full mx-auto">
                         <h2 className="text-3xl font-extrabold text-dark-900 mb-2 tracking-tight">Login</h2>
-                        <p className="text-dark-400 text-sm mb-10 font-medium">Silakan masuk ke akun Anda</p>
+                        <p className="text-black text-sm mb-10 font-semibold">Silakan masuk ke akun Anda</p>
 
                         {error && (
                             <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6 text-red-700 text-sm font-medium">

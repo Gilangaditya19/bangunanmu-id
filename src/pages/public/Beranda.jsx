@@ -133,13 +133,13 @@ const Beranda = () => {
                     <ScrollReveal variant="fadeInLeft" className="space-y-8">
                         <div className="flex items-center gap-4 mb-4">
                             <div className="w-12 h-[2px] bg-dark-200"></div>
-                            <span className="text-sm font-semibold tracking-wider text-dark-400 uppercase">TENTANG KAMI</span>
+                            <span className="text-sm font-semibold tracking-wider text-[#396680] uppercase">TENTANG KAMI</span>
                         </div>
                         <h2 className="text-3xl sm:text-5xl font-bold text-dark-900 tracking-tight leading-tight">
                             Solusi Hunian <br />
                             <span className="text-[#396680]">Kreatif & Terpercaya</span>
                         </h2>
-                        <p className="text-dark-500 text-lg leading-relaxed">
+                        <p className="text-dark-900 text-lg leading-relaxed">
                             Kami adalah Bangunanmu.id, tim berdedikasi yang menghadirkan solusi unggul di bidang konstruksi dan desain interior, khususnya untuk hunian. Berbekal pengalaman lebih dari empat tahun, kami memahami pentingnya menciptakan rumah yang nyaman, fungsional, dan dirancang secara khusus sesuai dengan visi Anda.
                         </p>
 
@@ -152,11 +152,11 @@ const Beranda = () => {
                         <div className="grid grid-cols-2 gap-8 pt-4">
                             <div>
                                 <p className="text-4xl font-bold text-dark-900 mb-2">10<span className="text-[#396680]">+</span></p>
-                                <p className="text-sm text-dark-500 font-medium">Proyek Selesai</p>
+                                <p className="text-sm text-dark-800 font-medium">Proyek Selesai</p>
                             </div>
                             <div>
                                 <p className="text-4xl font-bold text-dark-900 mb-2">99<span className="text-[#396680]">%</span></p>
-                                <p className="text-sm text-dark-500 font-medium">Kepuasan Klien</p>
+                                <p className="text-sm text-dark-800 font-medium">Kepuasan Klien</p>
                             </div>
                         </div>
                     </ScrollReveal>
@@ -193,7 +193,7 @@ const Beranda = () => {
                     <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-16 gap-6">
                         <div>
                             <h2 className="text-3xl sm:text-4xl font-bold text-dark-900 mb-4">Layanan Kami</h2>
-                            <p className="text-dark-500 text-lg">Solusi lengkap untuk wujudkan bangunan idaman</p>
+                            <p className="text-dark-900 text-lg">Solusi lengkap untuk wujudkan bangunan idaman</p>
                         </div>
                         <Link to="/layanan" className="inline-flex items-center gap-2 text-[#396680] font-semibold hover:text-[#2d5166] transition-colors group">
                             Lihat Detail Layanan
@@ -209,11 +209,11 @@ const Beranda = () => {
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
                                 <h3 className="text-2xl font-bold text-dark-900 mb-4">Konstruksi</h3>
-                                <p className="text-dark-500 mb-8 line-clamp-2">Tujuan kami adalah menciptakan hunian yang tidak hanya indah secara estetika, tetapi juga kokoh dan fungsional.</p>
+                                <p className="text-dark-900 mb-8 line-clamp-2">Tujuan kami adalah menciptakan hunian yang tidak hanya indah secara estetika, tetapi juga kokoh dan fungsional.</p>
 
                                 <ul className="space-y-3 mb-10">
                                     {['Konstruksi Residensial/Perumahan', 'Konstruksi Komersial'].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
+                                        <li key={i} className="flex items-center gap-3 text-dark-900 font-medium">
                                             <CheckCircle2 size={16} className="text-[#396680]" />
                                             {item}
                                         </li>
@@ -232,11 +232,11 @@ const Beranda = () => {
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
                                 <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain & Bangun</h3>
-                                <p className="text-dark-500 mb-8 line-clamp-2">Solusi terintegrasi dari perancangan desain hingga pembangunan fisik rumah impian Anda dalam satu paket.</p>
+                                <p className="text-dark-900 mb-8 line-clamp-2">Solusi terintegrasi dari perancangan desain hingga pembangunan fisik rumah impian Anda dalam satu paket.</p>
 
                                 <ul className="space-y-3 mb-10">
                                     {['Desain & Konstruksi Rumah', 'Renovasi Total'].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
+                                        <li key={i} className="flex items-center gap-3 text-dark-900 font-medium">
                                             <CheckCircle2 size={16} className="text-[#396680]" />
                                             {item}
                                         </li>
@@ -255,11 +255,11 @@ const Beranda = () => {
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
                                 <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain Arsitektur</h3>
-                                <p className="text-dark-500 mb-8 line-clamp-2">Visualisasikan hunian impian Anda dengan design arsitektur dan interior 3D yang detail serta realistis.</p>
+                                <p className="text-dark-900 mb-8 line-clamp-2">Visualisasikan hunian impian Anda dengan desain arsitektur dan interior 3D yang detail serta realistis.</p>
 
                                 <ul className="space-y-3 mb-10">
-                                    {['Design Arsitektur (DED)', 'Design Interior & 3D'].map((item, i) => (
-                                        <li key={i} className="flex items-center gap-3 text-dark-600 font-medium">
+                                    {['Desain Arsitektur (DED)', 'Desain Interior & 3D'].map((item, i) => (
+                                        <li key={i} className="flex items-center gap-3 text-dark-900 font-medium">
                                             <CheckCircle2 size={16} className="text-[#396680]" />
                                             {item}
                                         </li>
@@ -407,7 +407,7 @@ const Beranda = () => {
 
                                     <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
                                         <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Konsultasi & Survey</h3>
-                                        <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
+                                        <p className="text-dark-900 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                             Diskusi mendalam mengenai visi hunian Anda, kebutuhan ruang, hingga tinjauan lokasi langsung untuk memastikan fondasi yang tepat. Kami percaya setiap struktur dimulai dari pemahaman yang kuat akan karakter penghuninya.
                                         </p>
 
@@ -418,11 +418,11 @@ const Beranda = () => {
                                         </div>
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
-                                            <div className="flex items-center gap-2 text-dark-500">
+                                            <div className="flex items-center gap-2 text-dark-800">
                                                 <Search size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Survey Lokasi</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-dark-500">
+                                            <div className="flex items-center gap-2 text-dark-800">
                                                 <CheckCircle2 size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Analisa Kebutuhan</span>
                                             </div>
@@ -442,8 +442,8 @@ const Beranda = () => {
                                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-transparent to-transparent"></div>
                                     </div>
                                     <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
-                                        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Design & Penawaran</h3>
-                                        <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
+                                        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Desain & Penawaran</h3>
+                                        <p className="text-dark-900 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                             Masuk ke tahap visualisasi dengan pemodelan 3D realistis. Kami menyusun Rencana Anggaran Biaya (RAB) yang sepenuhnya transparan serta timeline pengerjaan yang terstruktur rapi.
                                         </p>
 
@@ -454,11 +454,11 @@ const Beranda = () => {
                                         </div>
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
-                                            <div className="flex items-center gap-2 text-dark-500">
+                                            <div className="flex items-center gap-2 text-dark-800">
                                                 <Wrench size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Visualisasi 3D</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-dark-500">
+                                            <div className="flex items-center gap-2 text-dark-800">
                                                 <CheckCircle2 size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Penyusunan RAB</span>
                                             </div>
@@ -479,7 +479,7 @@ const Beranda = () => {
                                     </div>
                                     <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
                                         <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Proses Pembangunan</h3>
-                                        <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
+                                        <p className="text-dark-900 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                             Eksekusi pembangunan di lapangan dilakukan secara profesional oleh tukang dan teknisi. Anda akan mendapatkan laporan progress berkala dari sistem kami.
                                         </p>
 
@@ -490,11 +490,11 @@ const Beranda = () => {
                                         </div>
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
-                                            <div className="flex items-center gap-2 text-dark-500">
+                                            <div className="flex items-center gap-2 text-dark-800">
                                                 <HardHat size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Kontrol Kualitas</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-dark-500">
+                                            <div className="flex items-center gap-2 text-dark-800">
                                                 <CheckCircle2 size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Laporan Harian</span>
                                             </div>
@@ -515,7 +515,7 @@ const Beranda = () => {
                                     </div>
                                     <div className="w-full md:w-1/2 p-5 sm:p-8 lg:p-10 flex flex-col justify-center">
                                         <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-dark-900 mb-2 sm:mb-4 tracking-tight">Serah Terima & Garansi</h3>
-                                        <p className="text-dark-500 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
+                                        <p className="text-dark-900 text-sm sm:text-base leading-relaxed mb-4 sm:mb-8 font-medium">
                                             Inspeksi akhir bersama untuk memastikan setiap detailnya sempurna. Penyerahan kunci dilakukan bersama dengan penyerahan dokumen garansi retensi bangunan sebagai jaminan kualitas final.
                                         </p>
 
@@ -526,11 +526,11 @@ const Beranda = () => {
                                         </div>
 
                                         <div className="flex flex-row gap-8 pt-6 border-t border-dark-100">
-                                            <div className="flex items-center gap-2 text-dark-500">
+                                            <div className="flex items-center gap-2 text-dark-800">
                                                 <Handshake size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Inspeksi Akhir</span>
                                             </div>
-                                            <div className="flex items-center gap-2 text-dark-500">
+                                            <div className="flex items-center gap-2 text-dark-800">
                                                 <CheckCircle2 size={16} className="text-[#396680]" />
                                                 <span className="text-xs font-bold tracking-wider uppercase">Garansi Retensi</span>
                                             </div>

@@ -36,7 +36,7 @@ const Kontak = () => {
                             Mari bangun sesuatu yang <br className="hidden lg:block " />
                             <span className="text-[#396680]">luar biasa bersama.</span>
                         </h1>
-                        <p className="text-dark-500 text-[17px] mb-12 leading-relaxed max-w-sm">
+                        <p className="text-dark-900 text-[17px] mb-12 leading-relaxed max-w-sm">
                             Punya ide proyek? Kami sangat ingin mendengarnya dari Anda. Hubungi kami untuk pertanyaan, penawaran harga, atau sekadar menyapa.
                         </p>
 
@@ -48,7 +48,7 @@ const Kontak = () => {
                                     <Phone size={20} />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-semibold text-dark-400 mb-1">Telepon/Whatsapp</p>
+                                    <p className="text-xs font-semibold text-dark-600 mb-1">Telepon/Whatsapp</p>
                                     <p className="font-bold text-dark-900">0813 - 6822 - 7031</p>
                                 </div>
                             </a>
@@ -59,7 +59,7 @@ const Kontak = () => {
                                     <Mail size={20} />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-semibold text-dark-400 mb-1">Email</p>
+                                    <p className="text-xs font-semibold text-dark-600 mb-1">Email</p>
                                     <p className="font-bold text-dark-900">bangunanmu.id@gmail.com</p>
                                 </div>
                             </a>
@@ -69,7 +69,7 @@ const Kontak = () => {
                                     <Instagram size={22} />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-semibold text-dark-400 mb-1">Instagram</p>
+                                    <p className="text-xs font-semibold text-dark-600 mb-1">Instagram</p>
                                     <p className="font-bold text-dark-900">@bangunanmu.id</p>
                                 </div>
                             </a>
