@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Home, Building2, Armchair, Search, CheckCircle2, Wrench, HardHat, Handshake, Compass } from 'lucide-react';
+import { ArrowRight, Home, Building2, Armchair, Search, CheckCircle2, Wrench, HardHat, Handshake, Compass, X } from 'lucide-react';
 import ContactSection from '../../components/ui/ContactSection';
 import ShinyText from '../../components/ui/ShinyText';
 import Typewriter from '../../components/ui/Typewriter';
@@ -24,13 +24,29 @@ import portfolioTanggaMelayang from '../../assets/images/tangga_melayang.jpeg';
 import portfolioKitchenSetV2 from '../../assets/images/portfolio_kitchen_set_v2.jpg';
 import tahapKonstruksi from '../../assets/images/tahap_konstruksi.jpg';
 import serahTerima from '../../assets/images/serah_terima.jpg';
+import scandinavianProject from '../../assets/images/scandinavian_project.png';
+import desainBuildSipilDanInteriorJapandi from '../../assets/images/desain_build_sipil_dan_interior_japandi.png';
 
 const Beranda = () => {
     const [progressQuery, setProgressQuery] = useState('');
     const [visibleCount, setVisibleCount] = useState(4);
+    const [lightboxImage, setLightboxImage] = useState(null);
 
     const portfolioItems = [
-
+        {
+            id: 15,
+            category: 'Perumahan',
+            title: 'Scandinavian House',
+            location: '',
+            image: scandinavianProject
+        },
+        {
+            id: 16,
+            category: 'Desain & Bangun',
+            title: 'Desain Bangun Sipil & Interior Japandi',
+            location: '',
+            image: desainBuildSipilDanInteriorJapandi
+        },
         {
             id: 7,
             category: 'Interior',
@@ -353,7 +369,13 @@ const Beranda = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12">
                         {visiblePortfolio.map((item, index) => (
-                            <ScrollReveal key={item.id} variant="fadeInUp" delay={index * 100} className="group relative rounded-[2rem] overflow-hidden aspect-[4/3] shadow-lg">
+                            <ScrollReveal
+                                key={item.id}
+                                variant="fadeInUp"
+                                delay={index * 100}
+                                className="group relative rounded-[2rem] overflow-hidden aspect-[4/3] shadow-lg cursor-zoom-in"
+                                onClick={() => setLightboxImage({ src: item.image, alt: item.title })}
+                            >
                                 <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-dark-900/80 via-dark-900/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                 <div className="absolute bottom-0 left-0 w-full p-8 translate-y-8 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
@@ -556,6 +578,30 @@ const Beranda = () => {
 
             < ContactSection />
 
+            {lightboxImage && (
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md cursor-zoom-out"
+                    onClick={() => setLightboxImage(null)}
+                    onKeyDown={(e) => e.key === 'Escape' && setLightboxImage(null)}
+                    tabIndex={0}
+                    ref={(el) => el && el.focus()}
+                    style={{ animation: 'fadeIn 0.2s ease-out' }}
+                >
+                    <button
+                        onClick={() => setLightboxImage(null)}
+                        className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xl transition-colors z-10"
+                    >
+                        <X size={24} />
+                    </button>
+                    <img
+                        src={lightboxImage.src}
+                        alt={lightboxImage.alt}
+                        className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                    <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/40 px-4 py-2 rounded-full">{lightboxImage.alt}</p>
+                </div>
+            )}
         </div >
     );
 };
