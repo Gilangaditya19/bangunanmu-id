@@ -7,64 +7,90 @@ import Typewriter from '../../components/ui/Typewriter';
 import ScrollStack, { ScrollStackItem } from '../../components/ui/ScrollStack';
 import ScrollReveal from '../../components/ui/ScrollReveal';
 import StickerPeel from '../../components/ui/StickerPeel';
+import berandaHero from '../../assets/images/beranda_hero.jpg';
+import tentangGalleryProyek from '../../assets/images/tentang_gallery_proyek.png';
+import tentangGalleryProyek2 from '../../assets/images/tentang_gallery_proyek2.png';
+import berandaGalleryProyek from '../../assets/images/beranda_gallery_proyek.jpg';
+import berandaGalleryKitchen from '../../assets/images/beranda_gallery_kitchen.jpg';
+import desainBangunSipil from '../../assets/images/desain_bangun_sipil.jpg';
+import desainBangunInterior from '../../assets/images/desain_bangun_interior.jpg';
+import konsultasiDanDesain from '../../assets/images/konsultasi_dan_desain.jpg';
+import portfolioJpApartment from '../../assets/images/portfolio_jp_apartment.jpeg';
+import portfolioBintaroRenovasi from '../../assets/images/portfolio_bintaro_renovasi.png';
+import portfolioDeraykhaOutfit from '../../assets/images/portfolio_deraykha_outfit.jpg';
+import portfolioGamingRoom from '../../assets/images/portfolio_gaming_room.jpg';
+import portfolioKitchenSet from '../../assets/images/portfolio_kitchen_set.png';
+import portfolioTanggaMelayang from '../../assets/images/tangga_melayang.jpeg';
+import portfolioKitchenSetV2 from '../../assets/images/portfolio_kitchen_set_v2.jpg';
+import tahapKonstruksi from '../../assets/images/tahap_konstruksi.jpg';
+import serahTerima from '../../assets/images/serah_terima.jpg';
 
 const Beranda = () => {
     const [progressQuery, setProgressQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState('Semua');
     const [visibleCount, setVisibleCount] = useState(4);
 
     const portfolioItems = [
+
         {
-            id: 1,
-            category: 'Perumahan',
-            title: 'Modern Tropical Villa',
-            location: 'Bali, Indonesia',
-            image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop'
-        },
-        {
-            id: 2,
+            id: 7,
             category: 'Interior',
-            title: 'Minimalist Master Bedroom',
-            location: 'Jakarta Selatan',
-            image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1200&auto=format&fit=crop'
+            title: 'Custom Furniture',
+            location: 'JP Apartment',
+            image: portfolioJpApartment
         },
         {
-            id: 3,
-            category: 'Interior',
-            title: 'Japandi Kitchen Set',
-            location: 'Tangerang Selatan',
-            image: 'https://images.unsplash.com/photo-1556912173-3bb406ef7e77?q=80&w=1200&auto=format&fit=crop'
-        },
-        {
-            id: 4,
-            category: 'Komersial',
-            title: 'Glass Pavilion',
-            location: 'Bogor, Jawa Barat',
-            image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop'
-        },
-        {
-            id: 5,
+            id: 8,
             category: 'Perumahan',
-            title: 'Scandinavian Family Home',
-            location: 'Bandung, Jawa Barat',
-            image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop'
+            title: 'Project Renovasi LT 2',
+            location: 'Bintaro',
+            image: portfolioBintaroRenovasi
         },
         {
-            id: 6,
-            category: 'Komersial',
-            title: 'Creative Office Space',
-            location: 'Jakarta Pusat',
-            image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200&auto=format&fit=crop'
-        }
+            id: 9,
+            category: 'Perumahan',
+            title: 'Taman Japandi',
+            location: '',
+            image: berandaGalleryProyek
+        },
+        {
+            id: 10,
+            category: 'Interior',
+            title: 'Deraykha Outfit',
+            location: '',
+            image: portfolioDeraykhaOutfit
+        },
+        {
+            id: 11,
+            category: 'Interior',
+            title: 'Studio',
+            location: '',
+            image: portfolioGamingRoom
+        },
+        {
+            id: 12,
+            category: 'Interior',
+            title: 'Kitchen Set',
+            location: '',
+            image: portfolioKitchenSet
+        },
+        {
+            id: 13,
+            category: 'Interior',
+            title: 'Tangga Melayang',
+            location: '',
+            image: portfolioTanggaMelayang
+        },
+        {
+            id: 14,
+            category: 'Interior',
+            title: 'Kitchen Set',
+            location: '',
+            image: portfolioKitchenSetV2
+        },
     ];
 
-    const filteredPortfolio = portfolioItems.filter(item => activeFilter === 'Semua' || item.category === activeFilter);
+    const filteredPortfolio = portfolioItems;
     const visiblePortfolio = filteredPortfolio.slice(0, visibleCount);
-
-    const handleFilterChange = (filter) => {
-        setActiveFilter(filter);
-        setVisibleCount(4);
-    };
 
     return (
         <div className="flex flex-col min-h-screen">
@@ -75,8 +101,8 @@ const Beranda = () => {
                     <div className="absolute inset-0 z-0">
 
                         <img
-                            src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2000&auto=format&fit=crop"
-                            alt="Construction Team"
+                            src={berandaHero}
+                            alt="Proyek Bangunanmu.id"
                             className="w-full h-full object-cover opacity-40 mix-blend-overlay"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/60 to-transparent"></div>
@@ -98,7 +124,7 @@ const Beranda = () => {
 
                     <div className="relative z-10 w-full px-6 sm:px-12 lg:px-20 text-center flex flex-col items-center">
                         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8 max-w-max">
-                            <ShinyText text="Rekomendasi Jasa Konstruksi No.1" disabled={false} speed={3} className="text-sm font-medium text-white/90" />
+                            <ShinyText text="Rekomendasi Jasa Konstruksi" disabled={false} speed={3} className="text-sm font-medium text-white/90" />
                         </div>
 
                         <h1 className="text-4xl sm:text-6xl text-white font-bold tracking-tight mb-6 max-w-4xl leading-[1.1] min-h-[1.2em] flex items-center justify-center">
@@ -112,7 +138,7 @@ const Beranda = () => {
                         </h1>
 
                         <p className="text-xl sm:text-xl text-white/80 max-w-2xl mb-10 leading-relaxed font-light">
-                            Bond, Blend, Build.
+                            Menjual Ketenangan, Bukan Sekadar Bangunan.
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -165,13 +191,13 @@ const Beranda = () => {
                         <div className="flex gap-4 h-[280px] sm:h-[320px]">
 
                             <div className="flex-[1.4] rounded-[1.5rem] overflow-hidden shadow-lg">
-                                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800&auto=format&fit=crop" alt="Interior Details" className="w-full h-full object-cover" />
+                                <img src={tentangGalleryProyek} alt="Galeri Proyek Bangunanmu.id" className="w-full h-full object-cover" />
                             </div>
 
                             <div className="flex-[0.8] flex flex-col gap-4">
 
                                 <div className="flex-1 rounded-[1.5rem] overflow-hidden shadow-lg">
-                                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=600&auto=format&fit=crop" alt="Team Discussion" className="w-full h-full object-cover" />
+                                    <img src={berandaGalleryKitchen} alt="Proses Pengerjaan Kitchen Set Bangunanmu.id" className="w-full h-full object-cover" />
                                 </div>
 
                                 <div className="bg-[#396680] text-white p-5 rounded-[1.5rem] shadow-lg flex flex-col items-center justify-center gap-2 h-[120px]">
@@ -182,7 +208,7 @@ const Beranda = () => {
                         </div>
 
                         <div className="h-[200px] sm:h-[240px] rounded-[1.5rem] overflow-hidden shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop" alt="Modern House Exterior" className="w-full h-full object-cover" />
+                            <img src={berandaGalleryProyek} alt="Taman Belakang Bangunanmu.id" className="w-full h-full object-cover" />
                         </div>
                     </ScrollReveal>
                 </div>
@@ -205,7 +231,7 @@ const Beranda = () => {
 
                         <ScrollReveal variant="fadeInUp" delay={0} className="bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
                             <div className="relative h-64 rounded-[1.5rem] overflow-hidden mb-8">
-                                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1000&auto=format&fit=crop" alt="Konstruksi" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                                <img src={konsultasiDanDesain} alt="Konstruksi Bangunanmu.id" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
                                 <h3 className="text-2xl font-bold text-dark-900 mb-4">Konstruksi</h3>
@@ -228,7 +254,7 @@ const Beranda = () => {
 
                         <ScrollReveal variant="fadeInUp" delay={150} className="bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
                             <div className="relative h-64 rounded-[1.5rem] overflow-hidden mb-8">
-                                <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1000&auto=format&fit=crop" alt="Design and Build" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                                <img src={desainBangunSipil} alt="Desain & Bangun Bangunanmu.id" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
                                 <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain & Bangun</h3>
@@ -251,7 +277,7 @@ const Beranda = () => {
 
                         <ScrollReveal variant="fadeInUp" delay={300} className="bg-white rounded-[2rem] p-4 shadow-xl hover:-translate-y-2 transition-transform duration-300 group">
                             <div className="relative h-64 rounded-[1.5rem] overflow-hidden mb-8">
-                                <img src="https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1000&auto=format&fit=crop" alt="Design" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                                <img src={desainBangunInterior} alt="Desain Arsitektur Bangunanmu.id" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
                                 <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain Arsitektur</h3>
@@ -323,21 +349,6 @@ const Beranda = () => {
                 <div className="section-container">
                     <div className="text-center max-w-2xl mx-auto mb-16">
                         <h2 className="text-3xl sm:text-4xl font-bold text-dark-900 mb-6">Portofolio Terbaru</h2>
-
-                        <div className="flex flex-wrap justify-center gap-3">
-                            {['Semua', 'Perumahan', 'Komersial', 'Interior'].map((filterItem) => (
-                                <button
-                                    key={filterItem}
-                                    onClick={() => handleFilterChange(filterItem)}
-                                    className={`px-6 py-2 rounded-full text-sm font-medium transition-colors ${activeFilter === filterItem
-                                        ? 'bg-dark-900 text-white'
-                                        : 'bg-white border border-dark-200 text-dark-600 hover:border-dark-900'
-                                        }`}
-                                >
-                                    {filterItem}
-                                </button>
-                            ))}
-                        </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12">
@@ -398,7 +409,7 @@ const Beranda = () => {
 
                                     <div className="w-full md:w-1/2 relative min-h-[200px] md:min-h-[450px]">
                                         <img
-                                            src="https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop"
+                                            src={tentangGalleryProyek}
                                             alt="Konsultasi"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
@@ -435,7 +446,7 @@ const Beranda = () => {
                                 <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row">
                                     <div className="w-full md:w-1/2 relative min-h-[200px] md:min-h-[450px]">
                                         <img
-                                            src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=1200&auto=format&fit=crop"
+                                            src={desainBangunInterior}
                                             alt="Perencanaan"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
@@ -471,7 +482,7 @@ const Beranda = () => {
                                 <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row">
                                     <div className="w-full md:w-1/2 relative min-h-[200px] md:min-h-[450px]">
                                         <img
-                                            src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop"
+                                            src={tahapKonstruksi}
                                             alt="Pembangunan"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />
@@ -507,7 +518,7 @@ const Beranda = () => {
                                 <div className="bg-white rounded-[2rem] shadow-xl overflow-hidden flex flex-col md:flex-row">
                                     <div className="w-full md:w-1/2 relative min-h-[200px] md:min-h-[450px]">
                                         <img
-                                            src="https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=1200&auto=format&fit=crop"
+                                            src={serahTerima}
                                             alt="Serah Terima"
                                             className="absolute inset-0 w-full h-full object-cover"
                                         />

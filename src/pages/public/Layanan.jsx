@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { getApprovedTestimonials } from '../../services/testimonialService'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Home, Wrench, Building2, ChevronRight, ChevronLeft, Quote, Armchair, Paintbrush, Search, Hammer, HardHat, Handshake, Compass, Box, ClipboardCheck, CheckCircle2, Star } from 'lucide-react'
+import { Home, Wrench, Building2, ChevronRight, ChevronLeft, Quote, Armchair, Paintbrush, Search, Hammer, HardHat, Handshake, Compass, Box, ClipboardCheck, CheckCircle2, Star, X } from 'lucide-react'
 import WhatsAppButton from '../../components/WhatsAppButton'
 import ShinyText from '../../components/ui/ShinyText'
 import ScrollStack, { ScrollStackItem } from '../../components/ui/ScrollStack'
@@ -16,6 +16,23 @@ import avatar1 from '../../assets/images/avatar_testi_1_1772961205686.png'
 import avatar2 from '../../assets/images/avatar_testi_2_1772961220122.png'
 import avatar3 from '../../assets/images/avatar_testi_3_1772961238354.png'
 import designBuildHero from '../../assets/images/design_build_hero_1772964545081.png'
+import tentangGalleryProyek from '../../assets/images/tentang_gallery_proyek.png'
+import tentangGalleryProyek4 from '../../assets/images/tentang_gallery_proyek4.png'
+import lemariSepatu from '../../assets/images/desain_lemari_sepatu.png'
+import desainKamarAdik from '../../assets/images/desain_kamar_adik.png'
+import desainGarasi from '../../assets/images/desain_garasi.jpg'
+import desainBangunSipil from '../../assets/images/desain_bangun_sipil.jpg'
+import tahapKonstruksi from '../../assets/images/tahap_konstruksi.jpg'
+import desainBangunInterior from '../../assets/images/desain_bangun_interior.jpg'
+import tanggaMelayang from '../../assets/images/tangga_melayang.jpeg'
+import bintaroRenovasi from '../../assets/images/portfolio_bintaro_renovasi.png'
+import serahTerima from '../../assets/images/serah_terima.jpg'
+import berandaGalleryProyek from '../../assets/images/beranda_gallery_proyek.jpg'
+import beforePortfolioBintaroRenovasi from '../../assets/images/before_portfolio_bintaro_renovasi.png'
+import proyekPatimban from '../../assets/images/proyek_patimban.jpg'
+import afterLemariSepatu from '../../assets/images/after_lemari_sepatu.PNG'
+import desainKamarTidur from '../../assets/images/desain_kamar_tidur.png'
+import portfolioDeraykhaOutfit from '../../assets/images/portfolio_deraykha_outfit.jpg'
 
 const TestimonialCarousel = ({ testimonials }) => {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -24,7 +41,6 @@ const TestimonialCarousel = ({ testimonials }) => {
     const touchEndX = useRef(0)
     const autoPlayRef = useRef(null)
 
-    // Cards visible: 1 on mobile, 3 on desktop
     const getVisibleCount = () => {
         if (typeof window === 'undefined') return 3
         if (window.innerWidth < 768) return 1
@@ -143,11 +159,10 @@ const TestimonialCarousel = ({ testimonials }) => {
                         <button
                             key={i}
                             onClick={() => { goTo(i); setIsAutoPlaying(false); setTimeout(() => setIsAutoPlaying(true), 3000) }}
-                            className={`rounded-full transition-all duration-300 ${
-                                i === currentIndex
-                                    ? 'w-8 h-2.5 bg-[#396680]'
-                                    : 'w-2.5 h-2.5 bg-dark-200 hover:bg-dark-300'
-                            }`}
+                            className={`rounded-full transition-all duration-300 ${i === currentIndex
+                                ? 'w-8 h-2.5 bg-[#396680]'
+                                : 'w-2.5 h-2.5 bg-dark-200 hover:bg-dark-300'
+                                }`}
                         />
                     ))}
                 </div>
@@ -183,15 +198,22 @@ const TestimonialCard = ({ testi }) => (
 const Layanan = () => {
     const [searchParams] = useSearchParams()
     const activeTab = searchParams.get('tab') || 'konstruksi'
+    const [lightboxImage, setLightboxImage] = useState(null)
 
     const contents = {
         'konstruksi': {
             badge: "SOLUSI KONSTRUKSI TERPERCAYA",
             title: "Layanan Konstruksi",
             desc: "Wujudkan hunian impian dengan standar kualitas terbaik, transparansi biaya, dan tim profesional yang siap membantu dari awal hingga akhir.",
-            heroImage: konstruksiHero,
-            heroTitle: "Proyek Cluster Harmony",
-            heroSub: "Jakarta Selatan, 2023",
+            heroImage: tentangGalleryProyek4,
+            heroTitle: "Rendering Kitchen Set",
+            heroSub: "",
+            gallery: {
+                big: { src: tentangGalleryProyek, alt: "Konsultasi" },
+                small1: { src: desainKamarAdik, alt: "Desain Kamar Tidur" },
+                small2: { src: desainGarasi, alt: "Desain Luar" },
+                wide: { src: lemariSepatu, alt: "Custom Furniture & Lemari Sepatu" }
+            },
             services: [
                 {
                     title: 'Konstruksi Residensial/Perumahan',
@@ -209,168 +231,10 @@ const Layanan = () => {
             roadmap: [
                 {
                     step: 1,
-                    title: 'Konsultasi & Survey',
-                    shortTitle: 'Konsultasi',
-                    description: 'Diskusi awal kebutuhan Anda dan survey lokasi untuk pemetaan awal yang sangat presisi sesuai regulasi.',
-                    icon: <Search />,
-                    image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'PHASE 01 : INISIASI',
-                    buttonText: 'Mulai Konsultasi',
-                    subIcon1: <Search size={16} className="text-[#396680]" />,
-                    subText1: 'Survey Lokasi',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
-                    subText2: 'Analisa Awal'
-                },
-                {
-                    step: 2,
-                    title: 'Penandatanganan',
-                    shortTitle: 'Kontrak',
-                    description: 'Kesepakatan final atas RAB, timeline penyelesaian, dan biaya pekerjaan konstruksi secara tertulis hitam di atas putih.',
-                    icon: <Handshake />,
-                    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'PHASE 02 : KESEPAKATAN',
-                    buttonText: 'Draft Kontrak',
-                    subIcon1: <Handshake size={16} className="text-[#396680]" />,
-                    subText1: 'Legalitas',
-                    subIcon2: <ClipboardCheck size={16} className="text-[#396680]" />,
-                    subText2: 'MOU Final'
-                },
-                {
-                    step: 3,
-                    title: 'Proses Konstruksi',
-                    shortTitle: 'Konstruksi',
-                    description: 'Eksekusi fisik pembangunan di lapangan dengan pengawasan ketat dan laporan progres berkala melalui sistem yang transparan.',
-                    icon: <HardHat />,
-                    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'PHASE 03 : EKSEKUSI',
-                    buttonText: 'Pantau Proyek',
-                    subIcon1: <HardHat size={16} className="text-[#396680]" />,
-                    subText1: 'Sipil Aktif',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
-                    subText2: 'Laporan Berkala'
-                },
-                {
-                    step: 4,
-                    title: 'Serah Terima Kunci',
-                    shortTitle: 'Serah Terima',
-                    description: 'Inspeksi final bersama dan penyerahan bangunan siap huni beserta dokumen retensi dan garansi pemeliharaan struktur.',
-                    icon: <Home />,
-                    image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'PHASE 04 : FINAL',
-                    buttonText: 'Hubungi Kami',
-                    subIcon1: <Home size={16} className="text-[#396680]" />,
-                    subText1: 'Handover',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
-                    subText2: 'Garansi Kualitas'
-                }
-            ]
-        },
-        'design-build': {
-            badge: "Rancang Bangun",
-            title: "Desain & Bangun",
-            desc: "Layanan Desain & Bangun kami menyediakan solusi  terintegrasi bagi klien yang ingin mentransformasikan visi hunian mereka menjadi kenyataan tanpa kerumitan.",
-            heroImage: designBuildHero,
-            heroTitle: "Luxury Residence Kitchen",
-            heroSub: "BSD City, 2024",
-            services: [
-                {
-                    title: 'Desain & Konstruksi Rumah',
-                    desc: 'Layanan lengkap mulai dari perancangan desain arsitektur hingga pembangunan fisik rumah impian Anda dalam satu paket terintegrasi.',
-                    icon: <Paintbrush size={20} className="text-[#396680]" />,
-                    link: '/kontak'
-                },
-                {
-                    title: 'Renovasi Total',
-                    desc: 'Perombakan menyeluruh bangunan lama Anda dengan desain baru yang modern, termasuk perencanaan ulang tata ruang dan eksekusi pembangunan.',
-                    icon: <Home size={20} className="text-[#396680]" />,
-                    link: '/kontak'
-                }
-            ],
-            roadmap: [
-                {
-                    step: 1,
-                    title: 'Konsultasi Briefing',
-                    description: 'Penggalian ide secara detail, gaya design yang diinginkan pelanggan, serta pengukuran ruang di awal secara spesifik.',
-                    icon: <Search />,
-                    image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'TAHAP 01 : PENGGALIAN',
-                    buttonText: 'Jadwalkan Sesi',
-                    subIcon1: <Search size={16} className="text-[#396680]" />,
-                    subText1: 'Brainstorming',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
-                    subText2: 'Pengukuran'
-                },
-                {
-                    step: 2,
-                    title: 'Design & Material',
-                    description: 'Presentasi visualisasi 3D fotorealistik lengkap dengan referensi serta pemilihan sampel material fisik yang diaplikasikan.',
-                    icon: <Box />,
-                    image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'TAHAP 02 : VISUALISASI',
-                    buttonText: 'Lihat Katalog',
-                    subIcon1: <Paintbrush size={16} className="text-[#396680]" />,
-                    subText1: 'Moodboard',
-                    subIcon2: <Box size={16} className="text-[#396680]" />,
-                    subText2: 'Sample Fisik'
-                },
-                {
-                    step: 3,
-                    title: 'Tinjau Anggaran',
-                    shortTitle: 'Anggaran',
-                    description: 'Finalisasi ruang lingkup pekerjaan interior agar tetap linear dengan bujet Anda, yang selanjutnya diakhiri kontrak.',
-                    icon: <Handshake />,
-                    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'TAHAP 03 : KESEPAKATAN',
-                    buttonText: 'Atur Anggaran',
-                    subIcon1: <Hammer size={16} className="text-[#396680]" />,
-                    subText1: 'Optimasi Biaya',
-                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
-                    subText2: 'Approval'
-                },
-                {
-                    step: 4,
-                    title: 'Final Inspection',
-                    shortTitle: 'Final',
-                    description: 'Pengecekan dan finishing setiap detail akhir sebelum kami melaksanakan serah terima kepemilikan hasil karya.',
-                    icon: <ClipboardCheck />,
-                    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop',
-                    badge: 'TAHAP 04 : SERAH TERIMA',
-                    buttonText: 'Cek Lokasi',
-                    subIcon1: <ClipboardCheck size={16} className="text-[#396680]" />,
-                    subText1: 'Defect Audit',
-                    subIcon2: <Home size={16} className="text-[#396680]" />,
-                    subText2: 'Masa Pemeliharaan'
-                }
-            ]
-        },
-        'desain': {
-            badge: "DESAIN ARSITEKTUR & INTERIOR",
-            title: "Desain Arsitektur",
-            desc: "Wujudkan konsep bangunan impian Anda melalui visualisasi 3D yang realistis dan perencanaan detail arsitektur maupun interior sebelum proses konstruksi dimulai.",
-            heroImage: galleryArch2,
-            heroTitle: "Modern Minimalist Blueprint",
-            heroSub: "Perencanaan Design, 2024",
-            services: [
-                {
-                    title: 'Desain Arsitektur',
-                    desc: 'Layanan ini berfokus pada perencanaan struktur, fasad, dan tata letak ruang secara komprehensif, menghasilkan gambar kerja (DED) yang siap diaplikasikan di lapangan.',
-                    icon: <Compass size={20} className="text-[#396680]" />,
-                    link: '/kontak'
-                },
-                {
-                    title: 'Desain Interior',
-                    desc: 'Layanan yang merancang estetika dan fungsionalitas ruang dalam, dari pemilihan palet warna hingga penentuan furnitur, untuk menciptakan harmoni visual.',
-                    icon: <Paintbrush size={20} className="text-[#396680]" />,
-                    link: '/kontak'
-                }
-            ],
-            roadmap: [
-                {
-                    step: 1,
                     title: 'Konsultasi & Konsep',
                     description: 'Diskusi awal untuk memahami kebutuhan spesifik, preferensi gaya, dan penentuan konsep desain yang sesuai dengan anggaran Anda.',
                     icon: <Search />,
-                    image: 'https://images.unsplash.com/photo-1573164574572-cb89e39749b4?q=80&w=1200&auto=format&fit=crop',
+                    image: tentangGalleryProyek,
                     badge: 'TAHAP 01 : KONSEPTUAL',
                     buttonText: 'Mulai Konsultasi',
                     subIcon1: <Search size={16} className="text-[#396680]" />,
@@ -397,7 +261,7 @@ const Layanan = () => {
                     shortTitle: '3D Render',
                     description: 'Presentasi hasil render 3D fotorealistik yang memberikan gambaran jelas tentang bentuk, warna, dan material bangunan Anda.',
                     icon: <Box />,
-                    image: 'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?q=80&w=1200&auto=format&fit=crop',
+                    image: desainKamarAdik,
                     badge: 'TAHAP 03 : VISUALISASI',
                     buttonText: 'Cek Portofolio',
                     subIcon1: <Paintbrush size={16} className="text-[#396680]" />,
@@ -425,7 +289,7 @@ const Layanan = () => {
                     shortTitle: 'DED Final',
                     description: 'Penyerahan dokumen Detail Engineering Desain (DED) lengkap yang siap digunakan sebagai panduan pelaksanaan konstruksi.',
                     icon: <Wrench />,
-                    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
+                    image: desainKamarTidur,
                     badge: 'TAHAP 05 : HANDOVER',
                     buttonText: 'Siap Bangun',
                     subIcon1: <Wrench size={16} className="text-[#396680]" />,
@@ -434,10 +298,213 @@ const Layanan = () => {
                     subText2: 'Cetak Biru'
                 }
             ]
+        },
+        'design-build': {
+            badge: "Rancang Bangun",
+            title: "Desain & Bangun Sipil",
+            desc: "Layanan Desain & Bangun Sipil kami menyediakan solusi  terintegrasi bagi klien yang ingin mentransformasikan visi hunian mereka menjadi kenyataan tanpa kerumitan.",
+            heroImage: desainBangunSipil,
+            heroTitle: "Desain & Bangun Sipil",
+            heroSub: "",
+            gallery: {
+                big: { src: bintaroRenovasi, alt: "Sesudah Renovasi Rumah Bintaro" },
+                small1: { src: beforePortfolioBintaroRenovasi, alt: "Sebelum Renovasi Bintaro" },
+                small2: { src: berandaGalleryProyek, alt: "Taman Japandi" },
+                wide: { src: proyekPatimban, alt: "Proyek Patimban" }
+            },
+            services: [
+                {
+                    title: 'Desain & Bangun Sipil',
+                    desc: 'Solusi menyeluruh dari desain hingga konstruksi rumah tinggal. Satu tanggung jawab penuh sehingga tidak ada celah antara desain yang dijanjikan dan bangunan yang berdiri.',
+                    icon: <Paintbrush size={20} className="text-[#396680]" />,
+                    link: '/kontak'
+                },
+                {
+                    title: 'Renovasi Total',
+                    desc: 'Perombakan menyeluruh bangunan lama Anda dengan desain baru yang modern, termasuk perencanaan ulang tata ruang dan eksekusi pembangunan.',
+                    icon: <Home size={20} className="text-[#396680]" />,
+                    link: '/kontak'
+                }
+            ],
+            roadmap: [
+                {
+                    step: 1,
+                    title: 'Konsultasi Briefing',
+                    description: 'Penggalian ide secara detail, gaya design yang diinginkan pelanggan, serta pengukuran ruang di awal secara spesifik.',
+                    icon: <Search />,
+                    image: tentangGalleryProyek,
+                    badge: 'TAHAP 01 : PENGGALIAN',
+                    buttonText: 'Jadwalkan Sesi',
+                    subIcon1: <Search size={16} className="text-[#396680]" />,
+                    subText1: 'Brainstorming',
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
+                    subText2: 'Pengukuran'
+                },
+                {
+                    step: 2,
+                    title: 'Design & Material',
+                    description: 'Presentasi visualisasi 3D fotorealistik lengkap dengan referensi serta pemilihan sampel material fisik yang diaplikasikan.',
+                    icon: <Box />,
+                    image: desainBangunInterior,
+                    badge: 'TAHAP 02 : VISUALISASI',
+                    buttonText: 'Lihat Katalog',
+                    subIcon1: <Paintbrush size={16} className="text-[#396680]" />,
+                    subText1: 'Moodboard',
+                    subIcon2: <Box size={16} className="text-[#396680]" />,
+                    subText2: 'Sample Fisik'
+                },
+                {
+                    step: 3,
+                    title: 'Tinjau Anggaran',
+                    shortTitle: 'Anggaran',
+                    description: 'Finalisasi rencana anggaran biaya (RAB) dan penandatanganan kontrak kerja rancang bangun untuk kepastian hukum.',
+                    icon: <Handshake />,
+                    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
+                    badge: 'TAHAP 03 : KESEPAKATAN',
+                    buttonText: 'Atur Anggaran',
+                    subIcon1: <Hammer size={16} className="text-[#396680]" />,
+                    subText1: 'Optimasi Biaya',
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
+                    subText2: 'Approval'
+                },
+                {
+                    step: 4,
+                    title: 'Proses Pembangunan',
+                    shortTitle: 'Konstruksi',
+                    description: 'Eksekusi pembangunan fisik di lapangan dengan pengawasan ketat dan laporan progres berkala melalui sistem yang transparan.',
+                    icon: <HardHat />,
+                    image: tahapKonstruksi,
+                    badge: 'TAHAP 04 : EKSEKUSI',
+                    buttonText: 'Pantau Proyek',
+                    subIcon1: <HardHat size={16} className="text-[#396680]" />,
+                    subText1: 'Sipil Aktif',
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
+                    subText2: 'Laporan Berkala'
+                },
+                {
+                    step: 5,
+                    title: 'Final Inspection',
+                    shortTitle: 'Final',
+                    description: 'Pengecekan dan finishing setiap detail akhir sebelum kami melaksanakan serah terima kepemilikan hasil karya.',
+                    icon: <ClipboardCheck />,
+                    image: tanggaMelayang,
+                    badge: 'TAHAP 05 : SERAH TERIMA',
+                    buttonText: 'Cek Lokasi',
+                    subIcon1: <ClipboardCheck size={16} className="text-[#396680]" />,
+                    subText1: 'Defect Audit',
+                    subIcon2: <Home size={16} className="text-[#396680]" />,
+                    subText2: 'Masa Pemeliharaan'
+                }
+            ]
+        },
+        'desain': {
+            badge: "DESAIN ARSITEKTUR & INTERIOR",
+            title: "Desain Arsitektur",
+            desc: "Wujudkan konsep bangunan impian Anda melalui visualisasi 3D yang realistis dan perencanaan detail arsitektur maupun interior sebelum proses konstruksi dimulai.",
+            heroImage: desainBangunInterior,
+            heroTitle: "Desain & Bangun Interior",
+            heroSub: "",
+            gallery: {
+                big: { src: portfolioDeraykhaOutfit, alt: "Interior Deraykha Outfit" },
+                small1: { src: lemariSepatu, alt: "Desain Lemari Sepatu" },
+                small2: { src: afterLemariSepatu, alt: "Realisasi Lemari Sepatu" },
+                wide: { src: desainKamarTidur, alt: "Desain Kamar Tidur" }
+            },
+            services: [
+                {
+                    title: 'Desain Arsitektur',
+                    desc: 'Layanan ini berfokus pada perencanaan struktur, fasad, dan tata letak ruang secara komprehensif, menghasilkan gambar kerja (DED) yang siap diaplikasikan di lapangan.',
+                    icon: <Compass size={20} className="text-[#396680]" />,
+                    link: '/kontak'
+                },
+                {
+                    title: 'Desain Interior',
+                    desc: 'Layanan yang merancang estetika dan fungsionalitas ruang dalam, dari pemilihan palet warna hingga penentuan furnitur, untuk menciptakan harmoni visual.',
+                    icon: <Paintbrush size={20} className="text-[#396680]" />,
+                    link: '/kontak'
+                }
+            ],
+            roadmap: [
+                {
+                    step: 1,
+                    title: 'Konsultasi Briefing',
+                    description: 'Penggalian ide tata ruang secara detail, gaya interior/furnitur yang diinginkan, serta pengukuran ruang (survey lokasi) secara spesifik.',
+                    icon: <Search />,
+                    image: tentangGalleryProyek,
+                    badge: 'TAHAP 01 : PENGGALIAN',
+                    buttonText: 'Jadwalkan Sesi',
+                    subIcon1: <Search size={16} className="text-[#396680]" />,
+                    subText1: 'Brainstorming',
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
+                    subText2: 'Pengukuran'
+                },
+                {
+                    step: 2,
+                    title: 'Desain & Pemilihan Material',
+                    description: 'Presentasi visualisasi 3D interior fotorealistik lengkap dengan pemilihan sampel material fisik (HPL, kain, cat, finishing) yang diaplikasikan.',
+                    icon: <Box />,
+                    image: desainBangunInterior,
+                    badge: 'TAHAP 02 : VISUALISASI',
+                    buttonText: 'Lihat Katalog',
+                    subIcon1: <Paintbrush size={16} className="text-[#396680]" />,
+                    subText1: 'Moodboard',
+                    subIcon2: <Box size={16} className="text-[#396680]" />,
+                    subText2: 'Sample Fisik'
+                },
+                {
+                    step: 3,
+                    title: 'Rencana Anggaran & Kontrak',
+                    shortTitle: 'Anggaran',
+                    description: 'Finalisasi Rencana Anggaran Biaya (RAB) pengerjaan interior & custom furniture secara detail dan transparan sebelum penandatanganan kontrak.',
+                    icon: <Handshake />,
+                    image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1200&auto=format&fit=crop',
+                    badge: 'TAHAP 03 : KESEPAKATAN',
+                    buttonText: 'Atur Anggaran',
+                    subIcon1: <ClipboardCheck size={16} className="text-[#396680]" />,
+                    subText1: 'Optimasi Biaya',
+                    subIcon2: <CheckCircle2 size={16} className="text-[#396680]" />,
+                    subText2: 'Approval'
+                },
+                {
+                    step: 4,
+                    title: 'Produksi & Instalasi',
+                    shortTitle: 'Instalasi',
+                    description: 'Pembuatan custom furniture di workshop kami, dilanjutkan dengan instalasi dan fit-out interior di lapangan dengan pengawasan ketat.',
+                    icon: <Hammer />,
+                    image: lemariSepatu,
+                    badge: 'TAHAP 04 : EKSEKUSI',
+                    buttonText: 'Pantau Proyek',
+                    subIcon1: <Hammer size={16} className="text-[#396680]" />,
+                    subText1: 'Produksi Workshop',
+                    subIcon2: <Wrench size={16} className="text-[#396680]" />,
+                    subText2: 'Instalasi Fit-out'
+                },
+                {
+                    step: 5,
+                    title: 'Final Inspection & Handover',
+                    shortTitle: 'Final',
+                    description: 'Pengecekan akhir kualitas (Quality Control), pembersihan area (styling), dan serah terima hasil pengerjaan interior beserta masa garansi pemeliharaan.',
+                    icon: <ClipboardCheck />,
+                    image: desainKamarAdik,
+                    badge: 'TAHAP 05 : SERAH TERIMA',
+                    buttonText: 'Cek Hasil',
+                    subIcon1: <ClipboardCheck size={16} className="text-[#396680]" />,
+                    subText1: 'Quality Control',
+                    subIcon2: <Home size={16} className="text-[#396680]" />,
+                    subText2: 'Garansi'
+                }
+            ]
         }
     }
 
     const currentContent = contents[activeTab] || contents['konstruksi']
+    const defaultGallery = {
+        big: { src: tentangGalleryProyek, alt: "Konsultasi" },
+        small1: { src: desainKamarAdik, alt: "Desain Kamar Tidur" },
+        small2: { src: desainGarasi, alt: "Desain Luar" },
+        wide: { src: lemariSepatu, alt: "Custom Furniture & Lemari Sepatu" }
+    }
+    const currentGallery = currentContent.gallery || defaultGallery
 
     const [testimonials, setTestimonials] = useState([])
     const [loadingTesti, setLoadingTesti] = useState(true)
@@ -557,7 +624,7 @@ const Layanan = () => {
                             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] mb-2">
                                 <span className="text-dark-900 drop-shadow-sm">Tahapan Kerja</span><br />
                                 <span className="text-[#396680]">
-                                    {activeTab === 'konstruksi' ? 'Konstruksi' : activeTab === 'desain' ? 'Desain Arsitektur' : 'Desain & Bangun'}
+                                    {activeTab === 'konstruksi' ? 'Konstruksi' : activeTab === 'desain' ? 'Desain & Bangun Interior' : 'Desain & Bangun Sipil'}
                                 </span>
                             </h2>
                         </div>
@@ -625,21 +692,29 @@ const Layanan = () => {
                         <h2 className="text-3xl font-bold text-dark-900 mb-12">Galeri Proyek</h2>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-auto lg:h-[800px]">
 
-                            <div className="rounded-[40px] overflow-hidden shadow-lg h-[400px] lg:h-full">
-                                <img src={galleryArch1} alt="Project 1" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                            <div className="rounded-[40px] overflow-hidden shadow-lg h-[400px] lg:h-full cursor-pointer"
+                                onClick={() => setLightboxImage({ src: currentGallery.big.src, alt: currentGallery.big.alt })}
+                            >
+                                <img src={currentGallery.big.src} alt={currentGallery.big.alt} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                             </div>
 
                             <div className="flex flex-col gap-8 h-full">
                                 <div className="grid grid-cols-2 gap-8 flex-1">
-                                    <div className="rounded-[40px] overflow-hidden shadow-lg">
-                                        <img src={galleryInt1} alt="Project 2" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                                    <div className="rounded-[40px] overflow-hidden shadow-lg cursor-pointer"
+                                        onClick={() => setLightboxImage({ src: currentGallery.small1.src, alt: currentGallery.small1.alt })}
+                                    >
+                                        <img src={currentGallery.small1.src} alt={currentGallery.small1.alt} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                                     </div>
-                                    <div className="rounded-[40px] overflow-hidden shadow-lg">
-                                        <img src={galleryArch2} alt="Project 3" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                                    <div className="rounded-[40px] overflow-hidden shadow-lg cursor-pointer"
+                                        onClick={() => setLightboxImage({ src: currentGallery.small2.src, alt: currentGallery.small2.alt })}
+                                    >
+                                        <img src={currentGallery.small2.src} alt={currentGallery.small2.alt} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                                     </div>
                                 </div>
-                                <div className="relative rounded-[40px] overflow-hidden shadow-lg h-[300px]">
-                                    <img src={galleryInt2} alt="Project 4" className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
+                                <div className="relative rounded-[40px] overflow-hidden shadow-lg h-[300px] cursor-pointer"
+                                    onClick={() => setLightboxImage({ src: currentGallery.wide.src, alt: currentGallery.wide.alt })}
+                                >
+                                    <img src={currentGallery.wide.src} alt={currentGallery.wide.alt} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
                                 </div>
                             </div>
                         </div>
@@ -668,6 +743,31 @@ const Layanan = () => {
                     </ScrollReveal>
                 </div>
             </div>
+
+            {lightboxImage && (
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md cursor-zoom-out"
+                    onClick={() => setLightboxImage(null)}
+                    onKeyDown={(e) => e.key === 'Escape' && setLightboxImage(null)}
+                    tabIndex={0}
+                    ref={(el) => el && el.focus()}
+                    style={{ animation: 'fadeIn 0.2s ease-out' }}
+                >
+                    <button
+                        onClick={() => setLightboxImage(null)}
+                        className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white text-xl transition-colors z-10"
+                    >
+                        <X size={24} />
+                    </button>
+                    <img
+                        src={lightboxImage.src}
+                        alt={lightboxImage.alt}
+                        className="max-w-[90vw] max-h-[90vh] object-contain rounded-lg shadow-2xl"
+                        onClick={(e) => e.stopPropagation()}
+                    />
+                    <p className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/40 px-4 py-2 rounded-full">{lightboxImage.alt}</p>
+                </div>
+            )}
         </div>
     )
 }

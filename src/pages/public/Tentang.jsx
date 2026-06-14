@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { Play, Lightbulb, Palette, Shield, ArrowRight } from 'lucide-react';
 import ShinyText from '../../components/ui/ShinyText';
 import ScrollReveal from '../../components/ui/ScrollReveal';
+import tentangGalleryProyek from '../../assets/images/tentang_gallery_proyek.png';
+import tentangGalleryProyek2 from '../../assets/images/tentang_gallery_proyek2.png';
+import tentangGalleryProyek3 from '../../assets/images/tentang_gallery_proyek3.png';
+import tentangGalleryProyek4 from '../../assets/images/tentang_gallery_proyek4.png';
 
 const Tentang = () => {
     return (
@@ -43,19 +47,19 @@ const Tentang = () => {
                         <div className="absolute top-[40%] left-[5%] w-[300px] h-[300px] bg-yellow-100/50 rounded-full mix-blend-multiply filter blur-[80px] z-0 transform -translate-y-1/2"></div>
 
                         <div className="absolute top-0 left-0 w-[58%] h-[60%] lg:w-[55%] lg:h-[70%] rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden shadow-2xl z-10 hover:-translate-y-1 transition-transform duration-500 bg-white">
-                            <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&auto=format&fit=crop" alt="Interior Design" className="w-full h-full object-cover" />
+                            <img src={tentangGalleryProyek} alt="Galeri Proyek Bangunanmu.id" className="w-full h-full object-cover" />
                         </div>
 
                         <div className="absolute top-[10%] right-0 w-[38%] h-[35%] lg:w-[35%] lg:h-[45%] rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-xl z-20 hover:-translate-y-1 transition-transform duration-500 bg-white">
-                            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=600&auto=format&fit=crop" alt="Team Meeting" className="w-full h-full object-cover" />
+                            <img src={tentangGalleryProyek2} alt="Kolaborasi Proyek Bangunanmu.id" className="w-full h-full object-cover" />
                         </div>
 
                         <div className="absolute bottom-[5%] left-[15%] w-[45%] h-[40%] lg:w-[50%] lg:h-[45%] rounded-[2rem] lg:rounded-[2.5rem] overflow-hidden shadow-2xl z-30 ring-[6px] lg:ring-[8px] ring-white bg-white hover:-translate-y-1 transition-transform duration-500">
-                            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop" alt="Modern Building" className="w-full h-full object-cover" />
+                            <img src={tentangGalleryProyek3} alt="Presentasi Desain Bangunanmu.id" className="w-full h-full object-cover" />
                         </div>
 
                         <div className="absolute bottom-[15%] right-[5%] w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] lg:w-[150px] lg:h-[150px] rounded-full overflow-hidden shadow-xl z-40 ring-[6px] ring-white bg-white hover:-translate-y-1 transition-transform duration-500">
-                            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop" alt="Architect Portrait" className="w-full h-full object-cover" />
+                            <img src={tentangGalleryProyek4} alt="Desain Dapur Bangunanmu.id" className="w-full h-full object-cover" />
                         </div>
                     </ScrollReveal>
                 </div>

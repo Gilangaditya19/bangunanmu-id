@@ -933,7 +933,7 @@ const ProjectManagement = () => {
                                     <p className="text-center py-8 text-black/80 font-bold italic">Belum ada tahapan. Tambahkan di bawah.</p>
                                 ) : (
                                     milestones.map((stage) => (
-                                        <div key={stage.id} className="bg-white p-5 rounded-2xl border-2 border-[#396680]/40 shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
+                                        <div key={stage.id} className="bg-white p-5 rounded-2xl border border-black shadow-sm flex items-start gap-4 hover:shadow-md transition-shadow">
                                             <div className="mt-1">
                                                 {(stage.status === 'completed' || stage.status === 'COMPLETED' || stage.status === 'selesai') ? (
                                                     <CheckCircle2 className="text-green-500 text-xl" />

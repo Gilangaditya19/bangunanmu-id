@@ -21,7 +21,7 @@ const ContactForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const waMessage = `Halo Bangunanmu.id,\n\nSaya ${formData.name} (${formData.email}).\nSaya ingin bertanya mengenai *${formData.subject}*.\n\nPesan:\n${formData.message}`;
+        const waMessage = `Halo Bangunanmu.id,\n\nSaya ${formData.name} (${formData.email}).\nSaya ingin bertanya mengenai ${formData.subject}.\n\nPesan:\n${formData.message}`;
 
         openWhatsApp('', waMessage);
     };
