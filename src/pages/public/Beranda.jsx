@@ -181,8 +181,8 @@ const Beranda = () => {
                             Solusi Hunian <br />
                             <span className="text-[#396680]">Kreatif & Terpercaya</span>
                         </h2>
-                        <p className="text-dark-900 text-lg leading-relaxed">
-                            Kami adalah Bangunanmu.id, tim berdedikasi yang menghadirkan solusi unggul di bidang konstruksi dan desain interior, khususnya untuk hunian. Berbekal pengalaman lebih dari lima tahun, kami memahami pentingnya menciptakan rumah yang nyaman, fungsional, dan dirancang secara khusus sesuai dengan visi Anda.
+                        <p className="text-dark-900 text-lg leading-relaxed text-justify">
+                            Kami adalah Bangunanmu.id, tim berdedikasi yang menghadirkan solusi unggul di bidang konstruksi dan desain interior, khususnya untuk hunian. Berbekal pengalaman lebih dari empat tahun, kami memahami pentingnya menciptakan rumah yang nyaman, fungsional, dan dirancang secara khusus sesuai dengan visi Anda.
                         </p>
 
                         <div className="p-8 bg-white rounded-3xl shadow-lg border border-dark-50 relative">

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Play, Lightbulb, Palette, Shield, ArrowRight } from 'lucide-react';
+import { Play, Lightbulb, Palette, Shield, ArrowRight, Handshake, ClipboardCheck, ShieldCheck } from 'lucide-react';
 import ShinyText from '../../components/ui/ShinyText';
 import ScrollReveal from '../../components/ui/ScrollReveal';
 import tentangGalleryProyek from '../../assets/images/tentang_gallery_proyek.png';
@@ -30,7 +30,7 @@ const Tentang = () => {
                             <span className="text-[#396680]">Kami?</span>
                         </h1>
 
-                        <p className="text-lg text-dark-900 max-w-lg leading-relaxed">
+                        <p className="text-lg text-dark-900 max-w-lg leading-relaxed text-justify">
                             PT Solusi Bangun Berkah (Bangunanmu.id) lahir dari satu keyakinan sederhana: membangun rumah seharusnya tidak terasa menegangkan. Kami adalah tim design & build residensial yang menemani klien dari sketsa pertama hingga kunci diserahkan dengan komunikasi yang jujur, jadwal yang dipegang, dan hasil yang bisa dipertanggungjawabkan. Lebih dari setengah dekade, kami hadir bukan hanya sebagai kontraktor, tapi sebagai mitra yang bertanggung jawab bahkan di kondisi paling sulit sekalipun.
                         </p>
 
@@ -73,12 +73,11 @@ const Tentang = () => {
                                 <span className="text-xs font-bold tracking-widest text-[#396680] uppercase">VISI & MISI</span>
                             </div>
                             <h2 className="text-4xl sm:text-5xl font-bold text-dark-900 tracking-tight leading-tight">
-                                Lebih dari Sekadar Kontraktor, <br />
-                                Partner Kreatif untuk Mewujudkan Visi Anda.
+                                Menjadi kontraktor residensial yang paling dipercaya di Indonesia bukan karena hasil akhirnya saja, tapi karena setiap tahap prosesnya membuat klien merasa tenang dan yakin.
                             </h2>
                         </div>
                         <div className="lg:col-span-5">
-                            <p className="text-dark-900 text-lg leading-relaxed">
+                            <p className="text-dark-900 text-lg leading-relaxed text-justify">
                                 Kami hadir sebagai penyedia solusi konstruksi dan interior berbasis teknologi, serta dikenal atas komitmen kami terhadap kualitas, transparansi, dan kepuasan klien. Kami bertekad untuk menetapkan standar baru dalam konstruksi dengan mengintegrasikan teknologi mutakhir seperti Building Information Modeling (BIM) dan Augmented Reality (AR), guna menciptakan ruang luar biasa yang membangun kepercayaan serta melampaui harapan klien.
                             </p>
                         </div>
@@ -88,31 +87,31 @@ const Tentang = () => {
 
                         <ScrollReveal variant="fadeInUp" delay={0} className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
-                                <Lightbulb size={24} className="text-[#396680]" />
+                                <Handshake size={24} className="text-[#396680]" />
                             </div>
-                            <h3 className="text-xl font-bold text-dark-900 mb-4">Inovasi Tanpa Batas</h3>
+                            <h3 className="text-xl font-bold text-dark-900 mb-4">Mewujudkan dengan jujur</h3>
                             <p className="text-dark-900 text-sm leading-relaxed">
-                                Pemanfaatan teknologi terkini, termasuk Building Information Modeling (BIM) dan Augmented Reality (AR), guna menjamin proses yang terintegrasi serta transparan dari awal hingga akhir.
+                                Setiap proposal mencerminkan apa yang benar-benar bisa kami eksekusi, bukan yang terlihat paling mengesankan.
                             </p>
                         </ScrollReveal>
 
                         <ScrollReveal variant="fadeInUp" delay={150} className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
-                                <Palette size={24} className="text-[#396680]" />
+                                <ClipboardCheck size={24} className="text-[#396680]" />
                             </div>
-                            <h3 className="text-xl font-bold text-dark-900 mb-4">Transparansi</h3>
+                            <h3 className="text-xl font-bold text-dark-900 mb-4">Hadir di setiap tahap</h3>
                             <p className="text-dark-900 text-sm leading-relaxed">
-                                Membangun kepercayaan melalui komunikasi yang jelas, praktik kerja yang etis, serta komitmen terhadap kualitas.
+                                Laporan proaktif dan komunikasi transparan dari awal hingga kunci diserahkan.
                             </p>
                         </ScrollReveal>
 
                         <ScrollReveal variant="fadeInUp" delay={300} className="bg-white p-8 md:p-10 rounded-[40px] shadow-lg md:shadow-sm hover:shadow-xl transition-all duration-300 border border-dark-200 md:border-dark-100 hover:-translate-y-2">
                             <div className="w-14 h-14 rounded-2xl bg-dark-50 flex items-center justify-center mb-8 border border-dark-100/50">
-                                <Shield size={24} className="text-[#396680]" />
+                                <ShieldCheck size={24} className="text-[#396680]" />
                             </div>
-                            <h3 className="text-xl font-bold text-dark-900 mb-4">Kolaborasi</h3>
+                            <h3 className="text-xl font-bold text-dark-900 mb-4">Bertanggung jawab sampai selesai</h3>
                             <p className="text-dark-900 text-sm leading-relaxed">
-                                Bekerja sama secara erat dengan klien untuk mewujudkan visi mereka, serta memadukan ide-ide klien dengan keahlian yang kami miliki.
+                                Kami tidak menghilang saat kondisi sulit. Itu janji kami, bukan sekadar kalimat pemasaran.
                             </p>
                         </ScrollReveal>
                     </div>
@@ -141,7 +140,7 @@ const Tentang = () => {
                                         <p className="text-white/70 text-[10px] font-bold tracking-widest uppercase">Klien Puas</p>
                                     </div>
                                     <div className="text-center sm:text-left col-span-2 sm:col-span-1">
-                                        <p className="text-5xl font-bold mb-2">4<span className="text-white/60">+</span></p>
+                                        <p className="text-5xl font-bold mb-2">5<span className="text-white/60">+</span></p>
                                         <p className="text-white/70 text-[10px] font-bold tracking-widest uppercase">Tahun</p>
                                     </div>
                                 </div>
