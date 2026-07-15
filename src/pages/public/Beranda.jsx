@@ -250,11 +250,11 @@ const Beranda = () => {
                                 <img src={konsultasiDanDesain} alt="Konstruksi Bangunanmu.id" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
-                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Konstruksi</h3>
-                                <p className="text-dark-900 mb-8 line-clamp-2">Tujuan kami adalah menciptakan hunian yang tidak hanya indah secara estetika, tetapi juga kokoh dan fungsional.</p>
+                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Konsultasi & Desain</h3>
+                                <p className="text-dark-900 mb-8 line-clamp-2">Pintu masuk terbaik sebelum membangun. Kami bantu wujudkan konsep desain lengkap dengan estimasi biaya yang realistis sehingga kamu membangun dengan mata terbuka dan hati yang tenang.</p>
 
                                 <ul className="space-y-3 mb-10">
-                                    {['Konstruksi Residensial/Perumahan', 'Konstruksi Komersial'].map((item, i) => (
+                                    {['Konsep Awal', 'Sketsa & Konsep Desain'].map((item, i) => (
                                         <li key={i} className="flex items-center gap-3 text-dark-900 font-medium">
                                             <CheckCircle2 size={16} className="text-[#396680]" />
                                             {item}
@@ -273,8 +273,8 @@ const Beranda = () => {
                                 <img src={desainBangunSipil} alt="Desain & Bangun Bangunanmu.id" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
-                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain & Bangun</h3>
-                                <p className="text-dark-900 mb-8 line-clamp-2">Solusi terintegrasi dari perancangan desain hingga pembangunan fisik rumah impian Anda dalam satu paket.</p>
+                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain & Bangun Sipil</h3>
+                                <p className="text-dark-900 mb-8 line-clamp-2">Solusi menyeluruh dari desain hingga konstruksi rumah tinggal. Satu tanggung jawab penuh tidak ada celah antara desain yang dijanjikan dan bangunan yang berdiri.</p>
 
                                 <ul className="space-y-3 mb-10">
                                     {['Desain & Konstruksi Rumah', 'Renovasi Total'].map((item, i) => (
@@ -296,8 +296,8 @@ const Beranda = () => {
                                 <img src={desainBangunInterior} alt="Desain Arsitektur Bangunanmu.id" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                             </div>
                             <div className="p-4 sm:p-6 pt-0">
-                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain Arsitektur</h3>
-                                <p className="text-dark-900 mb-8 line-clamp-2">Visualisasikan hunian impian Anda dengan desain arsitektur dan interior 3D yang detail serta realistis.</p>
+                                <h3 className="text-2xl font-bold text-dark-900 mb-4">Desain & Bangun Interior</h3>
+                                <p className="text-dark-900 mb-8 line-clamp-2">Transformasi ruang dalam rumah yang selaras dengan karakter dan gaya hidup penghuninya. Dari konsep hingga instalasi, kami tangani semuanya.</p>
 
                                 <ul className="space-y-3 mb-10">
                                     {['Desain Arsitektur (DED)', 'Desain Interior & 3D'].map((item, i) => (
