@@ -20,6 +20,14 @@ const getPhotoUrl = (fileUrl) => {
     return `${base}${fileUrl.startsWith('/') ? '' : '/'}${fileUrl}`
 }
 
+const displayCategory = (cat) => {
+    const c = (cat || '').toLowerCase()
+    if (c === 'konstruksi') return 'Konsultasi & Desain'
+    if (c === 'design_and_build' || c === 'design and build') return 'Desain & Bangun Sipil'
+    if (c === 'design' || c === 'desain') return 'Desain & Bangun Interior'
+    return cat || 'Konsultasi & Desain'
+}
+
 const ProjectManagement = () => {
     const [projects, setProjects] = useState([])
     const [loading, setLoading] = useState(true)
@@ -617,9 +625,9 @@ const ProjectManagement = () => {
                             className="w-full px-5 py-3 rounded-xl border border-black bg-transparent bg-none text-dark-900 font-bold text-sm focus:outline-none focus:border-[#396680] appearance-none cursor-pointer"
                         >
                             <option value="Semua Kategori">Semua Kategori</option>
-                            <option value="Konstruksi">Konstruksi</option>
-                            <option value="Design and Build">Desain & Bangun</option>
-                            <option value="Design">Desain Arsitektur</option>
+                            <option value="Konstruksi">Konsultasi & Desain</option>
+                            <option value="Design and Build">Desain & Bangun Sipil</option>
+                            <option value="Design">Desain & Bangun Interior</option>
                         </select>
                         <div className="absolute right-4 bottom-3.5 text-black pointer-events-none">
                             <ChevronDown size={14} />
@@ -720,7 +728,7 @@ const ProjectManagement = () => {
                                                     (project.category === 'Design and Build' || project.category === 'design_and_build') ? 'bg-blue-50 text-blue-700' :
                                                         'bg-purple-50 text-purple-700'
                                                     }`}>
-                                                    {project.category === 'desain' ? 'Desain Arsitektur' : project.category === 'Design' ? 'Desain Arsitektur' : project.category === 'Design and Build' ? 'Desain & Bangun' : (project.category || (isKonstruksi ? 'Konstruksi' : 'Desain & Bangun'))}
+                                                    {displayCategory(project.category)}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-6">
@@ -843,9 +851,9 @@ const ProjectManagement = () => {
                                     <label className="block text-sm font-bold text-black mb-1">Kategori</label>
                                     <select value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                                         className="w-full px-4 py-2.5 rounded-lg border border-black bg-white focus:outline-none focus:border-[#396680]">
-                                        <option value="Konstruksi">Konstruksi</option>
-                                        <option value="Design and Build">Desain & Bangun</option>
-                                        <option value="Design">Desain Arsitektur</option>
+                                        <option value="Konstruksi">Konsultasi & Desain</option>
+                                        <option value="Design and Build">Desain & Bangun Sipil</option>
+                                        <option value="Design">Desain & Bangun Interior</option>
                                     </select>
                                 </div>
                                 {editingProject && (

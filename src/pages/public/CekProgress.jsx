@@ -134,7 +134,7 @@ const CekProgress = () => {
                 rawStatus: (data.status || '').toLowerCase(),
                 title: data.projectName,
                 client: data.customerName,
-                category: data.projectType === 'konstruksi' ? 'Konstruksi' : data.projectType === 'design' ? 'Desain Arsitektur' : 'Desain & Bangun',
+                category: data.projectType === 'konstruksi' ? 'Konsultasi & Desain' : data.projectType === 'design' ? 'Desain & Bangun Interior' : 'Desain & Bangun Sipil',
                 address: data.customerAddress || 'Alamat tidak ditampilkan demi privasi',
                 overallProgress: data.progress,
                 customerEmail: data.customerEmail,
