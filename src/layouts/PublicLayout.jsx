@@ -34,9 +34,9 @@ const PublicLayout = () => {
             label: 'Layanan',
             dropdown: true,
             children: [
-                { to: '/layanan?tab=konstruksi', label: 'Konstruksi' },
-                { to: '/layanan?tab=design-build', label: 'Desain & Bangun' },
-                { to: '/layanan?tab=desain', label: 'Desain Arsitektur' },
+                { to: '/layanan?tab=konstruksi', label: 'Konsultasi & Desain' },
+                { to: '/layanan?tab=design-build', label: 'Desain & Bangun Sipil' },
+                { to: '/layanan?tab=desain', label: 'Desain & Bangun Interior' },
             ],
         },
         { to: '/cek-progress', label: 'Cek Progress' },
@@ -206,17 +206,17 @@ const PublicLayout = () => {
                             <ul className="space-y-3">
                                 <li>
                                     <Link to="/layanan?tab=konstruksi" className="text-white/80 hover:text-white transition-colors text-sm">
-                                        Konstruksi
+                                        Konsultasi & Desain
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/layanan?tab=design-build" className="text-white/80 hover:text-white transition-colors text-sm">
-                                        Desain & Bangun
+                                        Desain & Bangun Sipil
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to="/layanan?tab=desain" className="text-white/80 hover:text-white transition-colors text-sm">
-                                        Desain Arsitektur
+                                        Desain & Bangun Interior
                                     </Link>
                                 </li>
                             </ul>

@@ -202,9 +202,9 @@ const Layanan = () => {
 
     const contents = {
         'konstruksi': {
-            badge: "SOLUSI KONSTRUKSI TERPERCAYA",
-            title: "Layanan Konstruksi",
-            desc: "Wujudkan hunian impian dengan standar kualitas terbaik, transparansi biaya, dan tim profesional yang siap membantu dari awal hingga akhir.",
+            badge: "Solusi Konsultasi & Desain Terpercaya",
+            title: "Konsultasi & Desain",
+            desc: "Pintu masuk terbaik sebelum membangun. Kami bantu wujudkan konsep desain lengkap dengan estimasi biaya yang realistis sehingga kamu membangun dengan mata terbuka dan hati yang tenang.",
             heroImage: tentangGalleryProyek4,
             heroTitle: "Rendering Kitchen Set",
             heroSub: "",
@@ -216,15 +216,15 @@ const Layanan = () => {
             },
             services: [
                 {
-                    title: 'Konstruksi Residensial/Perumahan',
-                    desc: 'Tujuan kami adalah menciptakan hunian yang tidak hanya indah secara estetika, tetapi juga kokoh dan fungsional, guna menjamin kenyamanan serta kepuasan bagi penghuninya dalam jangka panjang. Melalui layanan Konstruksi Residensial kami, Anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.',
-                    icon: <Home size={20} className="text-[#396680]" />,
+                    title: 'Konsultasi Perencanaan & Layout',
+                    desc: 'Layanan konsultasi mendalam untuk menerjemahkan kebutuhan hunian Anda ke dalam perencanaan denah layout 2D. Kami memastikan alur sirkulasi udara, pencahayaan alami, dan efisiensi ruang terancang secara optimal sebelum pembangunan fisik dimulai.',
+                    icon: <Compass size={20} className="text-[#396680]" />,
                     link: '/kontak'
                 },
                 {
-                    title: 'Konstruksi Komersial',
-                    desc: 'Layanan Konstruksi Komersial kami berfokus pada penyediaan solusi bangunan yang berkualitas tinggi, efisien, dan berkelanjutan bagi berbagai bisnis dan ruang komersial. Kami memahami bahwa lingkungan komersial yang dirancang dengan baik sangat penting bagi efisiensi operasional, citra merek (brand image), serta kepuasan pelanggan.',
-                    icon: <Building2 size={20} className="text-[#396680]" />,
+                    title: 'Desain Arsitektur & Visualisasi 3D',
+                    desc: 'Pembuatan konsep rancangan arsitektur dan interior lengkap dengan visualisasi rendering 3D fotorealistik yang mendetail. Memberikan Anda gambaran nyata tentang bentuk bangunan, pemilihan kombinasi material, serta warna secara akurat.',
+                    icon: <Paintbrush size={20} className="text-[#396680]" />,
                     link: '/kontak'
                 }
             ],
@@ -398,9 +398,9 @@ const Layanan = () => {
             ]
         },
         'desain': {
-            badge: "DESAIN ARSITEKTUR & INTERIOR",
-            title: "Desain Arsitektur",
-            desc: "Wujudkan konsep bangunan impian Anda melalui visualisasi 3D yang realistis dan perencanaan detail arsitektur maupun interior sebelum proses konstruksi dimulai.",
+            badge: "Rancang Bangun",
+            title: "Desain & Bangun Interior",
+            desc: "Transformasi ruang dalam rumah yang selaras dengan karakter dan gaya hidup penghuninya. Dari konsep hingga instalasi, kami tangani semuanya.",
             heroImage: desainBangunInterior,
             heroTitle: "Desain & Bangun Interior",
             heroSub: "",
