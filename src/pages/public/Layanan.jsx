@@ -568,7 +568,7 @@ const Layanan = () => {
                         />
                     </div>
                     <h1 className="text-4xl md:text-5xl font-bold text-dark-900 mb-6 tracking-tight">{currentContent.title}</h1>
-                    <p className="text-dark-900 max-w-2xl mx-auto leading-relaxed text-lg">
+                    <p className="text-dark-900 max-w-2xl mx-auto leading-relaxed text-lg text-justify">
                         {currentContent.desc}
                     </p>
                 </div>

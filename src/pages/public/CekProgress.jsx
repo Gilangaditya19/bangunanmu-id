@@ -272,7 +272,7 @@ const CekProgress = () => {
                     <h1 className="text-4xl md:text-5xl lg:text-5xl font-extrabold tracking-tight text-white mb-4">
                         Lacak Proyek Impian Anda
                     </h1>
-                    <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+                    <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed text-justify">
                         Lacak pembaruan pada proyek konstruksi atau interior anda. Masukkan ID Proyek unik anda di bawah ini untuk memulai.
                     </p>
 
