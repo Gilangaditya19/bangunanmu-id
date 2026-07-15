@@ -17,11 +17,11 @@ const Tentang = () => {
 
                     <ScrollReveal variant="fadeInLeft" className="space-y-8 z-10 relative">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#396680]/10 border border-[#396680]/20 shadow-sm max-w-max">
-                            <ShinyText 
-                                text="PENGALAMAN LEBIH DARI 4 TAHUN" 
+                            <ShinyText
+                                text="PENGALAMAN LEBIH DARI 4 TAHUN"
                                 theme="brand"
-                                speed={3} 
-                                className="text-[10px] font-bold tracking-widest uppercase" 
+                                speed={3}
+                                className="text-[10px] font-bold tracking-widest uppercase"
                             />
                         </div>
 
@@ -31,7 +31,7 @@ const Tentang = () => {
                         </h1>
 
                         <p className="text-lg text-dark-900 max-w-lg leading-relaxed">
-                            Kami adalah Bangunanmu.id, sebuah tim berdedikasi yang menyediakan solusi unggulan di bidang konstruksi dan desain. Dengan pengalaman lebih dari empat tahun, kami memahami betapa pentingnya menciptakan hunian yang nyaman, fungsional, serta dirancang secara unik sesuai dengan visi anda. Melalui layanan kami, anda dapat memercayakan kami untuk membangun ruang yang benar-benar terasa seperti rumah idaman.
+                            PT Solusi Bangun Berkah (Bangunanmu.id) lahir dari satu keyakinan sederhana: membangun rumah seharusnya tidak terasa menegangkan. Kami adalah tim design & build residensial yang menemani klien dari sketsa pertama hingga kunci diserahkan dengan komunikasi yang jujur, jadwal yang dipegang, dan hasil yang bisa dipertanggungjawabkan. Lebih dari setengah dekade, kami hadir bukan hanya sebagai kontraktor, tapi sebagai mitra yang bertanggung jawab bahkan di kondisi paling sulit sekalipun.
                         </p>
 
                         <div className="flex flex-wrap gap-4 pt-4">
