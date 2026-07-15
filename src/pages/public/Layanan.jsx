@@ -302,7 +302,7 @@ const Layanan = () => {
         'design-build': {
             badge: "Rancang Bangun",
             title: "Desain & Bangun Sipil",
-            desc: "Layanan Desain & Bangun Sipil kami menyediakan solusi  terintegrasi bagi klien yang ingin mentransformasikan visi hunian mereka menjadi kenyataan tanpa kerumitan.",
+            desc: "Layanan Desain & Bangun Sipil merupakan solusi menyeluruh dari desain hingga konstruksi rumah tinggal. Satu tanggung jawab penuh tidak ada celah antara desain yang dijanjikan dan bangunan yang berdiri.",
             heroImage: desainBangunSipil,
             heroTitle: "Desain & Bangun Sipil",
             heroSub: "",

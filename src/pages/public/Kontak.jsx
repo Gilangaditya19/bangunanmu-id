@@ -36,7 +36,7 @@ const Kontak = () => {
                             Mari bangun sesuatu yang <br className="hidden lg:block " />
                             <span className="text-[#396680]">luar biasa bersama.</span>
                         </h1>
-                        <p className="text-dark-900 text-[17px] mb-12 leading-relaxed max-w-sm">
+                        <p className="text-dark-900 text-[17px] mb-12 leading-relaxed max-w-sm text-justify">
                             Punya ide proyek? Kami sangat ingin mendengarnya dari Anda. Hubungi kami untuk pertanyaan, penawaran harga, atau sekadar menyapa.
                         </p>
 
