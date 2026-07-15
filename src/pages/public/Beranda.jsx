@@ -182,12 +182,12 @@ const Beranda = () => {
                             <span className="text-[#396680]">Kreatif & Terpercaya</span>
                         </h2>
                         <p className="text-dark-900 text-lg leading-relaxed">
-                            Kami adalah Bangunanmu.id, tim berdedikasi yang menghadirkan solusi unggul di bidang konstruksi dan desain interior, khususnya untuk hunian. Berbekal pengalaman lebih dari empat tahun, kami memahami pentingnya menciptakan rumah yang nyaman, fungsional, dan dirancang secara khusus sesuai dengan visi Anda.
+                            Kami adalah Bangunanmu.id, tim berdedikasi yang menghadirkan solusi unggul di bidang konstruksi dan desain interior, khususnya untuk hunian. Berbekal pengalaman lebih dari lima tahun, kami memahami pentingnya menciptakan rumah yang nyaman, fungsional, dan dirancang secara khusus sesuai dengan visi Anda.
                         </p>
 
                         <div className="p-8 bg-white rounded-3xl shadow-lg border border-dark-50 relative">
                             <p className="text-xl font-medium text-dark-800 italic relative z-10">
-                                "Kami menghidupkan visi hunian Anda melalui inovasi teknologi, integritas terpercaya, dan kolaborasi yang mendalam."
+                                "Menjual Ketenangan, bukan sekadar bangunan."
                             </p>
                         </div>
 
@@ -218,7 +218,7 @@ const Beranda = () => {
 
                                 <div className="bg-[#396680] text-white p-5 rounded-[1.5rem] shadow-lg flex flex-col items-center justify-center gap-2 h-[120px]">
                                     <Armchair className="text-2xl" />
-                                    <span className="text-sm font-semibold text-center leading-tight">Desain & Bangun</span>
+                                    <span className="text-sm font-semibold text-center leading-tight">Desain & Bangun Sipil</span>
                                 </div>
                             </div>
                         </div>
